@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios';
+import TextFeed from './components/TextFeed.js';
 
 function App() {
-  const [data, setData] = React.useState(null);
-  const [title, setTitle] = React.useState(null);
-  const [rows, setRows] = React.useState(null);
+  const [data, setData] = React.useState([]);
+
   const [error, setError] = React.useState(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
 
@@ -15,29 +15,27 @@ function App() {
       .post("http://localhost:5000/api/submit?title=testtitle&content=testcontent")
   }
 
-
   function testServer() {
+
     axios
       .get("http://localhost:5000/api/search?query=testtitle")
       .then((res) => {
+        setData(() => res.data)
+        console.log("data: ", data)
+        return res.data;  
+
+        })
+      .then(() => {
         setIsLoaded(true);
-        setData(res);
-        console.log(res);
-        setRows(res.data);
-        
-
-
       })
       .catch((err) => {
         setIsLoaded(true);
         setError(err);
       });
-  }
+    }
 
-  React.useEffect(() => {
-    if (test_mode)
-      addTestEntry();
-    testServer();
+ React.useEffect(() => {
+    setData(testServer());
   }, []);
 
   if (error) {
@@ -45,7 +43,7 @@ function App() {
   } else if (!isLoaded) {
     return <div>Loading...</div>;
   } else {
-    return <div>{rows}</div>;
+    return <><TextFeed data={data} /></>;
   }
 }
 

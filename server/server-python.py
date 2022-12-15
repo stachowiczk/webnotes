@@ -10,8 +10,6 @@ from sqlalchemy import create_engine, sql
 
 # create a new database if the database doesn't already exist
 
-
-
 app = Flask(__name__)
 
 CORS(app, origins='http://localhost:3000')
@@ -31,13 +29,17 @@ def submit():
 @app.route('/api/search', methods=['GET'])
 def find():
     session = db()
-    search_terms = request.args.get('query')
-    db_find = session.find(search_terms)
+    if request.args.get('query'):
+        search_terms = request.args.get('query')
+        db_find = session.find(search_terms)
+    else:
+        return "No search terms provided"
 
-    response = jsonify(db_find) 
-    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-    
-    return response
+    if db_find:
+        response = jsonify(db_find)
+        return response
+    else:
+        return "No results found"
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
