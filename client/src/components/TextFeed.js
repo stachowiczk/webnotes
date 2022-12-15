@@ -19,13 +19,10 @@ function TextFeed({data}) {
     }, []);
 
     const makeRows = () => {
-        const components = rows.map((row) => {
-            <>
-                <div>{row[1]}</div>
-                <div>{row[2]}</div>
-            </>
-        })
-
+        let components = [];
+        for (let i = 0; i < rows.length; i++) {
+            components.push(<div key={i}>{rows[i][0]} {rows[i][1]} {rows[i][2]} {rows[i][3]}</div>)
+        }
         return components;
         }
 
