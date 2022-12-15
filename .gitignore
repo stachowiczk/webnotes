@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+client/node_modules
 /.pnp
 .pnp.js
 
@@ -16,7 +16,7 @@
 .DS_Store
 /server_env
 notes
-/__pycache__
+server/__pycache__
 .env.local
 *.db
 .env.development.local
