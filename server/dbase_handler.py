@@ -11,18 +11,27 @@ class DatabaseHandler:
         self.cur.execute("CREATE TABLE IF NOT EXISTS documents (id INTEGER PRIMARY KEY, title TINYTEXT, content TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, tags TEXT)")
         self.conn.commit() 
 
+    def dict_factory(self, cursor, row):
+        d = {}
+        for idx, col in enumerate(cursor.description):
+            d[col[0]] = row[idx]
+        return d
+
     def insert(self, title, content, tags=None):
         self.cur.execute("INSERT INTO documents (title, content, created_at, tags) VALUES (?, ?, CURRENT_TIMESTAMP, ?)", (title, content, tags))
         self.conn.commit()
         return self.cur.lastrowid
 
     def find(self, search_terms):
-        self.cur.execute("SELECT * FROM documents WHERE title LIKE ? OR content LIKE ? OR tags LIKE ?", (search_terms, search_terms, search_terms))
+        self.cur.row_factory = self.dict_factory
+        self.cur.execute("SELECT * FROM documents WHERE title LIKE ? OR content LIKE ? OR tags LIKE ?", (search_terms + '%', search_terms + '%', search_terms))
         rows = self.cur.fetchall()
-        cols = [column[0] for column in self.cur.description] 
-        return [dict(zip(cols, row)) for row in rows]
+        # cols = [column[0] for column in self.cur.description] 
+        # return [dict(zip(cols, row)) for row in rows]
+        return rows
 
     def find_by_id(self, id):
+        self.cur.row_factory = self.dict_factory
         self.cur.execute("SELECT * FROM documents WHERE id=?", (id,))
         row = self.cur.fetchone()
         return row
