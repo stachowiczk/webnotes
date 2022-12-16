@@ -19,7 +19,8 @@ class DatabaseHandler:
     def find(self, search_terms):
         self.cur.execute("SELECT * FROM documents WHERE title LIKE ? OR content LIKE ? OR tags LIKE ?", (search_terms, search_terms, search_terms))
         rows = self.cur.fetchall()
-        return rows # returns a list of tuples (id, title, content, created_at, tags)
+        cols = [column[0] for column in self.cur.description] 
+        return [dict(zip(cols, row)) for row in rows]
 
     def find_by_id(self, id):
         self.cur.execute("SELECT * FROM documents WHERE id=?", (id,))

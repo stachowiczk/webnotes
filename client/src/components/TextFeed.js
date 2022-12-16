@@ -13,15 +13,15 @@ function TextFeed({data}) {
 
 
     React.useEffect(() => {
-        console.log("data2: ", data)
-        setRows(() => data)
-        console.log("rows: ", rows)
+        console.log("data.first.feed: ", data)
+        setRows(data)
+        console.log("rows.second.feed: ", rows)
     }, []);
 
     const makeRows = () => {
         let components = [];
         for (let i = 0; i < rows.length; i++) {
-            components.push(<div key={i}>{rows[i][0]} {rows[i][1]} {rows[i][2]} {rows[i][3]}</div>)
+            components.push(<div key={i}>{rows[i].title} {rows[i].created_at}</div>)
         }
         return components;
         }

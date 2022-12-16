@@ -3,29 +3,24 @@ import axios from 'axios';
 import TextFeed from './components/TextFeed.js';
 
 function App() {
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState();
 
   const [error, setError] = React.useState(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
 
-  const test_mode = false;
-
-  function addTestEntry() {
-    axios
-      .post("http://localhost:5000/api/submit?title=testtitle&content=testcontent")
-  }
+  //const test_mode = false;
+//
+  //function addTestEntry() {
+  //  axios
+  //    .post("http://localhost:5000/api/submit?title=testtitle&content=testcontent")
+  //}
 
   function testServer() {
 
     axios
       .get("http://localhost:5000/api/search?query=testtitle")
       .then((res) => {
-        setData(() => res.data)
-        console.log("data: ", data)
-        return res.data;  
-
-        })
-      .then(() => {
+        setData(res.data)
         setIsLoaded(true);
       })
       .catch((err) => {
@@ -33,9 +28,9 @@ function App() {
         setError(err);
       });
     }
-
+// conmm
  React.useEffect(() => {
-    setData(testServer());
+    testServer();
   }, []);
 
   if (error) {
