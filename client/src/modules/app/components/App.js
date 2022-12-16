@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import TextFeed from './components/TextFeed.js';
+import TextFeed from '../../common/components/TextFeed.js';
 
 function App() {
   const [data, setData] = React.useState();

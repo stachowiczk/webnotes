@@ -3,6 +3,7 @@ this will contain the api endpoints for the server
 
 """
 from flask import Flask, request, jsonify, url_for
+
 from flask_cors import CORS
 from dbase_handler import DatabaseHandler as db
 from sqlite3 import connect as sqlite_connect
