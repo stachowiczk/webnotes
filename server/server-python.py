@@ -28,8 +28,8 @@ def submit():
 
     title = request.args.get('title')
     content = request.args.get('content')
-    session.insert(title, content)
-    return "success"
+    insertedId = session.insert(title, content)
+    return jsonify(insertedId)
 
 
 @app.route('/api/search', methods=['GET'])

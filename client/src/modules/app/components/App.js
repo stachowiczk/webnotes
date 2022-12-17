@@ -37,10 +37,12 @@ function loadTitleNumber() {
         url: postRequestNumbered,
         headers: { "Content-Type": "application/json" },
         data: { title: "testtitle" + titleNumber.current, content: "testcontent" + titleNumber.current }
-      }
-      ).finally(() => {
+      })
+    .then((res) => {
+
       saveTitleNumber()
       titleNumber.current++;
+      testServer();
     })
       
 
@@ -60,10 +62,26 @@ function loadTitleNumber() {
       });
     }
 
+function dropTable() {
+  axios
+    .get("http://localhost:5000/api/drop")
+    .then((res) => {
+      console.log(res.data)
+      titleNumber.current = 0;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+ const [postRequestSent, setPostRequestSent] = React.useState(false);
  React.useEffect(() => {
 
-    if (test_mode) {
+    if (test_mode && !postRequestSent) {
+      
       addTestEntry();
+      setPostRequestSent(true);
+
     }
     testServer();
     return () => {
@@ -77,8 +95,12 @@ function loadTitleNumber() {
   } else if (!isLoaded) {
     return <div>Loading...</div>;
   } else {
-    return <><TextFeed data={data} /></>;
+    return <>
+      <button onClick={dropTable}>DROP</button>
+      <button onClick={addTestEntry}>POST</button><TextFeed data={data} />
+    </>;
   }
 }
 
 export default App;
+

@@ -26,8 +26,11 @@ class DatabaseHandler:
         self.cur.row_factory = self.dict_factory
         self.cur.execute("SELECT * FROM documents WHERE title LIKE ? OR content LIKE ? OR tags LIKE ?", (search_terms + '%', search_terms + '%', search_terms))
         rows = self.cur.fetchall()
+
+        # below is an alternative to the dict_factory method
         # cols = [column[0] for column in self.cur.description] 
         # return [dict(zip(cols, row)) for row in rows]
+
         return rows
 
     def find_by_id(self, id):
