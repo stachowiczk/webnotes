@@ -18,6 +18,7 @@ client/node_modules
 notes
 server/__pycache__
 .env.local
+.vscode
 *.db
 .env.development.local
 .env.test.local
