@@ -47,5 +47,11 @@ def find():
     else:
         return "No results found"
 
+@app.route('/api/drop', methods=['GET'])
+def drop():
+    session = db()
+    session.dropTable()
+    return "success"
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

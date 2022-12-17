@@ -40,6 +40,11 @@ class DatabaseHandler:
         self.cur.execute("DELETE FROM documents WHERE id=?", (id,))
         self.conn.commit()
 
+    def dropTable(self):
+        self.cur.execute("DROP TABLE documents")
+        self.conn.commit()
+        
+
     def update(self, id, data):
         self.cur.execute("UPDATE documents SET title=?, content=?, tags=? WHERE id=?", (data.title, data.content, data.tags, id))
         self.conn.commit()
