@@ -36,7 +36,7 @@ class DatabaseHandler:
         )
         rows = self.cur.fetchall()
 
-        # below is an alternative to the dict_factory method
+        # alternative way to using the dict_factory method
         # cols = [column[0] for column in self.cur.description]
         # return [dict(zip(cols, row)) for row in rows]
 
@@ -47,6 +47,31 @@ class DatabaseHandler:
         self.cur.execute("SELECT * FROM documents WHERE id=?", (id,))
         row = self.cur.fetchone()
         return row
+
+    def find_by_tag(self, tag):
+        self.cur.row_factory = self.dict_factory
+        self.cur.execute("SELECT * FROM documents WHERE tags LIKE ?", (tag,))
+        rows = self.cur.fetchall()
+        return rows
+
+    def findAll(self):
+        self.cur.row_factory = self.dict_factory
+        self.cur.execute("SELECT * FROM documents")
+        rows = self.cur.fetchall()
+        return rows
+
+    def findIdByTitle(self, title):
+        self.cur.execute("SELECT id FROM documents WHERE title=?", ("%" + title + "%",))
+        row = self.cur.fetchone()
+        return row
+
+    def findIdByContent(self, content):
+        self.cur.row_factory = self.dict_factory
+        self.cur.execute(
+            "SELECT id FROM documents WHERE content=?", ("%" + content + "%",)
+        )
+        rows = self.cur.fetchall()
+        return rows
 
     def delete(self, id):
         self.cur.execute("DELETE FROM documents WHERE id=?", (id,))

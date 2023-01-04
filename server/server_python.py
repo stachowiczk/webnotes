@@ -34,10 +34,18 @@ def submit():
     insertedId = session.insert(title, content)
     return jsonify(insertedId)
 
+
 def test_submit():
+    client = app.test_client()
+    request = client.post("/api/submit", data={"title": "test title", "content": "test content"})
+    assert request.status_code == 200
+
     session = db()
     insertedId = session.insert("test title", "test content")
     assert insertedId == 1
+
+
+
 
 
 @app.route("/api/search", methods=["GET"])
@@ -62,6 +70,7 @@ def drop():
     session.dropTable()
     return "success"
 
+
 def test_drop():
     session = db()
     session.dropTable()
@@ -70,4 +79,3 @@ def test_drop():
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
-    app.test_client()

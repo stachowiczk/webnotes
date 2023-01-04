@@ -16,10 +16,13 @@ client/node_modules
 .DS_Store
 /server_env
 notes
+/.pytest_cache
 server/__pycache__
+*.pyc
 .env.local
 .vscode
 *.db
+.TODO
 .env.development.local
 .env.test.local
 .env.production.local
