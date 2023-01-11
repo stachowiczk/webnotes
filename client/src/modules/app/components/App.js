@@ -1,10 +1,12 @@
 import React from 'react';
+import ReactQuill from 'react-quill';
 import axios from 'axios';
 import TextFeed from '../../common/components/TextFeed.js';
 
 const SESSION_STORAGE_KEY = "titleID";
 function App() {
   const [data, setData] = React.useState();
+  const [text, setText] = React.useState('');
 
   const [error, setError] = React.useState(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -24,7 +26,7 @@ function loadTitleNumber() {
   titleNumber.current = savedTitleNumber ? savedTitleNumber : 0;
 }
 
-  const test_mode = true;
+  const test_mode = false;
   
   React.useEffect(() => {
      postRequestNumbered = "http://localhost:5000/api/submit?title=testtitle" + titleNumber.current + "&content=testcontent" + titleNumber.current
@@ -34,9 +36,12 @@ function loadTitleNumber() {
     loadTitleNumber();
     axios(
       { method: "post",
-        url: postRequestNumbered,
+        url: "http://localhost:5000/api/submit",
         headers: { "Content-Type": "application/json" },
-        data: { title: "testtitle" + titleNumber.current, content: "testcontent" + titleNumber.current }
+        // set the json data to the value of the text state
+        data: JSON.stringify({ title: text, content: text })
+
+        
       })
     .then((res) => {
 
@@ -51,7 +56,7 @@ function loadTitleNumber() {
   function testServer() {
 
     axios
-      .get("http://localhost:5000/api/search?query=testtitle")
+      .get("http://localhost:5000/api/search")
       .then((res) => {
         setData(res.data)
         setIsLoaded(true);
@@ -96,6 +101,8 @@ function dropTable() {
     return <div>Loading...</div>;
   } else {
     return <>
+      <ReactQuill 
+        value={text} onChange={setText} />
       <button onClick={dropTable}>DROP</button>
       <button onClick={addTestEntry}>POST</button><TextFeed data={data} />
     </>;

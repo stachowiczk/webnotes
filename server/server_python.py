@@ -28,9 +28,14 @@ def dict_factory(cursor, row):
 def submit():
 
     session = db()
+    # get data from json request
+    title = request.json["title"]
+    content = request.json["content"]
 
-    title = request.args.get("title")
-    content = request.args.get("content")
+
+
+
+
     insertedId = session.insert(title, content)
     return jsonify(insertedId)
 
@@ -51,11 +56,13 @@ def test_submit():
 @app.route("/api/search", methods=["GET"])
 def find():
     session = db()
-    if request.args.get("query"):
-        search_terms = request.args.get("query")
-        db_find = session.find(search_terms)
-    else:
-        return "No search terms provided"
+    #if request.args.get("query"):
+    #    search_terms = request.args.get("query")
+    db_find = session.findAll()
+    response = jsonify(db_find)
+    return response
+    # else:
+        # return "No search terms provided"
 
     if db_find:
         response = jsonify(db_find)
