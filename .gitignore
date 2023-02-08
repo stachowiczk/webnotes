@@ -16,8 +16,10 @@ client/node_modules
 .DS_Store
 /server_env
 notes
+
 /.pytest_cache
 server/__pycache__
+server/.auth
 *.pyc
 .env.local
 .vscode

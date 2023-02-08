@@ -22,7 +22,8 @@ app.testing = True
 AUTH0_DOMAIN = "dev-1x1x1x1x.us.auth0.com"
 
 CORS(app, origins="http://localhost:3000")
-# add some authentication later
+
+# wrap functions with this decorator to require authentication
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -50,13 +51,19 @@ def dict_factory(cursor, row):
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
+
+
 @app.route("/auth/login", methods=["POST"])
 def login():
     req_data = request.get_json()
     username = req_data["username"]
+    email = req_data["email"]
     password = req_data["password"]
 
-    user = get_user(username)
+    try:
+        user = get_user(username)
+    except:
+        return "Invalid username or password", 404
     if user:
         if check_password(password, user["password"]):
             token = create_token(user)
@@ -72,8 +79,10 @@ def get_user(username):
     user_data = session.find_user(username)
     return user_data
 
+
 def check_password(password, hashed_password):
     return bcrypt.checkpw(password.encode("utf-8"), hashed_password.encode("utf-8"))
+
 
 def create_token(user):
     payload = {
@@ -85,6 +94,9 @@ def create_token(user):
     }
     token = jwt.encode(payload, os.environ["AUTH0_CLIENT_SECRET"], algorithm="HS256")
     return token
+    # returns a signed token
+    # the @requires_auth decorator will decode the token and validate it
+
 
 @app.route("/auth/register", methods=["POST"])
 def register():
@@ -102,15 +114,14 @@ def register():
         session.insert_user(username, email, hashed_password)
         return "User created", 200
 
+
 def hash_password(password):
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 
-
 @app.route("/api/submit", methods=["POST"])
-#@requires_auth
+# @requires_auth
 def submit():
-
 
     session = db()
     title = request.json["title"]

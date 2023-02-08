@@ -11,6 +11,7 @@ class DatabaseHandler:
         self.cur = self.conn.cursor()
         self.cur.execute(
             "CREATE TABLE IF NOT EXISTS documents (id INTEGER PRIMARY KEY, title TINYTEXT, content TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, tags TEXT)"
+            "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TINYTEXT, email TINYTEXT, password TINYTEXT)"
         )
         self.conn.commit()
 
@@ -20,19 +21,25 @@ class DatabaseHandler:
             d[col[0]] = row[idx]
         return d
 
-    def find_user(self, username):
+    def find_user(self, username, email=None):
         self.cur.row_factory = self.dict_factory
-        self.cur.execute("SELECT * FROM users WHERE username=?", (username,))
+        self.cur.execute(
+            "SELECT id FROM users WHERE username=? OR email=?", (username, email)
+        )
         row = self.cur.fetchone()
         return row
 
-    def insert_user(self, username, email, password):
+    def insert_user(self, username, email, hashed_password):
         self.cur.execute(
             "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-            (username, email, password),
+            (username, email, hashed_password),
         )
         self.conn.commit()
         return self.cur.lastrowid
+
+    def remove_user(self, id):
+        self.cur.execute("DELETE FROM users WHERE id=?", (id,))
+        self.conn.commit()
 
     def insert(self, title, content, tags=None):
         self.cur.execute(
