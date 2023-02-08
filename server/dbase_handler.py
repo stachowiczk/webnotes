@@ -20,6 +20,20 @@ class DatabaseHandler:
             d[col[0]] = row[idx]
         return d
 
+    def find_user(self, username):
+        self.cur.row_factory = self.dict_factory
+        self.cur.execute("SELECT * FROM users WHERE username=?", (username,))
+        row = self.cur.fetchone()
+        return row
+
+    def insert_user(self, username, email, password):
+        self.cur.execute(
+            "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+            (username, email, password),
+        )
+        self.conn.commit()
+        return self.cur.lastrowid
+
     def insert(self, title, content, tags=None):
         self.cur.execute(
             "INSERT INTO documents (title, content, created_at, tags) VALUES (?, ?, CURRENT_TIMESTAMP, ?)",
