@@ -3,7 +3,9 @@ this file will handle all the database related operations
 """
 
 import sqlite3
-
+"""
+TODO: switch to mysql + sqlalchemy
+"""
 
 class DatabaseHandler:
     def __init__(self, db="db_main.db", data=None, search_terms=None):
@@ -11,7 +13,10 @@ class DatabaseHandler:
         self.cur = self.conn.cursor()
         self.cur.execute(
             "CREATE TABLE IF NOT EXISTS documents (id INTEGER PRIMARY KEY, title TINYTEXT, content TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, tags TEXT)"
+        )
+        self.cur.execute(
             "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TINYTEXT, email TINYTEXT, password TINYTEXT)"
+
         )
         self.conn.commit()
 
@@ -24,15 +29,15 @@ class DatabaseHandler:
     def find_user(self, username, email=None):
         self.cur.row_factory = self.dict_factory
         self.cur.execute(
-            "SELECT id FROM users WHERE username=? OR email=?", (username, email)
+            "SELECT * FROM users WHERE username=? OR email=?", (username, email)
         )
         row = self.cur.fetchone()
         return row
 
-    def insert_user(self, username, email, hashed_password):
+    def insert_user(self, username, hashed_password):
         self.cur.execute(
-            "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-            (username, email, hashed_password),
+            "INSERT INTO users (username, password) VALUES (?, ?)",
+            (username, hashed_password),
         )
         self.conn.commit()
         return self.cur.lastrowid
@@ -113,7 +118,7 @@ class DatabaseHandler:
         self.conn.close()
 
 
-class DocumentRecord:
+class DocumentRecord: # reconsider if this is needed
     def __init__(self, title=None, content=None, tags=None, created_at=None, id=None):
         self.id = id
         self.title = title

@@ -20,6 +20,7 @@ notes
 /.pytest_cache
 server/__pycache__
 server/.auth
+server/config.py
 *.pyc
 .env.local
 .vscode

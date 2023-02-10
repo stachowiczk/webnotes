@@ -1,9 +1,23 @@
 import React from "react";
 import ReactQuill from "react-quill";
+import Register from "../../common/components/Register.js";
+import Login from "../../common/components/Login.js";
 import { AxiosRequestHeaders } from "axios";
 
 import axios from "axios";
 import TextFeed from "../../common/components/TextFeed.js";
+
+function getCookie(cookieName) {
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    const [cookieKey, cookieValue] = cookie.split('=');
+    if (cookieKey === cookieName) {
+      return cookieValue;
+    }
+  }
+  return null;
+}
 
 const SESSION_STORAGE_KEY = "titleID";
 function App() {
@@ -49,7 +63,8 @@ function App() {
     axios({
       method: "post",
       url: "http://localhost:5000/api/submit",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+      "Authorization": getCookie("token") },
       // set the json data to the value of the text state
       data: JSON.stringify({ title: text, content: text }),
     }).then((res) => {
@@ -74,15 +89,17 @@ function App() {
   //
   // remove this for production!!!
   function dropTable() {
-    axios
-      .get("http://localhost:5000/api/drop")
-      .then((res) => {
-        console.log(res.data);
-        titleNumber.current = 0;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    axios({
+      method: "get",
+      url: "http://localhost:5000/api/drop",
+      headers: ({"Content-Type": "application/json", "Authorization": getCookie("token") }),
+    }).catch((err) => {
+      setIsLoaded(true);
+      setError(err);
+    }
+    );
+
+
   }
   // remove this for production!!!
   //
@@ -106,6 +123,8 @@ function App() {
   } else {
     return (
       <>
+        <Register /> 
+        <Login /> 
         <ReactQuill value={text} onChange={setText} />
         <button onClick={dropTable}>DROP</button>
         <button onClick={addTestEntry}>POST</button>

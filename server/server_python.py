@@ -4,10 +4,12 @@ this will contain the api endpoints for the server
 """
 from flask import Flask, request, jsonify, url_for
 from functools import wraps
+import requests
 from jose import jwt
 import bcrypt
 import os
 from datetime import datetime, timedelta
+import config
 
 from flask_cors import CORS, cross_origin
 from dbase_handler import DatabaseHandler as db
@@ -19,26 +21,30 @@ from sqlalchemy import create_engine, sql
 app = Flask(__name__)
 app.testing = True
 
-AUTH0_DOMAIN = "dev-1x1x1x1x.us.auth0.com"
-
 CORS(app, origins="http://localhost:3000")
 
 # wrap functions with this decorator to require authentication
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = request.headers.get("Authorization")
+        request_headers = request.headers
+        token = request_headers["Authorization"]
+        print(token)
         if token:
+            print(token)
             try:
+                print(config.AUTH0_CLIENT_SECRET)
                 payload = jwt.decode(
-                    token, os.environ["AUTH0_CLIENT_SECRET"], algorithms="HS256"
+                    token, config.AUTH0_CLIENT_SECRET["jwk"], algorithms="HS256"
                 )
+                print(payload)
             except jwt.ExpiredSignatureError:
                 return "Token expired", 401
             except jwt.JWTClaimsError:
                 return "Invalid claims", 401
-            except Exception:
-                return "Invalid header", 401
+            # except Exception:
+            #      print(Exception)
+            #      return "Invalid header", 401
             return f(*args, **kwargs)
         else:
             return "Authorization header is expected", 401
@@ -57,11 +63,11 @@ def dict_factory(cursor, row):
 def login():
     req_data = request.get_json()
     username = req_data["username"]
-    email = req_data["email"]
     password = req_data["password"]
 
     try:
         user = get_user(username)
+        print(user)
     except:
         return "Invalid username or password", 404
     if user:
@@ -86,23 +92,25 @@ def check_password(password, hashed_password):
 
 def create_token(user):
     payload = {
-        "sub": user["id"],
-        "name": user["username"],
-        "email": user["email"],
+        "id": user["id"],
+        "user": user["username"],
         "iat": datetime.now(),
         "exp": datetime.now() + timedelta(days=1),
     }
-    token = jwt.encode(payload, os.environ["AUTH0_CLIENT_SECRET"], algorithm="HS256")
+    token = jwt.encode(payload, config.AUTH0_CLIENT_SECRET["jwk"], algorithm="HS256")
+    print(config.AUTH0_CLIENT_SECRET)
+    print(token)
     return token
     # returns a signed token
     # the @requires_auth decorator will decode the token and validate it
+
 
 
 @app.route("/auth/register", methods=["POST"])
 def register():
     req_data = request.get_json()
     username = req_data["username"]
-    email = req_data["email"]
+    # email = req_data["email"]
     password = req_data["password"]
 
     session = db()
@@ -111,7 +119,7 @@ def register():
         return "User already exists", 409
     else:
         hashed_password = hash_password(password)
-        session.insert_user(username, email, hashed_password)
+        session.insert_user(username, hashed_password)
         return "User created", 200
 
 
@@ -120,27 +128,14 @@ def hash_password(password):
 
 
 @app.route("/api/submit", methods=["POST"])
-# @requires_auth
+@requires_auth
 def submit():
-
     session = db()
     title = request.json["title"]
     content = request.json["content"]
 
     insertedId = session.insert(title, content)
     return jsonify(insertedId)
-
-
-def test_submit():
-    client = app.test_client()
-    request = client.post(
-        "/api/submit", data={"title": "test title", "content": "test content"}
-    )
-    assert request.status_code == 200
-
-    session = db()
-    insertedId = session.insert("test title", "test content")
-    assert insertedId == 1
 
 
 @app.route("/api/search", methods=["GET"])
@@ -158,18 +153,12 @@ def find():
         return "No results found"
 
 
-@app.route("/api/drop", methods=["GET"])
+@app.route("/api/drop", methods=["GET"], strict_slashes=False)
+@requires_auth
 def drop():
     session = db()
     session.dropTable()
     return "success"
-
-
-def test_drop():
-    session = db()
-    session.dropTable()
-    assert True
-
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
