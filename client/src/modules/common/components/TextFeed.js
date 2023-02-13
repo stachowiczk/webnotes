@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import DOMPurify from 'dompurify';
+import Entry from './Entry';
 
 function TextFeed({data, dataHasChanged}) {
   
@@ -32,23 +34,30 @@ function TextFeed({data, dataHasChanged}) {
       setRows(data)
       console.log("rows.fourth.feed: ", rows)
   }
-
+  //TODO: make this a component
   const makeRows = () => {
-      let components = [];
-      for (let i = 0; i < rows.length; i++) {
-          components.push(<div key={i}>{rows[i].title} {rows[i].created_at}</div>)
-      }
-      return components;
-      }
+    const sanitizedRows = rows.map((row) => DOMPurify.sanitize(row.title));
+    return rows.map((row, index) => (
+      <Entry key={index} created_at={row.created_at} title={sanitizedRows[index]} />
+    ))
+  }
+
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
   else if (rows.length === 0) {
     return <div>No data</div>;
   }
-  else
-  return (
-    <div>{makeRows()}</div>
-  )};
+  else {
+    return (
+      <>
+        <div>
+          {makeRows()}
+        </div>
+      </>
+    )
+
+  }
+}  
 
 export default TextFeed
