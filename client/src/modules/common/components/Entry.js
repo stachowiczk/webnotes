@@ -1,15 +1,14 @@
-import React from 'react'
+import React from "react";
 
-function Entry({title, created_at}) {
+function Entry({ title, created_at }) {
   return (
     <>
-    <div>
-        <div dangerouslySetInnerHTML={{__html: title}}/>
+      <div>
+        <div dangerouslySetInnerHTML={{ __html: title }} />
         {created_at}
-
-    </div>
+      </div>
     </>
-  )
+  );
 }
 
-export default Entry
+export default Entry;

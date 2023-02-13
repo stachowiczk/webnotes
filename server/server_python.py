@@ -29,15 +29,11 @@ def requires_auth(f):
     def decorated(*args, **kwargs):
         request_headers = request.headers
         token = request_headers["Authorization"]
-        print(token)
         if token:
-            print(token)
             try:
-                print(config.AUTH0_CLIENT_SECRET)
                 payload = jwt.decode(
                     token, config.AUTH0_CLIENT_SECRET["jwk"], algorithms="HS256"
                 )
-                print(payload)
             except jwt.ExpiredSignatureError:
                 return "Token expired", 401
             except jwt.JWTClaimsError:
@@ -67,7 +63,6 @@ def login():
 
     try:
         user = get_user(username)
-        print(user)
     except:
         return "Invalid username or password", 404
     if user:
@@ -98,8 +93,6 @@ def create_token(user):
         "exp": datetime.now() + timedelta(days=1),
     }
     token = jwt.encode(payload, config.AUTH0_CLIENT_SECRET["jwk"], algorithm="HS256")
-    print(config.AUTH0_CLIENT_SECRET)
-    print(token)
     return token
     # returns a signed token
     # the @requires_auth decorator will decode the token and validate it

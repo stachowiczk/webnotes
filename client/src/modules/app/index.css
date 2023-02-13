@@ -15,3 +15,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.editor {
+  width: 33vw;
+  margin-left: 33vw;
+  margin-right: 33vw;
+
+  
+}
