@@ -38,7 +38,7 @@ function TextFeed({data, dataHasChanged}) {
   const makeRows = () => {
     const sanitizedRows = rows.map((row) => DOMPurify.sanitize(row.title));
     return rows.map((row, index) => (
-      <Entry key={index} created_at={row.created_at} title={sanitizedRows[index]} />
+      <Entry key={index} created_at={row.created_at} title={row.title} />
     ))
   }
 
