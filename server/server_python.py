@@ -42,9 +42,9 @@ def requires_auth(f):
                 return "Token expired", 401
             except jwt.JWTClaimsError:
                 return "Invalid claims", 401
-            # except Exception:
-            #      print(Exception)
-            #      return "Invalid header", 401
+            except Exception:
+                print(Exception.with_traceback)
+                return "Invalid header", 401
             return f(*args, **kwargs)
         else:
             return "Authorization header is expected", 401
@@ -105,7 +105,6 @@ def create_token(user):
     # the @requires_auth decorator will decode the token and validate it
 
 
-
 @app.route("/auth/register", methods=["POST"])
 def register():
     req_data = request.get_json()
@@ -159,6 +158,7 @@ def drop():
     session = db()
     session.dropTable()
     return "success"
+
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

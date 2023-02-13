@@ -1,5 +1,6 @@
 import React from "react";
 import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 import Register from "../../common/components/Register.js";
 import Login from "../../common/components/Login.js";
 import { AxiosRequestHeaders } from "axios";
@@ -27,11 +28,38 @@ function App() {
   const [error, setError] = React.useState(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [postRequest, setPostRequest] = React.useState();
+  const [dataHasChanged, setDataHasChanged] = React.useState(true);
 
   const titleNumber = React.useRef(
     sessionStorage.getItem(SESSION_STORAGE_KEY) || 0
   );
+  const [value, setValue] = React.useState('');
 
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'font': [] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{'color': [] }, { 'background': [] }],
+      [{'script': 'sub'}, {'script': 'super' }],
+      [{'align': [] }],
+      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      ['blockquote', 'code-block'],
+      ['link', 'image'],
+      ['clean']
+    ]
+  };
+
+  const formats = [
+    'header', 'font', 'bold', 'italic', 'underline', 'strike', 'color', 'background',
+    'script', 'align', 'list', 'bullet', 'indent', 'blockquote', 'code-block', 'link', 'image'
+  ];
+
+  const placeholder = 'Write something...';
+
+  const handleChange = (value) => {
+    setValue(value);
+  };
   let postRequestNumbered =
     "http://localhost:5000/api/submit?title=testtitle" +
     titleNumber.current +
@@ -59,20 +87,19 @@ function App() {
   }, [titleNumber.current]);
 
   function addTestEntry() {
-    loadTitleNumber();
     axios({
       method: "post",
       url: "http://localhost:5000/api/submit",
       headers: { "Content-Type": "application/json",
       "Authorization": getCookie("token") },
       // set the json data to the value of the text state
-      data: JSON.stringify({ title: text, content: text }),
+      data: JSON.stringify({ title: value, content: value }),
     }).then((res) => {
-      saveTitleNumber();
-      titleNumber.current++;
       testServer();
-    });
-  }
+    }).then(() => {
+      setDataHasChanged(() => !dataHasChanged);
+    })
+    };
 
   function testServer() {
     axios
@@ -93,6 +120,10 @@ function App() {
       method: "get",
       url: "http://localhost:5000/api/drop",
       headers: ({"Content-Type": "application/json", "Authorization": getCookie("token") }),
+    }).then((res) => {
+      testServer();
+    }).then(() => {
+      setDataHasChanged(() => !dataHasChanged);
     }).catch((err) => {
       setIsLoaded(true);
       setError(err);
@@ -116,6 +147,12 @@ function App() {
     };
   }, []);
 
+  // React.useEffect(() => {
+  //   testServer();
+  //   setIsLoaded(isLoaded => !isLoaded);
+  // }, [dataHasChanged]);
+
+
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
@@ -125,10 +162,15 @@ function App() {
       <>
         <Register /> 
         <Login /> 
-        <ReactQuill value={text} onChange={setText} />
+        <ReactQuill 
+            value={value}
+            onChange={handleChange}
+            modules={modules}
+            formats={formats}
+            placeholder={placeholder} />
         <button onClick={dropTable}>DROP</button>
         <button onClick={addTestEntry}>POST</button>
-        <TextFeed data={data} />
+        <TextFeed data={data} dataHasChanged={dataHasChanged}/>
       </>
     );
     // TODO: read docs + format editor component + styles
