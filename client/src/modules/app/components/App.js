@@ -99,7 +99,7 @@ function App() {
 
   function testServer() {
     axios
-      .get("http://localhost:5000/api/search")
+      .get("http://localhost:5000/notes")
       .then((res) => {
         setData(res.data);
         setIsLoaded(true);

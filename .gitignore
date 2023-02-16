@@ -19,6 +19,7 @@ notes
 
 /.pytest_cache
 server/__pycache__
+__pycache__/
 server/.auth
 server/config.py
 *.pyc
