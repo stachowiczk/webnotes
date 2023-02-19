@@ -28,15 +28,22 @@ function TextFeed({ data, dataHasChanged }) {
   };
   //TODO: make this a component
   const makeRows = () => {
-    const sanitizedRows = rows.map((row) => DOMPurify.sanitize(row.title));
-    return rows.map((row, index) => (
-      <Entry key={index} created_at={row.created_at} title={DOMPurify.sanitize(row.title)} />
-    ));
+    try {
+      return rows.map((row, index) => (
+        <Entry key={index} created_at={row.created_at} title={DOMPurify.sanitize(row.title)} />
+      ));
+    }
+    catch (error) {
+      console.log(error);
+    }
+    // return rows.map((row, index) => (
+    //   <Entry key={index} created_at={row.created_at} title={DOMPurify.sanitize(row.title)} />
+    // ));
   };
 
   if (!isLoaded) {
     return <div className="editor">Loading...</div>;
-  } else if (rows.length === 0) {
+  } else if (rows.length === 0 || rows === undefined || rows === null) {
     return <div className="editor">No data</div>;
   } else {
     return (

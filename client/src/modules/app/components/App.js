@@ -81,7 +81,7 @@ function App() {
   function addTestEntry() {
     axios({
       method: "post",
-      url: "http://localhost:5000/api/submit",
+      url: "http://localhost:5000/notes",
       headers: {
         "Content-Type": "application/json",
         Authorization: getCookie("token"),
