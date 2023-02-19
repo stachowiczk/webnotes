@@ -26,8 +26,8 @@ function Register() {
     });
   }
   React.useEffect(() => {
-    setUserData({username: "", password: ""})
-  }, [])
+    setUserData({ username: "", password: "" });
+  }, []);
   return (
     <>
       <form onSubmit={submit}>

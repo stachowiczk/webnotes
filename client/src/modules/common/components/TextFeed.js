@@ -30,10 +30,13 @@ function TextFeed({ data, dataHasChanged }) {
   const makeRows = () => {
     try {
       return rows.map((row, index) => (
-        <Entry key={index} created_at={row.created_at} title={DOMPurify.sanitize(row.title)} />
+        <Entry
+          key={index}
+          created_at={row.created_at}
+          title={DOMPurify.sanitize(row.title)}
+        />
       ));
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
     // return rows.map((row, index) => (

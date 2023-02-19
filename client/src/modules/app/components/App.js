@@ -150,16 +150,25 @@ function App() {
       <>
         <Register />
         <Login />
-        <ReactQuill className="editor"
+        <ReactQuill
+          className="editor"
           value={value}
           onChange={handleChange}
           modules={modules}
           formats={formats}
           placeholder={placeholder}
         />
-        <button className="editor" onClick={dropTable}>CLEAR ALL</button>
-        <button className="editor" onClick={addTestEntry}>POST</button>
-        <TextFeed className="editor" data={data} dataHasChanged={dataHasChanged} />
+        <button className="editor" onClick={dropTable}>
+          CLEAR ALL
+        </button>
+        <button className="editor" onClick={addTestEntry}>
+          POST
+        </button>
+        <TextFeed
+          className="editor"
+          data={data}
+          dataHasChanged={dataHasChanged}
+        />
       </>
     );
     // TODO: read docs + format editor component + styles
