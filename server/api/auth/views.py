@@ -1,4 +1,4 @@
-from flask import request, jsonify, make_response
+from flask import request, jsonify, make_response, current_app
 from flask.views import MethodView
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
@@ -6,6 +6,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from flask import Blueprint, Response, json
 from api.auth.models import User
 from api.auth import auth_bp
+
 
 
 @auth_bp.route("/register", methods=["POST", "GET"])
@@ -25,8 +26,8 @@ class RegisterAPI(MethodView):
         user = User(username=username, password=hashed_password)
         print(user)
         try:
-            User.session.add(user)
-            User.session.commit()
+            current_app.db.session.add(user)
+            current_app.db.session.commit()
             print("user created")
             return jsonify({"message": "User created successfully"}, 201)
         except (IntegrityError, KeyError) as e:

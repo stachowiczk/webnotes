@@ -14,14 +14,15 @@ print(app.config["SQLALCHEMY_DATABASE_URI"])
 jwt = JWTManager(app)
 CORS(app, origins="http://localhost:3000")
 db = SQLAlchemy(app)
-db.metadata.clear()
+app.db = db
+# db.metadata.clear()
+# 
+# with app.app_context():
+#     target_metadata = [Note.__table__, User.__table__]
+#     db.metadata.create_all(bind=db.engine, tables=target_metadata)
 
 with app.app_context():
-    target_metadata = [Note.__table__, User.__table__]
-    db.metadata.create_all(bind=db.engine, tables=target_metadata)
-
-with app.app_context():
-    db.create_all()
+    app.db.create_all()
 
 
 
