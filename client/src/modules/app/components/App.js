@@ -1,4 +1,5 @@
 import React from "react";
+import jscookie from "js-cookie";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Register from "../../common/components/Register.js";
@@ -7,11 +8,12 @@ import { AxiosRequestHeaders } from "axios";
 
 import axios from "axios";
 import TextFeed from "../../common/components/TextFeed.js";
+import Cookies from "js-cookie";
 
 function getCookie(cookieName) {
   const cookies = document.cookie.split(";");
   for (let i = 0; i < cookies.length; i++) {
-    const cookie = cookies[i].trim();
+    const cookie = cookies[i];
     const [cookieKey, cookieValue] = cookie.split("=");
     if (cookieKey === cookieName) {
       return cookieValue;
@@ -81,10 +83,12 @@ function App() {
   function addTestEntry() {
     axios({
       method: "post",
-      url: "http://localhost:5000/notes",
+      withCredentials: true,
+      url: "http://localhost:5000/notes/",
       headers: {
         "Content-Type": "application/json",
-        Authorization: getCookie("token"),
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
       },
       // set the json data to the value of the text state
       data: JSON.stringify({ title: value, content: value }),
@@ -98,11 +102,22 @@ function App() {
   }
 
   function testServer() {
-    axios
-      .get("http://localhost:5000/notes")
+    axios({
+      method: "get",
+      withCredentials: true,
+      url: "http://localhost:5000/notes/",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+    }})
       .then((res) => {
-        setData(res.data);
-        setIsLoaded(true);
+        try {
+          setData(res.data);
+          setIsLoaded(true);
+        } catch (err) {
+          console.log(err);
+        }
       })
       .catch((err) => {
         setIsLoaded(true);
@@ -114,9 +129,12 @@ function App() {
   function dropTable() {
     axios({
       method: "get",
+      withCredentials: true,
       url: "http://localhost:5000/api/drop",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
         Authorization: getCookie("token"),
       },
     })
@@ -141,8 +159,20 @@ function App() {
   //   setIsLoaded(isLoaded => !isLoaded);
   // }, [dataHasChanged]);
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (error && error.response.status === 401) {
+    return (
+      <>
+        <Register />
+        <Login />
+        <div className="editor">
+          <h1>401: Unauthorized</h1>
+          <p>
+            You are not authorized to view this page. Please log in or register
+            to continue.
+          </p>
+        </div>
+      </>
+    );
   } else if (!isLoaded) {
     return <div>Loading...</div>;
   } else {

@@ -15,14 +15,20 @@ function Login() {
     axios({
       method: "post",
       url: "http://localhost:5000/auth/login",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
+     },
+
       // set the json data to the value of the text state
+      withCredentials: true,
       data: JSON.stringify({
         username: userData.username,
         password: userData.password,
       }),
     }).then((res) => {
-      document.cookie = `token=${res.data.accessToken}`;
+
+      
     });
   }
 

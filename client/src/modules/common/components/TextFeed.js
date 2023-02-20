@@ -46,7 +46,7 @@ function TextFeed({ data, dataHasChanged }) {
 
   if (!isLoaded) {
     return <div className="editor">Loading...</div>;
-  } else if (rows.length === 0 || rows === undefined || rows === null) {
+  } else if (!rows) {
     return <div className="editor">No data</div>;
   } else {
     return (
