@@ -18,21 +18,16 @@ class RegisterAPI(MethodView):
 
 
     def post(self):
-        print("request received")
         username = request.json["username"]
         password = request.json["password"]
-        print(username, password)
         hashed_password = generate_password_hash(password)
         user = User(username=username, password=hashed_password)
-        print(user)
         try:
             current_app.db.session.add(user)
             current_app.db.session.commit()
-            print("user created")
             return jsonify({"message": "User created successfully"}, 201)
         except (IntegrityError, KeyError) as e:
             User.session.rollback()
-            print(e)
             return make_response(jsonify({"message": "User already exists"}, 409))
 
 
@@ -42,13 +37,15 @@ class LoginAPI(MethodView):
         try:
             username = request.json["username"]
             password = request.json["password"]
-            user = User.query.filter_by(username=username).one()
+            session = current_app.db.session
+            user = session.query(User).filter_by(username=username).one()
             if check_password_hash(user.password, password):
                 access_token = user.generate_token(identity=user.id)
-                return make_response(jsonify({"message": "Login successful"}, 200))
+                return jsonify ({"message": "Login successful", "accessToken": access_token}), 200
             else:
                 return make_response(
                     jsonify({"message": "Invalid username or password"}, 401)
                 )
-        except (NoResultFound, KeyError):
-            return jsonify({"message": "Invalid username or password"}), 401
+        except (NoResultFound, KeyError) as e:
+            print(e)
+            return jsonify({"message": "Invalid username or password keyerror"}), 401

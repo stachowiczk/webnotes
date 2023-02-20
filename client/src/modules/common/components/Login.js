@@ -22,7 +22,7 @@ function Login() {
         password: userData.password,
       }),
     }).then((res) => {
-      document.cookie = `token=${res.data.token}`;
+      document.cookie = `token=${res.data.accessToken}`;
     });
   }
 

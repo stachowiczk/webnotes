@@ -31,6 +31,7 @@ from api.auth.views import auth_bp
 from api.auth import views
 app.register_blueprint(notes_bp)
 app.add_url_rule("/auth/register", view_func=views.RegisterAPI.as_view("register"), methods=['GET', 'POST'])
+app.add_url_rule("/auth/login", view_func=views.LoginAPI.as_view("login"), methods=['POST'])
 app.register_blueprint(auth_bp)
 
 
