@@ -17,17 +17,21 @@ class RegisterAPI(MethodView):
 
 
     def post(self):
+        print("request received")
+        username = request.json["username"]
+        password = request.json["password"]
+        print(username, password)
+        hashed_password = generate_password_hash(password)
+        user = User(username=username, password=hashed_password)
+        print(user)
         try:
-            print("request received")
-            username = request.get_json()["username"]
-            password = request.get_json()["password"]
-            hashed_password = generate_password_hash(password)
-            user = User(username=username, password=hashed_password)
             User.session.add(user)
             User.session.commit()
-            return make_response(jsonify({"message": "User created successfully"}, 201))
-        except (IntegrityError, KeyError):
+            print("user created")
+            return jsonify({"message": "User created successfully"}, 201)
+        except (IntegrityError, KeyError) as e:
             User.session.rollback()
+            print(e)
             return make_response(jsonify({"message": "User already exists"}, 409))
 
 

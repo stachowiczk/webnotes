@@ -20,6 +20,8 @@ with app.app_context():
     target_metadata = [Note.__table__, User.__table__]
     db.metadata.create_all(bind=db.engine, tables=target_metadata)
 
+with app.app_context():
+    db.create_all()
 
 
 
@@ -27,7 +29,7 @@ from api.common.views import notes_bp
 from api.auth.views import auth_bp
 from api.auth import views
 app.register_blueprint(notes_bp)
-app.add_url_rule("/auth/register", view_func=views.RegisterAPI.as_view("register"), methods=['GET'])
+app.add_url_rule("/auth/register", view_func=views.RegisterAPI.as_view("register"), methods=['GET', 'POST'])
 app.register_blueprint(auth_bp)
 
 

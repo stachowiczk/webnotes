@@ -13,7 +13,6 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     session = db.session
-
     notes = relationship("Note", backref="user", lazy=True)
 
     def generate_token(self, identity):

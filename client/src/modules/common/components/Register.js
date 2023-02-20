@@ -13,14 +13,14 @@ function Register() {
   function submit(e) {
     e.preventDefault();
     axios({
-      method: "get",
+      method: "post",
       url: "http://localhost:5000/auth/register",
       headers: { "Content-Type": "application/json" },
       // set the json data to the value of the text state
-      // data: JSON.stringify({
-      //   username: userData.username,
-      //   password: userData.password,
-      // }),
+      data: JSON.stringify({
+        username: userData.username,
+        password: userData.password,
+      }),
     }).then((res) => {
       console.log(res.data);
     });
