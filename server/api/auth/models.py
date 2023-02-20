@@ -1,9 +1,11 @@
 from datetime import datetime
-from flask_login import UserMixin
+from flask_login import UserMixin, LoginManager
 from flask_jwt_extended import create_access_token, create_refresh_token
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey, Column, Integer, String, DateTime
 from api.db import db
+from flask import current_app, jsonify
+
 
 
 class User(UserMixin, db.Model):
@@ -12,13 +14,14 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    session = db.session
     notes = relationship("Note", backref="user", lazy=True)
 
     def generate_token(self, identity):
         access_token = create_access_token(identity=identity)
         refresh_token = create_refresh_token(identity=identity)
-        return {"access_token": access_token, "refresh_token": refresh_token}
+        return access_token
+        
+
 
     def __repr__(self):
-        return "<User %r>" % self.username
+        return "%d%s" % (self.id, self.username)

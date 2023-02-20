@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
@@ -10,28 +11,35 @@ from api.db import db
 
 app = Flask(__name__)
 app.config.from_object("config")
-print(app.config["SQLALCHEMY_DATABASE_URI"])
 jwt = JWTManager(app)
-CORS(app, origins="http://localhost:3000")
+CORS(app, origins="http://localhost:3000", supports_credentials=True)
 db = SQLAlchemy(app)
 app.db = db
-# db.metadata.clear()
-# 
-# with app.app_context():
-#     target_metadata = [Note.__table__, User.__table__]
-#     db.metadata.create_all(bind=db.engine, tables=target_metadata)
+db.metadata.clear()
+
+
+with app.app_context():
+    target_metadata = [Note.__table__, User.__table__]
+    db.metadata.create_all(bind=db.engine, tables=target_metadata)
 
 with app.app_context():
     app.db.create_all()
 
-
-
 from api.common.views import notes_bp
 from api.auth.views import auth_bp
-from api.auth import views
+from api.auth import views as av
+from api.common import views as cv
+app.add_url_rule(
+    "/notes", view_func=cv.NotesAPI.as_view("notes"), methods=["GET", "POST"]
+)
+
+app.add_url_rule(
+    "/auth/register", view_func=av.RegisterAPI.as_view("register"), methods=["POST"]
+)
+app.add_url_rule(
+    "/auth/login", view_func=av.LoginAPI.as_view("login"), methods=["POST"]
+)
 app.register_blueprint(notes_bp)
-app.add_url_rule("/auth/register", view_func=views.RegisterAPI.as_view("register"), methods=['GET', 'POST'])
-app.add_url_rule("/auth/login", view_func=views.LoginAPI.as_view("login"), methods=['POST'])
 app.register_blueprint(auth_bp)
 
 

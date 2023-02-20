@@ -1,22 +1,16 @@
-from flask import request, jsonify, make_response, current_app
+from flask import request, jsonify, make_response, current_app, redirect
 from flask.views import MethodView
+from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
-from flask import Blueprint, Response, json
 from api.auth.models import User
 from api.auth import auth_bp
 
 
 
-@auth_bp.route("/register", methods=["POST", "GET"])
+@auth_bp.route("/register", methods=["POST"])
 class RegisterAPI(MethodView):
-
-
-    def get(self):
-        return jsonify({"message": "User created successfully"}, 201)
-
-
     def post(self):
         username = request.json["username"]
         password = request.json["password"]
@@ -27,8 +21,9 @@ class RegisterAPI(MethodView):
             current_app.db.session.commit()
             return jsonify({"message": "User created successfully"}, 201)
         except (IntegrityError, KeyError) as e:
-            User.session.rollback()
-            return make_response(jsonify({"message": "User already exists"}, 409))
+            current_app.db.session.rollback()
+            return jsonify({"message": "User already exists"}, 409)
+
 
 
 @auth_bp.route("/login", methods=["POST"])
@@ -41,7 +36,12 @@ class LoginAPI(MethodView):
             user = session.query(User).filter_by(username=username).one()
             if check_password_hash(user.password, password):
                 access_token = user.generate_token(identity=user.id)
-                return jsonify ({"message": "Login successful", "accessToken": access_token}), 200
+                print(user.id)
+                response = make_response("Logged in successfully", 200)
+                set_access_cookies(response, access_token)
+                print("cookies set")
+                return response
+
             else:
                 return make_response(
                     jsonify({"message": "Invalid username or password"}, 401)
