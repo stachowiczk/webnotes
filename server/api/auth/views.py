@@ -9,7 +9,7 @@ from api.auth import auth_bp
 
 
 
-@auth_bp.route("/register", methods=["POST"])
+@auth_bp.route("/register", methods=["POST", "GET"])
 class RegisterAPI(MethodView):
     def post(self):
         username = request.json["username"]
@@ -24,6 +24,14 @@ class RegisterAPI(MethodView):
             current_app.db.session.rollback()
             return jsonify({"message": "User already exists"}, 409)
 
+    def get(self):
+        username = request.args.get("username")
+        try:
+            user = current_app.db.session.query(User).filter_by(username=username).one()
+            return jsonify({"message": "User exists"}, 409)
+        except NoResultFound:
+            return jsonify({"message": "Username available"}, 200)
+
 
 
 @auth_bp.route("/login", methods=["POST"])
@@ -36,10 +44,8 @@ class LoginAPI(MethodView):
             user = session.query(User).filter_by(username=username).one()
             if check_password_hash(user.password, password):
                 access_token = user.generate_token(identity=user.id)
-                print(user.id)
                 response = make_response("Logged in successfully", 200)
                 set_access_cookies(response, access_token)
-                print("cookies set")
                 return response
 
             else:
@@ -49,3 +55,4 @@ class LoginAPI(MethodView):
         except (NoResultFound, KeyError) as e:
             print(e)
             return jsonify({"message": "Invalid username or password keyerror"}), 401
+

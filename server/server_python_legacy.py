@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 import config
 
 from flask_cors import CORS, cross_origin
-from dbase_handler import DatabaseHandler as db
+from server.dbase_handler_legacy import DatabaseHandler as db
 from sqlite3 import connect as sqlite_connect
 from sqlalchemy import create_engine, sql
 

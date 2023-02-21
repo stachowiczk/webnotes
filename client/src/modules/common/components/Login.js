@@ -1,15 +1,22 @@
-import React from "react";
+import React, {useEffect}from "react";
+import Register from "./Register";
 import axios from "axios";
 
-function Login() {
+function Login({isLoaded, setIsLoaded}) {
   const [userData, setUserData] = React.useState({
     username: "",
     password: "",
   });
 
+  const [registerToggle, setRegisterToggle] = React.useState(false);
+
+
   const handleChange = (e) => {
+    e.preventDefault();
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
+
+
   function submit(e) {
     e.preventDefault();
     axios({
@@ -27,21 +34,34 @@ function Login() {
         password: userData.password,
       }),
     }).then((res) => {
-
-      
+      console.log(res.data);
+      setIsLoaded(isLoaded => !isLoaded); 
     });
   }
 
+  React.useEffect(() => {
+    setUserData({ username: "", password: "" });
+    setIsLoaded(true);
+    setRegisterToggle(false);
+  }, []);
+
   return (
     <div>
-      <form onSubmit={submit}>
-        <input type="text" name="username" onChange={handleChange} />
+      <form onSubmit={submit} style={formStyle}>
+        <input type="text" name="username"  onChange={handleChange} />
         <input type="password" name="password" onChange={handleChange} />
         <button type="submit">Login</button>
         
       </form>
-    </div>
-  );
-}
+    <Register /> 
 
+    </div>
+  );}
+const formStyle = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
+  marginRight: "20vw",
+  marginLeft: "auto",
+};
 export default Login;
