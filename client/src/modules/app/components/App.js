@@ -81,14 +81,21 @@ function App() {
       });
   }
 
+  function logoutUser() {
+    axios({
+      method: "get",
+      withCredentials: true,
+      url: "http://localhost:5000/auth/login",
+    }
+    ).then((res) => {
+      setIsLoaded(false);
+      setIsLoaded((isLoaded) => !isLoaded);
+    });
+  }
+
   React.useEffect(() => {
     getUserPosts();
   }, [dataHasChanged]);
-
-  // React.useEffect(() => {
-  //   getUserPosts();
-  //   setIsLoaded(isLoaded => !isLoaded);
-  // }, [dataHasChanged]);
 
   if (error && error.response.status === 401) {
     return (
@@ -96,7 +103,7 @@ function App() {
         <div className="editor">
           <h1>Please log in to continue</h1>
           <p></p>
-        <Login isLoaded={!isLoaded} setIsLoaded={setIsLoaded} />
+          <Login isLoaded={!isLoaded} setIsLoaded={setIsLoaded} />
         </div>
       </>
     );
@@ -106,13 +113,16 @@ function App() {
     return (
       <>
         <div className="editor">
-          <Editor value={value} setValue={setValue} /> 
+          <Editor value={value} setValue={setValue} />
         </div>
         <button className="editor" onClick={deleteAllPosts}>
           CLEAR ALL
         </button>
         <button className="editor" onClick={addUserPost}>
           POST
+        </button>
+        <button onClick={logoutUser}>
+          LOGOUT
         </button>
         <TextFeed
           className="editor"

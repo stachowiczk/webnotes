@@ -58,4 +58,3 @@ class NotesAPI(MethodView):
         except Exception as e:
             print(e)
             return jsonify({"message": "Invalid request"}), 400
-

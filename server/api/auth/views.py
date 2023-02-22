@@ -1,12 +1,15 @@
 from flask import request, jsonify, make_response, current_app, redirect
 from flask.views import MethodView
-from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies
+from flask_jwt_extended import (
+    set_access_cookies,
+    set_refresh_cookies,
+    unset_jwt_cookies,
+)
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 from api.auth.models import User
 from api.auth import auth_bp
-
 
 
 @auth_bp.route("/register", methods=["POST", "GET"])
@@ -33,8 +36,7 @@ class RegisterAPI(MethodView):
             return jsonify({"message": "Username available"}, 200)
 
 
-
-@auth_bp.route("/login", methods=["POST"])
+@auth_bp.route("/login", methods=["POST", "GET"])
 class LoginAPI(MethodView):
     def post(self):
         try:
@@ -42,6 +44,7 @@ class LoginAPI(MethodView):
             password = request.json["password"]
             session = current_app.db.session
             user = session.query(User).filter_by(username=username).one()
+            print(user)
             if check_password_hash(user.password, password):
                 access_token = user.generate_token(identity=user.id)
                 response = make_response("Logged in successfully", 200)
@@ -55,4 +58,8 @@ class LoginAPI(MethodView):
         except (NoResultFound, KeyError) as e:
             print(e)
             return jsonify({"message": "Invalid username or password keyerror"}), 401
+
+    def get(self):
+        response = make_response("Logged out successfully", 200)
+        unset_jwt_cookies(response)
 

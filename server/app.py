@@ -16,7 +16,7 @@ CORS(app, origins="http://localhost:3000", supports_credentials=True)
 
 db = SQLAlchemy(app)
 app.db = db
-#db.metadata.clear()
+# db.metadata.clear()
 with app.app_context():
     target_metadata = [Note.__table__, User.__table__]
     db.metadata.create_all(bind=db.engine, tables=target_metadata)
@@ -28,15 +28,18 @@ from api.common.views import notes_bp
 from api.auth.views import auth_bp
 from api.auth import views as av
 from api.common import views as cv
+
 app.add_url_rule(
     "/notes", view_func=cv.NotesAPI.as_view("notes"), methods=["GET", "POST", "DELETE"]
 )
 
 app.add_url_rule(
-    "/auth/register", view_func=av.RegisterAPI.as_view("register"), methods=["POST", "GET"]
+    "/auth/register",
+    view_func=av.RegisterAPI.as_view("register"),
+    methods=["POST", "GET"],
 )
 app.add_url_rule(
-    "/auth/login", view_func=av.LoginAPI.as_view("login"), methods=["POST"]
+    "/auth/login", view_func=av.LoginAPI.as_view("login"), methods=["POST", "GET"]
 )
 app.register_blueprint(notes_bp)
 app.register_blueprint(auth_bp)

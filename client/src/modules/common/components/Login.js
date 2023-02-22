@@ -1,14 +1,12 @@
-import React, {useEffect}from "react";
+import React, { useEffect } from "react";
 import Register from "./Register";
 import axios from "axios";
 
-function Login({isLoaded, setIsLoaded}) {
+function Login({ isLoaded, setIsLoaded }) {
   const [userData, setUserData] = React.useState({
     username: "",
     password: "",
   });
-
-  const [registerToggle, setRegisterToggle] = React.useState(false);
 
 
   const handleChange = (e) => {
@@ -16,16 +14,16 @@ function Login({isLoaded, setIsLoaded}) {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-
   function submit(e) {
     e.preventDefault();
     axios({
       method: "post",
       url: "http://localhost:5000/auth/login",
-      headers: { "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": true,
-     },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
 
       // set the json data to the value of the text state
       withCredentials: true,
@@ -35,28 +33,26 @@ function Login({isLoaded, setIsLoaded}) {
       }),
     }).then((res) => {
       console.log(res.data);
-      setIsLoaded(isLoaded => !isLoaded); 
+      setIsLoaded((isLoaded) => !isLoaded);
     });
   }
 
   React.useEffect(() => {
     setUserData({ username: "", password: "" });
     setIsLoaded(true);
-    setRegisterToggle(false);
   }, []);
 
   return (
     <div>
       <form onSubmit={submit} style={formStyle}>
-        <input type="text" name="username"  onChange={handleChange} />
+        <input type="text" name="username" onChange={handleChange} />
         <input type="password" name="password" onChange={handleChange} />
         <button type="submit">Login</button>
-        
       </form>
-    <Register /> 
-
+      
     </div>
-  );}
+  );
+}
 const formStyle = {
   display: "flex",
   flexDirection: "column",

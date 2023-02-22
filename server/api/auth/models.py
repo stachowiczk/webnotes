@@ -7,7 +7,6 @@ from api.db import db
 from flask import current_app, jsonify
 
 
-
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -20,8 +19,6 @@ class User(UserMixin, db.Model):
         access_token = create_access_token(identity=identity)
         refresh_token = create_refresh_token(identity=identity)
         return access_token
-        
-
 
     def __repr__(self):
         return "%d%s" % (self.id, self.username)
