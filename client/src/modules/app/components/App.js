@@ -25,7 +25,6 @@ function App() {
               <Route path="/logout" element={<Logout/>} />
             </Route>
             <Route path="/register" element={<Register/>} />
-}
 
         </Routes>
         <Link to="/login">Login </Link>

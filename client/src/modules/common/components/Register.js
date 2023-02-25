@@ -1,13 +1,16 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { AuthContext } from "../../app/context/UserContext";
 
 function Register() {
-  const [userData, setUserData] = React.useState({
+  const [userData, setUserData] = useState({
     username: "",
     password: "",
   });
-  const [isAvailable, setIsAvailable] = React.useState(true);
-  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [isAvailable, setIsAvailable] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const { state, dispatch } = useContext(AuthContext);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -51,13 +54,18 @@ function Register() {
       console.log(res.data);
     });
   }
-  React.useEffect(() => {
+  useEffect(() => {
     setUserData({ username: "", password: "" });
     setIsLoaded(true);
   }, []);
   if (!isLoaded) {
     return <div>Loading...</div>;
-  } else {
+
+  } 
+  else if (state.isAuthenticated) {
+    return <Navigate to="/home"/>
+  }
+  else {
     return (
       <>
         <div style={{ height: "2em" }}>
