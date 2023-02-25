@@ -17,8 +17,14 @@ class User(UserMixin, db.Model):
 
     def generate_token(self, identity):
         access_token = create_access_token(identity=identity)
-        refresh_token = create_refresh_token(identity=identity)
         return access_token
+
+    def generate_refresh_token(self, identity):
+        refresh_token = create_refresh_token(identity=identity)
+        return refresh_token
 
     def __repr__(self):
         return "%d%s" % (self.id, self.username)
+    
+    def __str__(self):
+        return f"{self.username}#{self.id}"

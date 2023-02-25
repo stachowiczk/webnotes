@@ -1,12 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext  } from "react";
+import { AuthContext } from "../../app/context/UserContext";
+import { useNavigate, Link } from "react-router-dom";
 import Register from "./Register";
 import axios from "axios";
 
-function Login({ isLoaded, setIsLoaded }) {
+function Login({}) {
   const [userData, setUserData] = React.useState({
     username: "",
     password: "",
   });
+
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
+  const { state, dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
 
 
   const handleChange = (e) => {
@@ -14,9 +21,13 @@ function Login({ isLoaded, setIsLoaded }) {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  function submit(e) {
+  async function submit(e) {
     e.preventDefault();
-    axios({
+
+    dispatch({ type: "LOADING" });
+
+    try {
+    const response = await axios({
       method: "post",
       url: "http://localhost:5000/auth/login",
       headers: {
@@ -31,10 +42,20 @@ function Login({ isLoaded, setIsLoaded }) {
         username: userData.username,
         password: userData.password,
       }),
-    }).then((res) => {
-      console.log(res.data);
-      setIsLoaded((isLoaded) => !isLoaded);
-    });
+    })
+    const data = await response.data;
+
+    if (response.status === 200) {
+      dispatch({ type: "LOGIN_SUCCESS", payload: data });
+      navigate("/");
+    }
+    else {
+      dispatch({ type: "LOGIN_FAIL" });
+    }
+    } catch (error) {
+      console.log(error)
+      dispatch({ type: "LOGIN_FAIL" });
+    }
   }
 
   React.useEffect(() => {
@@ -42,16 +63,46 @@ function Login({ isLoaded, setIsLoaded }) {
     setIsLoaded(true);
   }, []);
 
-  return (
-    <div>
-      <form onSubmit={submit} style={formStyle}>
-        <input type="text" name="username" onChange={handleChange} />
-        <input type="password" name="password" onChange={handleChange} />
-        <button type="submit">Login</button>
-      </form>
-      
-    </div>
-  );
+  
+  if (!isLoaded) {
+    return (
+      <div style={formStyle}>
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
+  else if (state.isAuthenticated) {
+    return (
+      <div style={formStyle}>
+        <h1>You are already logged in.</h1>
+      </div>
+    );
+  }
+  else {
+    return (
+      <div style={formStyle}>
+        <h1>Login</h1>
+        <form onSubmit={submit}>
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            value={userData.username}
+            onChange={handleChange}
+          />
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            value={userData.password}
+            onChange={handleChange}
+          />
+          <button type="submit">Login</button>
+        </form>
+        <Link to="/register">Need and account? Register here!</Link>
+      </div>
+    );
+  }
 }
 const formStyle = {
   display: "flex",

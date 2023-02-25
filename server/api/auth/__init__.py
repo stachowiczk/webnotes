@@ -10,5 +10,5 @@ auth_bp.add_url_rule(
     methods=["POST", "GET"],
 )
 auth_bp.add_url_rule(
-    "/auth/login", view_func=views.LoginAPI.as_view("login"), methods=["POST", "GET"]
+    "/auth/login", view_func=views.LoginAPI.as_view("login"), methods=["POST", "GET", "PUT", "DELETE"]
 )

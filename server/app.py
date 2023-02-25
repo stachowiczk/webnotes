@@ -39,7 +39,7 @@ app.add_url_rule(
     methods=["POST", "GET"],
 )
 app.add_url_rule(
-    "/auth/login", view_func=av.LoginAPI.as_view("login"), methods=["POST", "GET"]
+    "/auth/login", view_func=av.LoginAPI.as_view("login"), methods=["POST", "GET", "PUT", "DELETE"]
 )
 app.register_blueprint(notes_bp)
 app.register_blueprint(auth_bp)

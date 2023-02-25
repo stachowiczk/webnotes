@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
 function Register() {
   const [userData, setUserData] = React.useState({
@@ -12,26 +12,25 @@ function Register() {
   const handleChange = (e) => {
     e.preventDefault();
     setUserData({ ...userData, [e.target.name]: e.target.value });
-
   };
 
-  const checkEffect = useEffect((e) => {
-    checkAvailable(e);
-  }, [handleChange]);
+  useEffect(() => {
+    checkAvailable();
+    return () => {
+      setIsAvailable(true);
+    };
+  }, [userData]);
 
-  const checkAvailable = (e) => {
-
+  const checkAvailable = () => {
     axios({
       method: "get",
       url: "http://localhost:5000/auth/register?username=" + userData.username,
       headers: { "Content-Type": "application/json" },
     }).then((res) => {
-
       if (res.data[1] === 409) {
-        console.log(res.data)
+        console.log(res.data);
         setIsAvailable(false);
-      }
-      else {
+      } else {
         setIsAvailable(true);
       }
     });
@@ -57,40 +56,50 @@ function Register() {
     setIsLoaded(true);
   }, []);
   if (!isLoaded) {
+    return <div>Loading...</div>;
+  } else {
     return (
-      <div>
-        Loading...
-      </div>
-    )
+      <>
+        <div style={{ height: "2em" }}>
+          <label
+            htmlFor="username"
+            style={isAvailable ? hideLabel : labelStyle}
+          >
+            Username is not available
+          </label>
+        </div>
+        <form onSubmit={submit} style={formStyle}>
+          <input
+            type="text"
+            placeholder="Username"
+            name="username"
+            id="username"
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            onChange={handleChange}
+          />
+          <button type="submit">Register</button>
+        </form>
+      </>
+    );
   }
-  else {
-  return (
-    <>
-      <div style={{height: "2em"}}>
-        <label htmlFor="username" style={isAvailable ? hideLabel : labelStyle}>Username is not available</label>
-      </div>
-      <form onSubmit={submit} style={formStyle}>
-        <input type="text" name="username" id="username" onChange={handleChange} />
-        <input type="password" name="password" onChange={handleChange} />
-        <button type="submit">Register</button>
-      </form>
-    </>
-  );}
 }
 
 const hideLabel = {
   display: "none",
   position: "relative",
-  right: "-10px"
+  right: "-10px",
 };
-
 
 const labelStyle = {
   color: "red",
   position: "relative",
-  right: "-10px"
+  right: "-10px",
 };
-
 
 const formStyle = {
   display: "flex",

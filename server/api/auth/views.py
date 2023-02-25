@@ -1,9 +1,12 @@
 from flask import request, jsonify, make_response, current_app, redirect
+from flask_cors import cross_origin
 from flask.views import MethodView
 from flask_jwt_extended import (
     set_access_cookies,
     set_refresh_cookies,
     unset_jwt_cookies,
+    jwt_required,
+    get_jwt_identity,
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
@@ -36,7 +39,7 @@ class RegisterAPI(MethodView):
             return jsonify({"message": "Username available"}, 200)
 
 
-@auth_bp.route("/login", methods=["POST", "GET"])
+@auth_bp.route("/login", methods=["POST", "GET", "PUT", "DELETE"])
 class LoginAPI(MethodView):
     def post(self):
         try:
@@ -47,8 +50,10 @@ class LoginAPI(MethodView):
             print(user)
             if check_password_hash(user.password, password):
                 access_token = user.generate_token(identity=user.id)
-                response = make_response("Logged in successfully", 200)
+                refresh_token = user.generate_refresh_token(identity=user.id)
+                response = jsonify({"user": user.username, "user_id": user.id}, 200)
                 set_access_cookies(response, access_token)
+                set_refresh_cookies(response, refresh_token)
                 return response
 
             else:
@@ -59,7 +64,29 @@ class LoginAPI(MethodView):
             print(e)
             return jsonify({"message": "Invalid username or password keyerror"}), 401
 
-    def get(self):
-        response = make_response("Logged out successfully", 200)
+    @cross_origin(supports_credentials=True)
+    @jwt_required()
+    def put(self):
+        identity = get_jwt_identity()
+        access_token = User.generate_token(identity=identity)
+        response = make_response(jsonify({"message": "Token refreshed"}), 200)
+        set_access_cookies(response, access_token)
+        return response
+
+    @cross_origin(supports_credentials=True)
+    @jwt_required()
+    def delete(self):
+        response = make_response(jsonify({"message": "Logged out"}), 200)
         unset_jwt_cookies(response)
+        return response
+    
+    @cross_origin(supports_credentials=True)
+    @jwt_required()
+    def get(self):
+        identity = get_jwt_identity()
+        user = current_app.db.session.query(User).filter_by(id=identity).one()
+        return jsonify(str(user))
+
+
+
 
