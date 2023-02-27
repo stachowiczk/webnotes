@@ -33,11 +33,12 @@ function TextFeed({ data, dataHasChanged }) {
         <Entry
           key={index}
           created_at={row.created_at}
-          title={DOMPurify.sanitize(row.title)}
+          title={DOMPurify.sanitize(row.title)} // IMPORTANT
         />
       ));
     } catch (error) {
       console.log(error);
+      return <div className="editor">No data</div>;
     }
     // return rows.map((row, index) => (
     //   <Entry key={index} created_at={row.created_at} title={DOMPurify.sanitize(row.title)} />

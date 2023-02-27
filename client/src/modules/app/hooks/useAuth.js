@@ -1,8 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function useAuth() {
-  return 
-  
+  return;
 }
 
-export default useAuth
+export default useAuth;

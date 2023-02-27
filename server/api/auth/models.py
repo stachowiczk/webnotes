@@ -22,9 +22,17 @@ class User(UserMixin, db.Model):
     def generate_refresh_token(self, identity):
         refresh_token = create_refresh_token(identity=identity)
         return refresh_token
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "created_at": self.created_at,
+            "notes": [note.serialize() for note in self.notes],
+        }
 
     def __repr__(self):
         return "%d%s" % (self.id, self.username)
-    
+
     def __str__(self):
-        return f"{self.username}#{self.id}"
+        return f"{self.username}#{self.id}" # returns username#id

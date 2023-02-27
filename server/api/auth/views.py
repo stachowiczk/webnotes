@@ -30,6 +30,8 @@ class RegisterAPI(MethodView):
             current_app.db.session.rollback()
             return jsonify({"message": "User already exists"}, 409)
 
+    ### CHECK IF USERNAME IS AVAILABLE
+    ### this is done as the user types in the username in the register form
     def get(self):
         username = request.args.get("username")
         try:
@@ -64,6 +66,7 @@ class LoginAPI(MethodView):
             print(e)
             return jsonify({"message": "Invalid username or password keyerror"}), 401
 
+    ### REFRESH TOKEN
     @cross_origin(supports_credentials=True)
     @jwt_required()
     def put(self):
@@ -73,20 +76,22 @@ class LoginAPI(MethodView):
         set_access_cookies(response, access_token)
         return response
 
+    ### LOGOUT
     @cross_origin(supports_credentials=True)
     @jwt_required()
     def delete(self):
         response = make_response(jsonify({"message": "Logged out"}), 200)
         unset_jwt_cookies(response)
         return response
-    
+
+    ### GET USER INFO
     @cross_origin(supports_credentials=True)
     @jwt_required()
     def get(self):
-        identity = get_jwt_identity()
-        user = current_app.db.session.query(User).filter_by(id=identity).one()
-        return jsonify(str(user))
-
-
-
-
+        try:
+            identity = get_jwt_identity()
+            user = current_app.db.session.query(User).filter_by(id=identity).one()
+            return jsonify(str(user), 200)
+        except Exception as e:
+            print(e)
+            return jsonify({"message": "Error getting user info"}), 401

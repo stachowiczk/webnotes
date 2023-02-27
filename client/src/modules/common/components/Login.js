@@ -1,4 +1,4 @@
-import React, { useEffect, useContext  } from "react";
+import React, { useEffect, useContext } from "react";
 import { AuthContext } from "../../app/context/UserContext";
 import { useNavigate, Link } from "react-router-dom";
 import Register from "./Register";
@@ -15,7 +15,6 @@ function Login({}) {
   const { state, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
-
   const handleChange = (e) => {
     e.preventDefault();
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -27,33 +26,32 @@ function Login({}) {
     dispatch({ type: "LOADING" });
 
     try {
-    const response = await axios({
-      method: "post",
-      url: "http://localhost:5000/auth/login",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
-      },
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:5000/auth/login",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+        },
 
-      // set the json data to the value of the text state
-      withCredentials: true,
-      data: JSON.stringify({
-        username: userData.username,
-        password: userData.password,
-      }),
-    })
-    const data = await response.data;
+        // set the json data to the value of the text state
+        withCredentials: true,
+        data: JSON.stringify({
+          username: userData.username,
+          password: userData.password,
+        }),
+      });
+      const data = await response.data;
 
-    if (response.status === 200) {
-      dispatch({ type: "LOGIN_SUCCESS", payload: data });
-      navigate("/");
-    }
-    else {
-      dispatch({ type: "LOGIN_FAIL" });
-    }
+      if (response.status === 200) {
+        dispatch({ type: "LOGIN_SUCCESS", payload: data });
+        navigate("/");
+      } else {
+        dispatch({ type: "LOGIN_FAIL" });
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       dispatch({ type: "LOGIN_FAIL" });
     }
   }
@@ -63,22 +61,19 @@ function Login({}) {
     setIsLoaded(true);
   }, []);
 
-  
   if (!isLoaded) {
     return (
       <div style={formStyle}>
         <h1>Loading...</h1>
       </div>
     );
-  }
-  else if (state.isAuthenticated) {
+  } else if (state.isAuthenticated) {
     return (
       <div style={formStyle}>
         <h1>You are already logged in.</h1>
       </div>
     );
-  }
-  else {
+  } else {
     return (
       <div style={formStyle}>
         <h1>Login</h1>

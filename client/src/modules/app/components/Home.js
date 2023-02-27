@@ -1,5 +1,4 @@
 import React from "react";
-import Register from "../../common/components/Register.js";
 import Login from "../../common/components/Login.js";
 import Editor from "../../common/components/Editor.js";
 import axios from "axios";
