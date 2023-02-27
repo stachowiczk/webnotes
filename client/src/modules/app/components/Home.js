@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate, Navigate } from "react-router-dom";
 import Login from "../../common/components/Login.js";
 import Editor from "../../common/components/Editor.js";
 import axios from "axios";
@@ -10,6 +11,7 @@ function Home() {
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [dataHasChanged, setDataHasChanged] = React.useState(true);
   const [value, setValue] = React.useState("");
+  const navigate = useNavigate();
 
   function addUserPost() {
     axios({
@@ -80,17 +82,7 @@ function Home() {
       });
   }
 
-  function logoutUser() {
-    axios({
-      method: "get",
-      withCredentials: true,
-      url: "http://localhost:5000/auth/login",
-    }
-    ).then((res) => {
-      setIsLoaded(false);
-      setIsLoaded((isLoaded) => !isLoaded);
-    });
-  }
+  
 
   React.useEffect(() => {
     getUserPosts();
@@ -102,7 +94,8 @@ function Home() {
         <div className="editor">
           <h1>Please log in to continue</h1>
           <p></p>
-          <Login isLoaded={!isLoaded} setIsLoaded={setIsLoaded} />
+          <Navigate to="/login" />
+          
         </div>
       </>
     );
@@ -119,9 +112,6 @@ function Home() {
         </button>
         <button className="editor" onClick={addUserPost}>
           POST
-        </button>
-        <button onClick={logoutUser}>
-          LOGOUT
         </button>
         <TextFeed
           className="editor"

@@ -9,6 +9,7 @@ import {
 import { AuthContextProvider } from "../context/UserContext";
 import PrivateRoute from "./PrivateRoute";
 import Homee from "./Homee";
+import Home from "./Home";
 import Login from "../../common/components/Login";
 import Register from "../../common/components/Register";
 import Logout from "../../common/components/Logout";
@@ -21,11 +22,11 @@ function App() {
     <AuthContextProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" exact element={<Homee />} />
+          <Route path="/" exact element={<Homee />} /> //this only checks the current login status and sets state accordingly
 
           <Route path="/login" element={<Login />} />
           <Route element={<PrivateRoute />}>
-            <Route path="/home" element={<Editor />} />
+            <Route path="/home" element={<Home />} />
           </Route>
           <Route element={<PrivateRoute />}>
             <Route path="/logout" element={<Logout />} />
@@ -35,7 +36,6 @@ function App() {
         <Link to="/login">Login </Link>
         <Link to="/home">Home</Link>
         <Link to="/logout">Logout</Link>
-        <Link to="/register">Register</Link>
       </BrowserRouter>
     </AuthContextProvider>
   );
