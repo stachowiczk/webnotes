@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter,
   Route,
@@ -17,13 +17,12 @@ import Editor from "../../common/components/Editor";
 import axios from "axios";
 
 function App() {
-
   return (
     <AuthContextProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" exact element={<Homee />} /> //this only checks the current login status and sets state accordingly
-
+          <Route path="/" exact element={<Homee />} /> //this only checks the
+          current login status and sets state accordingly
           <Route path="/login" element={<Login />} />
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />

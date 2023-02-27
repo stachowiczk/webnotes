@@ -14,7 +14,7 @@ class Note(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     def __repr__(self):
-        return f"Note id: {self.id}, title: {self.title}" 
+        return f"Note id: {self.id}, title: {self.title}"
 
     def serialize(self):
         return {
@@ -24,6 +24,8 @@ class Note(db.Model):
             "created_at": self.created_at,
             "user_id": self.user_id,
         }
+
+
 class Folder(db.Model):
     __tablename__ = "folders"
     id = db.Column(db.Integer, primary_key=True)
@@ -31,6 +33,3 @@ class Folder(db.Model):
     if name == "":
         name = "New Folder"
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-
-    
-    

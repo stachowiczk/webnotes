@@ -60,12 +60,9 @@ function Register() {
   }, []);
   if (!isLoaded) {
     return <div>Loading...</div>;
-
-  } 
-  else if (state.isAuthenticated) {
-    return <Navigate to="/home"/>
-  }
-  else {
+  } else if (state.isAuthenticated) {
+    return <Navigate to="/home" />;
+  } else {
     return (
       <>
         <div style={{ height: "2em" }}>

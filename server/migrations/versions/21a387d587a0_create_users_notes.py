@@ -23,14 +23,14 @@ def upgrade():
     # ### end Alembic commands ###
 
 
-# To avoid this issue, you can add a "revisions" flag 
-# to the "alembic upgrade" command to force Alembic to apply 
-# the migration script again, even if it has already been applied. 
-# This will update the "alembic_version" table to reflect that 
-# the migration script has been applied, and prevent Alembic from 
-# generating unnecessary SQL commands in the future. 
+# To avoid this issue, you can add a "revisions" flag
+# to the "alembic upgrade" command to force Alembic to apply
+# the migration script again, even if it has already been applied.
+# This will update the "alembic_version" table to reflect that
+# the migration script has been applied, and prevent Alembic from
+# generating unnecessary SQL commands in the future.
 # - what chatGPT had to say about this issue
-# # # not tested yet # # # 
+# # # not tested yet # # #
 
 
 def downgrade():

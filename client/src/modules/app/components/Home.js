@@ -82,8 +82,6 @@ function Home() {
       });
   }
 
-  
-
   React.useEffect(() => {
     getUserPosts();
   }, [dataHasChanged]);
@@ -95,7 +93,6 @@ function Home() {
           <h1>Please log in to continue</h1>
           <p></p>
           <Navigate to="/login" />
-          
         </div>
       </>
     );

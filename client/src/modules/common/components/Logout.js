@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useEffect, useContext } from "react";
-import { Navigate, useNavigate} from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../app/context/UserContext";
 
 function Logout() {
   const { state, dispatch } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   async function logout() {
     dispatch({ type: "LOADING" });
 
@@ -24,7 +24,6 @@ function Logout() {
       if (response.status === 200) {
         dispatch({ type: "LOGOUT_SUCCESS" });
         navigate("/login");
-
       }
     } catch (error) {
       console.log(error);
