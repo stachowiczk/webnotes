@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/UserContext";
 import axios from "axios";
+import http from  "./Interceptor"
 
 function Homee() {
   const { state, dispatch } = useContext(AuthContext);
@@ -12,7 +13,7 @@ function Homee() {
   async function checkLoggedIn() {
     dispatch({ type: "LOADING" });
     try {
-      const res = await axios.get("http://localhost:5000/auth/login", {
+      const res = await http.get("http://localhost:5000/auth/login", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

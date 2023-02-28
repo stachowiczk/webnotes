@@ -7,6 +7,8 @@ from flask_jwt_extended import (
     unset_jwt_cookies,
     jwt_required,
     get_jwt_identity,
+    
+    
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
@@ -68,10 +70,10 @@ class LoginAPI(MethodView):
 
     ### REFRESH TOKEN
     @cross_origin(supports_credentials=True)
-    @jwt_required()
+    @jwt_required(refresh=True)
     def put(self):
         identity = get_jwt_identity()
-        access_token = User.generate_token(identity=identity)
+        access_token = User.generate_token(self, identity=identity)
         response = make_response(jsonify({"message": "Token refreshed"}), 200)
         set_access_cookies(response, access_token)
         return response

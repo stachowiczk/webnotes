@@ -22,7 +22,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" exact element={<Homee />} /> //this only checks the
-          current login status and sets state accordingly
+          current login status and sets state accordingly, then should redirect
           <Route path="/login" element={<Login />} />
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
@@ -33,8 +33,8 @@ function App() {
           <Route path="/register" element={<Register />} />
         </Routes>
         <Link to="/login">Login </Link>
-        <Link to="/home">Home</Link>
-        <Link to="/logout">Logout</Link>
+        <Link to="/home">Home </Link>
+        <Link to="/logout">Logout </Link>
       </BrowserRouter>
     </AuthContextProvider>
   );
