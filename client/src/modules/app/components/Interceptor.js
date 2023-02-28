@@ -7,6 +7,9 @@ const http = axios.create({
 http.interceptors.request.use(
     (config) => {
         config.withCredentials = true;
+        config.headers["Content-Type"] = "application/json";
+        config.headers["Access-Control-Allow-Origin"] = "*";
+        config.headers["Access-Control-Allow-Credentials"] = true;
         return config;
     },
     (error) => {

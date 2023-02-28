@@ -2,12 +2,10 @@ import React, { useEffect, useState, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/UserContext";
 import axios from "axios";
-import http from  "./Interceptor"
+import http from "./Interceptor";
 
 function Homee() {
   const { state, dispatch } = useContext(AuthContext);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   async function checkLoggedIn() {
@@ -39,16 +37,10 @@ function Homee() {
     checkLoggedIn();
   }, []);
 
-  if (isLoaded) {
+  if (state.isLoaded) {
     if (state.isAuthenticated === true) {
-      return (
-        <div>
-          <Navigate to="/home" />
-        </div>
-      );
-    } else {
-      return <Navigate to="/login" />;
-    }
+      return (<></>)
+    } 
   } else {
     return <div>Loading...</div>;
   }

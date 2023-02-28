@@ -18,10 +18,10 @@ function TextFeed({ data, dataHasChanged }) {
     makeRows();
   }, []);
 
-  React.useEffect(() => {
-    setRows(data);
-    makeRows();
-  }, [data]);
+  //React.useEffect(() => {
+  //  setRows(data);
+  //  makeRows();
+  //}, [data]);
 
   const refresh = () => {
     setRows(data);

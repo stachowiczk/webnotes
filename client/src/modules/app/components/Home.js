@@ -3,51 +3,36 @@ import { useNavigate, Navigate } from "react-router-dom";
 import Login from "../../common/components/Login.js";
 import Editor from "../../common/components/Editor.js";
 import axios from "axios";
+import http from "./Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
 
 function Home() {
-  const [data, setData] = React.useState();
+  const [data, setData] = React.useState(null);
   const [error, setError] = React.useState(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const [dataHasChanged, setDataHasChanged] = React.useState(true);
+  const [dataHasChanged, setDataHasChanged] = React.useState();
   const [value, setValue] = React.useState("");
   const navigate = useNavigate();
 
   function addUserPost() {
-    axios({
-      method: "post",
-      withCredentials: true,
-      url: "http://localhost:5000/notes/",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": "true",
-      },
-      // set the json data to the value of the text state of react-quill
-      data: JSON.stringify({ title: value, content: value }),
-    })
+    http
+      .post(
+        "http://localhost:5000/notes/",
+        JSON.stringify({ title: value, content: value })
+      )
       .then((res) => {
+        setDataHasChanged(!dataHasChanged);
         getUserPosts();
-      })
-      .then(() => {
-        setDataHasChanged(() => !dataHasChanged);
       });
   }
 
   function getUserPosts() {
-    axios({
-      method: "get",
-      withCredentials: true,
-      url: "http://localhost:5000/notes/",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": "true",
-      },
-    })
+    setIsLoaded(false);
+    http
+      .get("http://localhost:5000/notes/")
       .then((res) => {
         try {
-          setData(res.data);
+          setData((data) => res.data);
           setIsLoaded(true);
         } catch (err) {
           console.log(err);
@@ -60,21 +45,14 @@ function Home() {
   }
 
   function deleteAllPosts() {
-    axios({
-      method: "delete",
-      withCredentials: true,
-      url: "http://localhost:5000/notes/",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": "true",
-      },
-    })
+    http
+      .delete("http://localhost:5000/notes/")
       .then((res) => {
         getUserPosts();
       })
       .then(() => {
-        setDataHasChanged(() => !dataHasChanged);
+        setIsLoaded(false);
+        setDataHasChanged(!dataHasChanged);
       })
       .catch((err) => {
         setIsLoaded(true);
@@ -84,7 +62,8 @@ function Home() {
 
   React.useEffect(() => {
     getUserPosts();
-  }, [dataHasChanged]);
+    console.log("useEffect");
+  }, []);
 
   if (error && error.response.status === 401) {
     return (
@@ -96,8 +75,6 @@ function Home() {
         </div>
       </>
     );
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
   } else {
     return (
       <>
@@ -110,11 +87,15 @@ function Home() {
         <button className="editor" onClick={addUserPost}>
           POST
         </button>
-        <TextFeed
-          className="editor"
-          data={data}
-          dataHasChanged={dataHasChanged}
-        />
+        {isLoaded ? (
+          <TextFeed
+            className="editor"
+            data={data}
+            dataHasChanged={dataHasChanged}
+          />
+        ) : (
+          <div>Loading...</div>
+        )}
       </>
     );
   }
