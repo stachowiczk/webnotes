@@ -1,42 +1,29 @@
 import React from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
-import Login from "../../common/components/Login.js";
 import Editor from "../../common/components/Editor.js";
-import axios from "axios";
 import http from "./Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
 import Menu from "./Menu.js";
 
 function Home() {
-  const [data, setData] = React.useState(null);
   const [error, setError] = React.useState(null);
   const [reloadFeed, setReloadFeed] = React.useState(false);
   const [isLoaded, setIsLoaded] = React.useState(true);
-  const [dataHasChanged, setDataHasChanged] = React.useState();
   const [value, setValue] = React.useState("");
-  const [valueToHttppost, setValueToHttppost] = React.useState("");
-  const [title, setTitle] = React.useState("");
   const navigate = useNavigate();
-  const [prepData, setPrepData] = React.useState({
-    title: "",
-    content: "",
-  });
   const [dropdown, setDropdown] = React.useState(false);
 
   function toggleDropdown() {
     setDropdown(!dropdown);
   }
 
-  
-
   async function addUserPost() {
     await http.post(
       "http://localhost:5000/notes/",
       JSON.stringify({ title: value, content: value })
     );
+    setValue("");
     setReloadFeed(!reloadFeed);
-
-    //getUserPosts();
   }
 
   function deleteAllPosts() {
@@ -53,8 +40,6 @@ function Home() {
         });
     }
   }
-
-
 
   if (error && error.response.status === 401) {
     return (
@@ -85,7 +70,7 @@ function Home() {
           Save
         </button>
         {isLoaded ? (
-          <TextFeed className="editor" reload={reloadFeed}/>
+          <TextFeed className="editor" reload={reloadFeed} />
         ) : (
           <div>Loading...</div>
         )}

@@ -9,3 +9,10 @@ notes_bp.add_url_rule(
     view_func=views.NotesAPI.as_view("notes"),
     methods=["GET", "POST", "DELETE"],
 )
+
+notes_bp.add_url_rule(
+    "/notes/<int:note_id>",
+    view_func=views.NoteAPI.as_view("note"),
+    methods=["GET", "PUT", "DELETE"],
+)
+

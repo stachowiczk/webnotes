@@ -33,8 +33,9 @@ class NotesAPI(MethodView):
     def post(self):
         try:
             req_data = request.get_json()
-            title = req_data["title"]
             content = req_data["content"]
+            title = NotesAPI.set_title(content)
+            content = content[80:]
             identity = get_jwt_identity()
             if not content:
                 content = ""
@@ -57,6 +58,56 @@ class NotesAPI(MethodView):
             session.query(Note).filter_by(user_id=identity).delete()
             session.commit()
             return jsonify({"message": "All notes deleted successfully"}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({"message": "Invalid request"}), 400
+    
+    def set_title(content):
+        if content.__len__() > 80:
+            return content[:80]
+        else:
+            return content
+
+@notes_bp.route("/<int:note_id>", methods=["GET", "PUT", "DELETE"])
+class NoteAPI(MethodView):
+    @cross_origin(supports_credentials=True)
+    @jwt_required()
+    def get(self, note_id):
+        try:
+            identity = get_jwt_identity()
+            session = current_app.db.session
+            note = session.query(Note).filter_by(id=note_id, user_id=identity).one()
+            return jsonify(note.serialize()), 200
+        except Exception as e:
+            print(e)
+            return jsonify({"message": "Invalid request"}), 400
+
+    @cross_origin(supports_credentials=True)
+    @jwt_required()
+    def put(self, note_id):
+        try:
+            identity = get_jwt_identity()
+            session = current_app.db.session
+            note = session.query(Note).filter_by(id=note_id, user_id=identity).one()
+            req_data = request.get_json()
+            note.title = req_data["title"]
+            note.content = req_data["content"]
+            session.commit()
+            return jsonify({"message": "Note updated successfully"}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({"message": "Invalid request"}), 400
+
+    @cross_origin(supports_credentials=True)
+    @jwt_required()
+    def delete(self, note_id):
+        try:
+            identity = get_jwt_identity()
+            session = current_app.db.session
+            note = session.query(Note).filter_by(id=note_id, user_id=identity).one()
+            session.delete(note)
+            session.commit()
+            return jsonify({"message": "Note deleted successfully"}), 200
         except Exception as e:
             print(e)
             return jsonify({"message": "Invalid request"}), 400

@@ -20,8 +20,6 @@ code {
   width: 33vw;
   margin-left: 33vw;
   margin-right: 33vw;
-
-  
 }
 
 .user-button {
@@ -36,5 +34,4 @@ code {
   color: hsl(60, 1%, 81%);
   font-size: 1rem;
   cursor: pointer;
-
 }

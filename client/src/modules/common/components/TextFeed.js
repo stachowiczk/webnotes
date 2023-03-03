@@ -2,7 +2,6 @@ import React from "react";
 import DOMPurify from "dompurify";
 import Entry from "./Entry";
 import http from "../../app/components/Interceptor";
-import { displayName } from "react-quill";
 
 function TextFeed({ reload }) {
   const [rows, setRows] = React.useState([]);
@@ -35,26 +34,12 @@ function TextFeed({ reload }) {
     getUserPosts();
   }, [reload]);
 
-
-  //React.useEffect(() => {
-    //setRows(data);
-    //makeRows();
-  //}, []);
-
-  //React.useEffect(() => {
-  //  setRows(data);
-  //  makeRows();
-  //}, [data]);
-
-  //const refresh = () => {
-    //setRows(data);
-  //};
-  //TODO: make this a comp
   const makeRows = () => {
     try {
       return data.map((row, index) => (
         <Entry
           key={index}
+          noteId={row.id}
           created_at={row.created_at}
           title={DOMPurify.sanitize(row.title)} // IMPORTANT
           content={DOMPurify.sanitize(row.content)} // IMPORTANT
@@ -64,14 +49,11 @@ function TextFeed({ reload }) {
       console.log(error);
       return <div className="editor">No data</div>;
     }
-    // return rows.map((row, index) => (
-    //   <Entry key={index} created_at={row.created_at} title={DOMPurify.sanitize(row.title)} />
-    // ));
   };
 
   if (!isLoaded) {
     return <div className="editor">Loading...</div>;
-  } else if (!rows) {
+  } else if (!data) {
     return <div className="editor">No data</div>;
   } else {
     return (

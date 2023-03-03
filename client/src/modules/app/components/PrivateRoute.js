@@ -7,8 +7,11 @@ const PrivateRoute = () => {
   return state.isAuthenticated ? <Outlet /> : <Navigate to="/" />;
 };
 
-//syntax: <Route  element={<PrivateRoute/>} />
-//        <Route path"/path" element={<ProtectedElementHere/>} />
-//        </Route>
+// the "/" path checks login status and applies the appropriate redirect
+
+//syntax/how to use:
+// <Route  element={<PrivateRoute/>} />
+//   <Route path"/path" element={<ProtectedElementHere/>} />
+// </Route>
 
 export default PrivateRoute;
