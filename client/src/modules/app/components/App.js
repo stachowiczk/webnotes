@@ -32,9 +32,6 @@ function App() {
           </Route>
           <Route path="/register" element={<Register />} />
         </Routes>
-        <Link to="/login">Login </Link>
-        <Link to="/home">Home </Link>
-        <Link to="/logout">Logout </Link>
       </BrowserRouter>
     </AuthContextProvider>
   );

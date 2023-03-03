@@ -23,3 +23,18 @@ code {
 
   
 }
+
+.user-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1rem;
+  padding: 0.5rem;
+  border: 1px solid hsl(60, 1%, 81%);
+  border-radius: 0.5rem;
+  background-color: hsl(230, 15%, 16%);
+  color: hsl(60, 1%, 81%);
+  font-size: 1rem;
+  cursor: pointer;
+
+}

@@ -36,7 +36,6 @@ class NotesAPI(MethodView):
             title = req_data["title"]
             content = req_data["content"]
             identity = get_jwt_identity()
-
             if not content:
                 content = ""
             note = Note(title=title, content=content, user_id=identity)
@@ -45,6 +44,9 @@ class NotesAPI(MethodView):
             return jsonify({"message": "Note created successfully"}), 201
         except KeyError:
             return jsonify({"message": "Invalid request"}), 400
+        except Exception as e:
+            print(e)
+            return jsonify({"message": "required title"}), 400
 
     @cross_origin(supports_credentials=True)
     @jwt_required()

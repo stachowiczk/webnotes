@@ -1,69 +1,60 @@
 import React from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
 import Login from "../../common/components/Login.js";
 import Editor from "../../common/components/Editor.js";
 import axios from "axios";
 import http from "./Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
+import Menu from "./Menu.js";
 
 function Home() {
   const [data, setData] = React.useState(null);
   const [error, setError] = React.useState(null);
-  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [reloadFeed, setReloadFeed] = React.useState(false);
+  const [isLoaded, setIsLoaded] = React.useState(true);
   const [dataHasChanged, setDataHasChanged] = React.useState();
   const [value, setValue] = React.useState("");
+  const [valueToHttppost, setValueToHttppost] = React.useState("");
+  const [title, setTitle] = React.useState("");
   const navigate = useNavigate();
+  const [prepData, setPrepData] = React.useState({
+    title: "",
+    content: "",
+  });
+  const [dropdown, setDropdown] = React.useState(false);
 
-  function addUserPost() {
-    http
-      .post(
-        "http://localhost:5000/notes/",
-        JSON.stringify({ title: value, content: value })
-      )
-      .then((res) => {
-        setDataHasChanged(!dataHasChanged);
-        getUserPosts();
-      });
+  function toggleDropdown() {
+    setDropdown(!dropdown);
   }
 
-  function getUserPosts() {
-    setIsLoaded(false);
-    http
-      .get("http://localhost:5000/notes/")
-      .then((res) => {
-        try {
-          setData((data) => res.data);
-          setIsLoaded(true);
-        } catch (err) {
-          console.log(err);
-        }
-      })
-      .catch((err) => {
-        setIsLoaded(true);
-        setError(err);
-      });
+  
+
+  async function addUserPost() {
+    await http.post(
+      "http://localhost:5000/notes/",
+      JSON.stringify({ title: value, content: value })
+    );
+    setReloadFeed(!reloadFeed);
+
+    //getUserPosts();
   }
 
   function deleteAllPosts() {
-    http
-      .delete("http://localhost:5000/notes/")
-      .then((res) => {
-        getUserPosts();
-      })
-      .then(() => {
-        setIsLoaded(false);
-        setDataHasChanged(!dataHasChanged);
-      })
-      .catch((err) => {
-        setIsLoaded(true);
-        setError(err);
-      });
+    if (window.confirm("Are you sure you want to delete all posts?")) {
+      http
+        .delete("http://localhost:5000/notes/")
+        .then(setReloadFeed(!reloadFeed))
+        .then(() => {
+          setIsLoaded(true);
+        })
+        .catch((err) => {
+          setIsLoaded(true);
+          setError(err);
+        });
+    }
   }
 
-  React.useEffect(() => {
-    getUserPosts();
-    console.log("useEffect");
-  }, []);
+
 
   if (error && error.response.status === 401) {
     return (
@@ -78,21 +69,23 @@ function Home() {
   } else {
     return (
       <>
+        <div>
+          <button className="user-button" onClick={toggleDropdown}>
+            user
+          </button>
+          {dropdown && <Menu />}
+        </div>
         <div className="editor">
           <Editor value={value} setValue={setValue} />
         </div>
         <button className="editor" onClick={deleteAllPosts}>
-          CLEAR ALL
+          Clear all data
         </button>
         <button className="editor" onClick={addUserPost}>
-          POST
+          Save
         </button>
         {isLoaded ? (
-          <TextFeed
-            className="editor"
-            data={data}
-            dataHasChanged={dataHasChanged}
-          />
+          <TextFeed className="editor" reload={reloadFeed}/>
         ) : (
           <div>Loading...</div>
         )}

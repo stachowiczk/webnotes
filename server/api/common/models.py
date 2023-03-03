@@ -12,6 +12,8 @@ class Note(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     folder_id = db.Column(db.Integer, db.ForeignKey("folders.id"), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    
+
 
     def __repr__(self):
         return f"Note id: {self.id}, title: {self.title}"
