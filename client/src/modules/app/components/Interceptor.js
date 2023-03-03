@@ -19,18 +19,15 @@ http.interceptors.request.use(
 
 http.interceptors.response.use(
     response => response,
-    error => {
+    async error => {
         const originalRequest = error.config;
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
-            return axios.put('http://localhost:5000/auth/login', null, 
-                {withCredentials: true})
-                .then(res => {
-                    if (res.status === 200) {
-                        return http(originalRequest);
-                    }
-                }
-            );
+            const res = await axios.put('http://localhost:5000/auth/login', null,
+                { withCredentials: true });
+            if (res.status === 200) {
+                return http(originalRequest);
+            }
         }
         return Promise.reject(error);
     }

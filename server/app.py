@@ -35,7 +35,7 @@ app.add_url_rule(
 )
 
 app.add_url_rule(
-    "/notes/<int:note_id>",
+    "/notes/<string:note_id>",
     view_func=cv.NoteAPI.as_view("note"),
     methods=["GET", "PUT", "DELETE"],
 )

@@ -68,7 +68,7 @@ class NotesAPI(MethodView):
         else:
             return content
 
-@notes_bp.route("/<int:note_id>", methods=["GET", "PUT", "DELETE"])
+@notes_bp.route("/<string:note_id>", methods=["GET", "PUT", "DELETE"])
 class NoteAPI(MethodView):
     @cross_origin(supports_credentials=True)
     @jwt_required()
