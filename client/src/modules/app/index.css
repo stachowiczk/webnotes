@@ -17,15 +17,53 @@ code {
 }
 
 .editor {
-  width: 33vw;
-  margin-left: 33vw;
-  margin-right: 33vw;
+  margin-top: 10vh;
+  flex: 1;
+  margin-right: 5vw;
+  overflow-y: scroll;
 }
 
-.user-button {
+.editor-actual * {
+  border: 0px solid black;
+}
+
+.submit-button {
+  width: 20%;
+  margin-left: 80%;
+  margin-top: 1rem;
+  margin-right: 0;
+  padding: 0.5rem;
+  border: 1px solid hsl(60, 1%, 81%);
+  border-radius: 0.5rem;
+  background-color: hsl(230, 15%, 16%);
+  color: hsl(60, 1%, 81%);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.x-button {
+  border-radius: 0.6em;
+  background: none;
+  color: antiquewhite;
+  border: none;
   position: absolute;
   top: 0;
   right: 0;
+  margin: 0.1rem;
+
+}
+.entry-main {
+  border: 1px solid hsl(60, 1%, 81%);
+  border-radius: 0.6em;
+  padding: 1em;
+  padding-top: 0.1em;
+  margin: 2rem;
+  position: relative;
+}
+.user-button {
+  position: absolute;
+  top: 0;
+  left: 0;
   margin: 1rem;
   padding: 0.5rem;
   border: 1px solid hsl(60, 1%, 81%);
@@ -34,4 +72,27 @@ code {
   color: hsl(60, 1%, 81%);
   font-size: 1rem;
   cursor: pointer;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding-right: 10vw;
+}
+
+.item-list {
+  flex: 1;
+  max-width: 70%;
+  padding-left: 10vw;
+  overflow-y: scroll;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

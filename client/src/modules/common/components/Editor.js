@@ -2,8 +2,7 @@ import React from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-function Editor({ value, setValue} ) {
-
+function Editor({ value, setValue }) {
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -51,14 +50,16 @@ function Editor({ value, setValue} ) {
 
   return (
     <>
-      <ReactQuill
-        theme="snow"
-        value={value}
-        onChange={handleChange}
-        modules={modules}
-        formats={formats}
-        placeholder={placeholder}
-      />
+      <div style={{ maxHeight: "60vh" }}>
+        <ReactQuill
+          theme={"snow"}
+          value={value}
+          onChange={handleChange}
+          modules={modules}
+          formats={formats}
+          placeholder={placeholder}
+        />
+      </div>
     </>
   );
 }

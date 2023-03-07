@@ -1,10 +1,9 @@
 from datetime import datetime
-from flask_login import UserMixin, LoginManager
+from flask_login import UserMixin
 from flask_jwt_extended import create_access_token, create_refresh_token
 from sqlalchemy.orm import relationship
-from sqlalchemy import ForeignKey, Column, Integer, String, DateTime
 from api.db import db
-from flask import current_app, jsonify
+from flask import jsonify
 
 
 class User(UserMixin, db.Model):

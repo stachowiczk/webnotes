@@ -1,11 +1,5 @@
-import React, { useEffect } from "react";
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  Link,
-  useLocation,
-} from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthContextProvider } from "../context/UserContext";
 import PrivateRoute from "./PrivateRoute";
 import Homee from "./Homee";
@@ -13,8 +7,6 @@ import Home from "./Home";
 import Login from "../../common/components/Login";
 import Register from "../../common/components/Register";
 import Logout from "../../common/components/Logout";
-import Editor from "../../common/components/Editor";
-import axios from "axios";
 
 function App() {
   return (

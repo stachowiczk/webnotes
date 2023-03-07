@@ -4,7 +4,6 @@ import Entry from "./Entry";
 import http from "../../app/components/Interceptor";
 
 function TextFeed({ reload }) {
-  const [rows, setRows] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [data, setData] = React.useState(null);
   const [error, setError] = React.useState(null);

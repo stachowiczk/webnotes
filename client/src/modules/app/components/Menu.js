@@ -6,7 +6,7 @@ function Menu() {
     const { state, dispatch } = useContext(AuthContext);
   return (
     <div className="user-button" style={{position: 'absolute', top: '1%', border: 'none', background: 'none'}}>
-        <div style={{position: 'absolute', left: '-200%', top: '150%'}}>
+        <div style={{position: 'absolute', left: '0', top: '170%'}}>
             <>
                 {state.isAuthenticated ? null : <Link to="/login">Login </Link>}
             </>

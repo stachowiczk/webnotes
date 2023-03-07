@@ -1,6 +1,5 @@
-from flask_login import login_required, current_user
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask import request, jsonify, current_app, Response, make_response
+from flask import request, jsonify, current_app, make_response
 from flask_cors import cross_origin
 from flask.views import MethodView
 from api.common.models import Note
@@ -35,7 +34,6 @@ class NotesAPI(MethodView):
             req_data = request.get_json()
             content = req_data["content"]
             title = NotesAPI.set_title(content)
-            content = content[80:]
             identity = get_jwt_identity()
             if not content:
                 content = ""
@@ -63,10 +61,13 @@ class NotesAPI(MethodView):
             return jsonify({"message": "Invalid request"}), 400
     
     def set_title(content):
-        if content.__len__() > 80:
-            return content[:80]
-        else:
-            return content
+        first_50 = content[:30]
+        next_space = content[30:].find(" ")
+        if not next_space:
+            next_space = content[30:].find("<p>")
+        if next_space == -1:
+            return first_50
+        return content[:30 + next_space]
 
 @notes_bp.route("/<string:note_id>", methods=["GET", "PUT", "DELETE"])
 class NoteAPI(MethodView):

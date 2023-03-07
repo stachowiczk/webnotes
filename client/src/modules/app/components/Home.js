@@ -60,20 +60,24 @@ function Home() {
           </button>
           {dropdown && <Menu />}
         </div>
-        <div className="editor">
-          <Editor value={value} setValue={setValue} />
+        <div className="main-container">
+          <div className="item-list">
+            {isLoaded ? (
+              <TextFeed className="item-list" reload={reloadFeed} />
+            ) : (
+              <div>Loading...</div>
+            )}
+          </div>
+          <div className="editor">
+            <Editor value={value} setValue={setValue} />
+            <button className="submit-button" onClick={deleteAllPosts}>
+              Clear all data
+            </button>
+            <button className="submit-button" onClick={addUserPost}>
+              Save
+            </button>
+          </div>
         </div>
-        <button className="editor" onClick={deleteAllPosts}>
-          Clear all data
-        </button>
-        <button className="editor" onClick={addUserPost}>
-          Save
-        </button>
-        {isLoaded ? (
-          <TextFeed className="editor" reload={reloadFeed} />
-        ) : (
-          <div>Loading...</div>
-        )}
       </>
     );
   }

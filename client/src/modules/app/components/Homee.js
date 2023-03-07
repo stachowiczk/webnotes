@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/UserContext";
-import axios from "axios";
 import http from "./Interceptor";
 
 function Homee() {
@@ -39,8 +38,8 @@ function Homee() {
 
   if (state.isLoaded) {
     if (state.isAuthenticated === true) {
-      return (<></>)
-    } 
+      return <></>;
+    }
   } else {
     return <div>Loading...</div>;
   }
