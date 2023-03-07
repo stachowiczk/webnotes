@@ -1,26 +1,46 @@
 import { useState, useEffect} from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setCurrentEditorState } from "../slices/editorSlice";
 import ReactQuill, { Quill } from "react-quill";
-import { Editor, EditorState, RichUtils } from "draft-js";
 import "react-quill/dist/quill.snow.css";
 
-function EditorComponent() {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const dispatch = useDispatch();
-  const currentEditorState = useSelector(
-    (state) => state.editor.currentEditorStateString
-  );
+function EditorComponent({value, setValue}) {
 
-  useEffect(() => {
-    dispatch(setCurrentEditorState(editorState));
-  }, [editorState]);
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+      ],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
+  };
+  
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "link",
+    "image",
+    "video",
+  ];
+
 
 
   return (
     <>
       <div style={{ maxHeight: "60vh" }}>
-        <Editor editorState={editorState} onChange={setEditorState} />
+        <ReactQuill
+          theme="snow"
+          modules={modules}
+          formats={formats}
+          value={value}
+          onChange={setValue}
+        />
       </div>
     </>
   );

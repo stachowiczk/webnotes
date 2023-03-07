@@ -4,18 +4,13 @@ import EditorComponent from "../../common/components/Editor.js";
 import http from "../../auth/components/Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
 import Menu from "./Menu.js";
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentEditorState } from "../../common/slices/editorSlice.js";
 
 function Home() {
   const [error, setError] = React.useState(null);
   const [reloadFeed, setReloadFeed] = React.useState(false);
   const [isLoaded, setIsLoaded] = React.useState(true);
   const [dropdown, setDropdown] = React.useState(false);
-  const state = useSelector(
-    (state) => state.editor
-  );
-  const [data, setData] = React.useState(state);
+  const [value, setValue] = React.useState("");
   
 
 
@@ -27,10 +22,11 @@ function Home() {
     await http.post(
       "http://localhost:5000/notes/",
       JSON.stringify({
-        content: state.currentEditorStateString.blocks[0].text,
+        title: value,
+        content: value,
       }),
-
     );
+    setValue("");
     setReloadFeed(!reloadFeed);
   }
 
@@ -77,7 +73,7 @@ function Home() {
             )}
           </div>
           <div className="editor">
-            <EditorComponent />
+            <EditorComponent value={value} setValue={setValue}/>
             <button className="submit-button" onClick={deleteAllPosts}>
               Clear all data
             </button>

@@ -69,7 +69,7 @@ function TextFeed({ reload }) {
     } else {
       for (let i = 0; i < entries.length; i++) {
         if (entries[i].isExpanded) {
-          dispatch(setExpanded(i));
+          dispatch(setExpanded(i, false));
         }
       }
       setExpandButton(true);
