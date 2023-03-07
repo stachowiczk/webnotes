@@ -1,12 +1,17 @@
 import React from "react";
 import DOMPurify from "dompurify";
 import Entry from "./Entry";
-import http from "../../app/components/Interceptor";
+import { useSelector, useDispatch } from "react-redux";
+import { setEntries, expandAll, collapseAll, setIsLoaded, setError, setExpanded } from "../slices/feedSlice";
+import http from "../../auth/components/Interceptor";
 
 function TextFeed({ reload }) {
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [data, setData] = React.useState(null);
+  const [expandButton, setExpandButton] = React.useState(true);
   const [error, setError] = React.useState(null);
+  const entries = useSelector((state) => state.feed.entries);
+  const dispatch = useDispatch();
 
   function getUserPosts() {
     http
@@ -14,6 +19,7 @@ function TextFeed({ reload }) {
       .then((res) => {
         try {
           setData((data) => res.data);
+          dispatch(setEntries(res.data));
           setIsLoaded(true);
         } catch (err) {
           console.log(err);
@@ -35,9 +41,10 @@ function TextFeed({ reload }) {
 
   const makeRows = () => {
     try {
-      return data.map((row, index) => (
+      return entries.map((row, index) => (
         <Entry
           key={index}
+          keyProp={index}
           noteId={row.id}
           created_at={row.created_at}
           title={DOMPurify.sanitize(row.title)} // IMPORTANT
@@ -50,6 +57,31 @@ function TextFeed({ reload }) {
     }
   };
 
+  const entryComponents = [makeRows()]
+
+  const toggleExpand = () => {
+    if (expandButton) {
+      for (let i = 0; i < entries.length; i++) {
+        dispatch(setExpanded(i, true));
+
+      }
+      setExpandButton(false);
+    } else {
+      for (let i = 0; i < entries.length; i++) {
+        if (entries[i].isExpanded) {
+          dispatch(setExpanded(i));
+        }
+      }
+      setExpandButton(true);
+    }
+  };
+
+    
+
+
+
+
+
   if (!isLoaded) {
     return <div className="editor">Loading...</div>;
   } else if (!data) {
@@ -57,7 +89,12 @@ function TextFeed({ reload }) {
   } else {
     return (
       <>
-        <div className="editor">{makeRows()}</div>
+        <div className="editor">
+          <button onClick={toggleExpand} className="expand-button">
+            {expandButton ? "Expand All" : "Collapse All"}
+          </button>
+          </div>
+        <div className="editor">{entryComponents}</div>
       </>
     );
   }

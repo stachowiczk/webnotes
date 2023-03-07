@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/UserContext";
-import http from "./Interceptor";
+import { AuthContext } from "../../auth/context/UserContext";
+import http from "../../auth/components/Interceptor";
 
 function Homee() {
   const { state, dispatch } = useContext(AuthContext);

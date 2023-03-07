@@ -1,6 +1,6 @@
 import { useContext}from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../context/UserContext'
+import { AuthContext } from '../../auth/context/UserContext'
 
 function Menu() {
     const { state, dispatch } = useContext(AuthContext);

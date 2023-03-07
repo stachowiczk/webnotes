@@ -1,67 +1,29 @@
-import React from "react";
-import ReactQuill from "react-quill";
+import { useState, useEffect} from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setCurrentEditorState } from "../slices/editorSlice";
+import ReactQuill, { Quill } from "react-quill";
+import { Editor, EditorState, RichUtils } from "draft-js";
 import "react-quill/dist/quill.snow.css";
 
-function Editor({ value, setValue }) {
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      [{ font: [] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ color: [] }, { background: [] }],
-      [{ script: "sub" }, { script: "super" }],
-      [{ align: [] }],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["blockquote", "code-block"],
-      ["link", "image"],
-      ["clean"],
-    ],
-  };
-  const formats = [
-    "header",
-    "font",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "color",
-    "background",
-    "script",
-    "align",
-    "list",
-    "bullet",
-    "indent",
-    "blockquote",
-    "code-block",
-    "link",
-    "image",
-  ];
+function EditorComponent() {
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const dispatch = useDispatch();
+  const currentEditorState = useSelector(
+    (state) => state.editor.currentEditorStateString
+  );
 
-  const placeholder = "New note...";
+  useEffect(() => {
+    dispatch(setCurrentEditorState(editorState));
+  }, [editorState]);
 
-  const handleChange = (value) => {
-    setValue(value);
-  };
 
   return (
     <>
       <div style={{ maxHeight: "60vh" }}>
-        <ReactQuill
-          theme={"snow"}
-          value={value}
-          onChange={handleChange}
-          modules={modules}
-          formats={formats}
-          placeholder={placeholder}
-        />
+        <Editor editorState={editorState} onChange={setEditorState} />
       </div>
     </>
   );
 }
 
-export default Editor;
+export default EditorComponent;

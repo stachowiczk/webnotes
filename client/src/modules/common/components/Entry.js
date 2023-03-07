@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
-import http from "../../app/components/Interceptor";
+import { useSelector, useDispatch } from "react-redux";
+import http from "../../auth/components/Interceptor";
+import { setExpanded } from "../slices/feedSlice";
 
-function Entry({ noteId, title, content, created_at }) {
+
+function Entry({ keyProp, noteId, title, content, created_at}) {
   const [reload, setReload] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const data = useSelector((state) => state.feed.entries);
+  const dispatch = useDispatch();
+  
   created_at = created_at.slice(0, 17);
 
   async function deleteNoteById() {
@@ -14,8 +19,9 @@ function Entry({ noteId, title, content, created_at }) {
   }
 
   function toggleExpanded() {
-    setIsExpanded(!isExpanded);
+    dispatch(setExpanded(keyProp));
   }
+
 
   if (reload) {
     return;
@@ -24,11 +30,11 @@ function Entry({ noteId, title, content, created_at }) {
       <>
         <div onClick={toggleExpanded} className="entry-main" style={{cursor: "pointer"}}>
           <div>
-            <button className="x-button" onClick={deleteNoteById}> x </button>
+            <button type="delete" className="x-button" onClick={deleteNoteById}> x </button>
           </div>
-          <div style={{marginTop: "0em", display: isExpanded ? "none" : "block"}}dangerouslySetInnerHTML={{ __html: title }} />
+          <div style={{marginTop: "0em", display: data[keyProp].isExpanded ? "none" : "block"}}dangerouslySetInnerHTML={{ __html: title }} />
           <div
-            style={{ display: isExpanded ? "block" : "none", cursor: "pointer" }}
+            style={{ display: data[keyProp].isExpanded ? "block" : "none", cursor: "pointer" }}
             dangerouslySetInnerHTML={{ __html: content }}
           />
           <span

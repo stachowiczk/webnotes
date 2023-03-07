@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../app/context/UserContext";
+import { AuthContext } from "../context/UserContext";
 
 function Logout() {
   const { state, dispatch } = useContext(AuthContext);

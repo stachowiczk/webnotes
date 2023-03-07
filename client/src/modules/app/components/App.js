@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { AuthContextProvider } from "../context/UserContext";
-import PrivateRoute from "./PrivateRoute";
+import { AuthContextProvider } from "../../auth/context/UserContext";
+import PrivateRoute from "../../auth/components/PrivateRoute";
 import Homee from "./Homee";
 import Home from "./Home";
-import Login from "../../common/components/Login";
-import Register from "../../common/components/Register";
-import Logout from "../../common/components/Logout";
+import Login from "../../auth/components/Login";
+import Register from "../../auth/components/Register";
+import Logout from "../../auth/components/Logout";
 
 function App() {
   return (

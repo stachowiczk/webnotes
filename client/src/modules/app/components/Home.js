@@ -1,17 +1,23 @@
 import React from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
-import Editor from "../../common/components/Editor.js";
-import http from "./Interceptor";
+import EditorComponent from "../../common/components/Editor.js";
+import http from "../../auth/components/Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
 import Menu from "./Menu.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentEditorState } from "../../common/slices/editorSlice.js";
 
 function Home() {
   const [error, setError] = React.useState(null);
   const [reloadFeed, setReloadFeed] = React.useState(false);
   const [isLoaded, setIsLoaded] = React.useState(true);
-  const [value, setValue] = React.useState("");
-  const navigate = useNavigate();
   const [dropdown, setDropdown] = React.useState(false);
+  const state = useSelector(
+    (state) => state.editor
+  );
+  const [data, setData] = React.useState(state);
+  
+
 
   function toggleDropdown() {
     setDropdown(!dropdown);
@@ -20,9 +26,11 @@ function Home() {
   async function addUserPost() {
     await http.post(
       "http://localhost:5000/notes/",
-      JSON.stringify({ title: value, content: value })
+      JSON.stringify({
+        content: state.currentEditorStateString.blocks[0].text,
+      }),
+
     );
-    setValue("");
     setReloadFeed(!reloadFeed);
   }
 
@@ -69,7 +77,7 @@ function Home() {
             )}
           </div>
           <div className="editor">
-            <Editor value={value} setValue={setValue} />
+            <EditorComponent />
             <button className="submit-button" onClick={deleteAllPosts}>
               Clear all data
             </button>
