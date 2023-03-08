@@ -60,7 +60,7 @@ class NotesAPI(MethodView):
         except Exception as e:
             print(e)
             return jsonify({"message": "Invalid request"}), 400
-    
+
     def set_title(content):
         first_50 = content[:30]
         next_space = content[30:].find(" ")
@@ -69,8 +69,8 @@ class NotesAPI(MethodView):
         if next_space == -1:
             return first_50
         else:
-            title_line = content[:30 + next_space]
-            stripped_title = re.sub(r'$+[^/w/s]+$', "", title_line)
+            title_line = content[: 30 + next_space]
+            stripped_title = re.sub(r"$+[^/w/s]+$", "", title_line)
         return stripped_title
 
 

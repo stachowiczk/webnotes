@@ -11,8 +11,6 @@ function Home() {
   const [isLoaded, setIsLoaded] = React.useState(true);
   const [dropdown, setDropdown] = React.useState(false);
   const [value, setValue] = React.useState("");
-  
-
 
   function toggleDropdown() {
     setDropdown(!dropdown);
@@ -24,7 +22,7 @@ function Home() {
       JSON.stringify({
         title: value,
         content: value,
-      }),
+      })
     );
     setValue("");
     setReloadFeed(!reloadFeed);
@@ -73,7 +71,7 @@ function Home() {
             )}
           </div>
           <div className="editor">
-            <EditorComponent value={value} setValue={setValue}/>
+            <EditorComponent value={value} setValue={setValue} />
             <button className="submit-button" onClick={deleteAllPosts}>
               Clear all data
             </button>

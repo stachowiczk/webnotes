@@ -28,8 +28,9 @@ export const feedSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
-    setExpanded: (state, action ) => {
-      state.entries[action.payload].isExpanded = !state.entries[action.payload].isExpanded;
+    setExpanded: (state, action) => {
+      state.entries[action.payload].isExpanded =
+        !state.entries[action.payload].isExpanded;
     },
     expandAll: (state) => {
       state.entries.forEach((entry) => {
@@ -37,11 +38,10 @@ export const feedSlice = createSlice({
       });
     },
     collapseAll: (state) => {
-        state.entries.forEach((entry) => {
-            entry.isExpanded = false;
-        });
-        },
-
+      state.entries.forEach((entry) => {
+        entry.isExpanded = false;
+      });
+    },
   },
 });
 

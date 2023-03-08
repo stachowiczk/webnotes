@@ -15,4 +15,3 @@ notes_bp.add_url_rule(
     view_func=views.NoteAPI.as_view("note"),
     methods=["GET", "PUT", "DELETE"],
 )
-
