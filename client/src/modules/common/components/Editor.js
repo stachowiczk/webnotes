@@ -1,6 +1,7 @@
 import { useState, useEffect} from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import "../../app/index.css";
 
 function EditorComponent({value, setValue}) {
 
@@ -14,6 +15,9 @@ function EditorComponent({value, setValue}) {
       ["link", "image", "video"],
       ["clean"],
     ],
+   
+
+
   };
   
   const formats = [
@@ -29,17 +33,25 @@ function EditorComponent({value, setValue}) {
     "video",
   ];
 
+  const styles = {
+    border: "none",
+    outline: "none",
+    fontSize: "1.5em",
+  };
+
 
 
   return (
     <>
-      <div style={{ maxHeight: "60vh" }}>
+      <div id="quill" style={{ maxHeight: "60vh" }}>
         <ReactQuill
+          style={{border: "none", outline: "none"}}
           theme="snow"
           modules={modules}
           formats={formats}
           value={value}
           onChange={setValue}
+          Quill={Quill}
         />
       </div>
     </>

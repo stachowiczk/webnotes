@@ -28,10 +28,20 @@ export const feedSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
-    setExpanded: (state, action) => {
-      state.entries[action.payload].isExpanded =
-        !state.entries[action.payload].isExpanded;
+    setExpanded: (state, action ) => {
+      state.entries[action.payload].isExpanded = !state.entries[action.payload].isExpanded;
     },
+    expandAll: (state) => {
+      state.entries.forEach((entry) => {
+        entry.isExpanded = true;
+      });
+    },
+    collapseAll: (state) => {
+        state.entries.forEach((entry) => {
+            entry.isExpanded = false;
+        });
+        },
+
   },
 });
 

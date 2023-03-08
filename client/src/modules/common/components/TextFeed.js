@@ -62,14 +62,14 @@ function TextFeed({ reload }) {
   const toggleExpand = () => {
     if (expandButton) {
       for (let i = 0; i < entries.length; i++) {
-        dispatch(setExpanded(i, true));
+        dispatch(expandAll());
 
       }
       setExpandButton(false);
     } else {
       for (let i = 0; i < entries.length; i++) {
         if (entries[i].isExpanded) {
-          dispatch(setExpanded(i, false));
+          dispatch(collapseAll());
         }
       }
       setExpandButton(true);

@@ -27,6 +27,17 @@ code {
   border: 0px solid black;
 }
 
+.ql-container.ql-snow {
+  border: none;
+}
+
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  border: none;
+}
+
+div.ql-toolbar.ql-snow {
+  border: none;
+}
 .submit-button {
   width: 20%;
   margin-left: 80%;
