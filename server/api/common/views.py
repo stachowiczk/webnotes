@@ -4,6 +4,7 @@ from flask_cors import cross_origin
 from flask.views import MethodView
 from api.common.models import Note
 from api.common import notes_bp
+import re
 
 
 @notes_bp.route("/", methods=["GET", "POST", "DELETE"])
@@ -67,7 +68,11 @@ class NotesAPI(MethodView):
             next_space = content[30:].find("<p>")
         if next_space == -1:
             return first_50
-        return content[:30 + next_space]
+        else:
+            title_line = content[:30 + next_space]
+            stripped_title = re.sub(r'$+[^/w/s]+$', "", title_line)
+        return stripped_title
+
 
 @notes_bp.route("/<string:note_id>", methods=["GET", "PUT", "DELETE"])
 class NoteAPI(MethodView):
