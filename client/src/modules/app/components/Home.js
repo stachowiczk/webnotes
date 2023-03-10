@@ -72,10 +72,12 @@ function Home() {
           </div>
           <div className="editor">
             <EditorComponent value={value} setValue={setValue} />
+          </div>
+          <div className="submit-button-container">
             <button className="submit-button" onClick={deleteAllPosts}>
               Clear all data
             </button>
-            <button className="submit-button" onClick={addUserPost}>
+            <button className="submit-button" onClick={addUserPost} style={{}}>
               Save
             </button>
           </div>

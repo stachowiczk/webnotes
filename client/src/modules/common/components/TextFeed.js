@@ -2,7 +2,14 @@ import React from "react";
 import DOMPurify from "dompurify";
 import Entry from "./Entry";
 import { useSelector, useDispatch } from "react-redux";
-import { setEntries, expandAll, collapseAll, setIsLoaded, setError, setExpanded } from "../slices/feedSlice";
+import {
+  setEntries,
+  expandAll,
+  collapseAll,
+  setIsLoaded,
+  setError,
+  setExpanded,
+} from "../slices/feedSlice";
 import http from "../../auth/components/Interceptor";
 
 function TextFeed({ reload }) {
@@ -57,13 +64,12 @@ function TextFeed({ reload }) {
     }
   };
 
-  const entryComponents = [makeRows()]
+  const entryComponents = [makeRows()];
 
   const toggleExpand = () => {
     if (expandButton) {
       for (let i = 0; i < entries.length; i++) {
         dispatch(expandAll());
-
       }
       setExpandButton(false);
     } else {
@@ -76,12 +82,6 @@ function TextFeed({ reload }) {
     }
   };
 
-    
-
-
-
-
-
   if (!isLoaded) {
     return <div className="editor">Loading...</div>;
   } else if (!data) {
@@ -93,7 +93,7 @@ function TextFeed({ reload }) {
           <button onClick={toggleExpand} className="expand-button">
             {expandButton ? "Expand All" : "Collapse All"}
           </button>
-          </div>
+        </div>
         <div className="editor">{entryComponents}</div>
       </>
     );

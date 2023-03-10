@@ -70,7 +70,7 @@ class NotesAPI(MethodView):
             return first_50
         else:
             title_line = content[: 30 + next_space]
-            stripped_title = re.sub(r"$+[^/w/s]+$", "", title_line)
+            stripped_title = re.sub(r"[^/w/s]+$", "", title_line)
         return stripped_title
 
 

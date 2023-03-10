@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from flask_jwt_extended import create_access_token, create_refresh_token
 from sqlalchemy.orm import relationship
 from api.db import db
+import uuid
 from flask import jsonify
 
 
@@ -13,6 +14,11 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     notes = relationship("Note", backref="user", lazy=True)
+    shared_notes = relationship("SharedNote", secondary="shared_notes", backref="shared_with")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.id = str(uuid.uuid4())
 
     def generate_token(self, identity):
         access_token = create_access_token(identity=identity)
@@ -29,6 +35,14 @@ class User(UserMixin, db.Model):
             "created_at": self.created_at,
             "notes": [note.serialize() for note in self.notes],
         }
+
+    def share_note_with(self, note, user):
+        if note.user_is == self.id:
+            note.shared_with.append(user)
+            db.session.commit()
+            return True
+        return False
+
 
     def __repr__(self):
         return "%d%s" % (self.id, self.username)
