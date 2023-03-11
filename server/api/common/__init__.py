@@ -15,3 +15,9 @@ notes_bp.add_url_rule(
     view_func=views.NoteAPI.as_view("note"),
     methods=["GET", "PUT", "DELETE"],
 )
+
+notes_bp.add_url_rule(
+    "/notes/share/<string:note_id>",
+    view_func=views.ShareAPI.as_view("share"),
+    methods=["POST", "GET", "DELETE"],
+)

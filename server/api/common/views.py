@@ -117,3 +117,7 @@ class NoteAPI(MethodView):
         except Exception as e:
             print(e)
             return jsonify({"message": "Invalid request"}), 400
+
+@notes_bp.route("/share/<string:note_id>", methods=["POST", "GET", "DELETE"])
+class ShareAPI(MethodView):
+    pass

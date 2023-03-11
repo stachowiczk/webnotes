@@ -15,9 +15,9 @@ class Note(db.Model):
     title = db.Column(db.String(255), nullable=False)
     content = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    # TODO: folder_id = db.Column(db.Integer, db.ForeignKey("folders.id"), nullable=True)
+    folder_id = db.Column(db.Integer, db.ForeignKey("folders.id"), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    shared_users = relationship("User", secondary=shared_notes, backref="shared_notes")
+    #shared_users = relationship("User", secondary=shared_notes, backref="shared_notes")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -35,8 +35,6 @@ class Note(db.Model):
             "user_id": self.user_id,
         }
 
-"""
-TODO: Add folder model
 class Folder(db.Model):
     __tablename__ = "folders"
     id = db.Column(db.Integer, primary_key=True)
@@ -44,4 +42,3 @@ class Folder(db.Model):
     if name == "":
         name = "New Folder"
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-"""

@@ -41,6 +41,12 @@ app.add_url_rule(
 )
 
 app.add_url_rule(
+    "/notes/share/<string:note_id>",
+    view_func=cv.ShareAPI.as_view("share"),
+    methods=["POST", "GET", "DELETE"],
+)
+
+app.add_url_rule(
     "/auth/register",
     view_func=av.RegisterAPI.as_view("register"),
     methods=["POST", "GET"],

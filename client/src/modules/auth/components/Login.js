@@ -3,6 +3,7 @@ import { AuthContext } from "../context/UserContext";
 import { useNavigate, Link } from "react-router-dom";
 import Register from "./Register";
 import axios from "axios";
+import http from "./Interceptor";
 
 function Login({}) {
   const [userData, setUserData] = React.useState({
@@ -14,6 +15,10 @@ function Login({}) {
 
   const { state, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  
+
+ 
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -57,8 +62,35 @@ function Login({}) {
   }
 
   React.useEffect(() => {
+    async function checkLoggedIn() {
+        dispatch({ type: "LOADING" });
+        try {
+          const res = await http.get("http://localhost:5000/auth/login", {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": "true",
+            },
+          });
+          if (res.status === 200) {
+            dispatch({ type: "USER_LOADED", payload: res.data });
+            navigate("/home");
+          } else {
+            dispatch({ type: "LOGIN_FAIL" });
+            setIsLoaded(true);
+          }
+        } catch (err) {
+          console.log(err);
+          dispatch({ type: "LOGIN_FAIL" });
+        }
+      setIsLoaded(true);
+      }
+    checkLoggedIn();
     setUserData({ username: "", password: "" });
-    setIsLoaded(true);
+    return () => {
+      Promise.resolve();
+    };
   }, []);
 
   if (!isLoaded) {

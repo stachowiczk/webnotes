@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     notes = relationship("Note", backref="user", lazy=True)
-    shared_notes = relationship("SharedNote", secondary="shared_notes", backref="shared_with")
+    #shared_notes = relationship("SharedNote", secondary="shared_notes", backref="shared_with")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
