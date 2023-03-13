@@ -74,6 +74,8 @@ class NotesAPI(MethodView):
     def set_title2(content):
         for i in range(50, 200):
             if content[i] == " ":
+                if content[i-1] in [".", ",", "!", "?"]:
+                    return content[:i-1]
                 return content[:i]
             
     # TODO
