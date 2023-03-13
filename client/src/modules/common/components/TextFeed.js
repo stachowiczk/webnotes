@@ -94,7 +94,7 @@ function TextFeed({ reload }) {
             {expandButton ? "Expand All" : "Collapse All"}
           </button>
         </div>
-        <div className="editor">{entryComponents}</div>
+        <div className="textfeed-js">{entryComponents}</div>
       </>
     );
   }

@@ -34,7 +34,7 @@ class NotesAPI(MethodView):
         try:
             req_data = request.get_json()
             content = req_data["content"]
-            title = NotesAPI.set_title(content)
+            title = NotesAPI.set_title2(content)
             identity = get_jwt_identity()
             if not content:
                 content = ""
@@ -62,8 +62,8 @@ class NotesAPI(MethodView):
             return jsonify({"message": "Invalid request"}), 400
 
     def set_title(content):
-        first_50 = content[:30]
-        next_space = content[30:].find(" ")
+        first_50 = content[:60]
+        next_space = content[:60].find(" ")
         if next_space == -1:
             return first_50
         else:
@@ -72,7 +72,10 @@ class NotesAPI(MethodView):
         return stripped_title
     
     def set_title2(content):
-        pass
+        for i in range(50, 200):
+            if content[i] == " ":
+                return content[:i]
+            
     # TODO
 
 

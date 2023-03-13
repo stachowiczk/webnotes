@@ -41,6 +41,7 @@ function Entry({ keyProp, noteId, title, content, created_at }) {
             style={{
               marginTop: "0em",
               display: data[keyProp].isExpanded ? "none" : "block",
+              fontSize: "1.3em",
             }}
             dangerouslySetInnerHTML={{ __html: title }}
           />
