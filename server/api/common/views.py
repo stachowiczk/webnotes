@@ -64,14 +64,17 @@ class NotesAPI(MethodView):
     def set_title(content):
         first_50 = content[:30]
         next_space = content[30:].find(" ")
-        if not next_space:
-            next_space = content[30:].find("<p>")
         if next_space == -1:
             return first_50
         else:
             title_line = content[: 30 + next_space]
             stripped_title = re.sub(r"[^/w/s]+$", "", title_line)
         return stripped_title
+    
+    def set_title2(content):
+        pass
+    # TODO
+
 
 
 @notes_bp.route("/<string:note_id>", methods=["GET", "PUT", "DELETE"])

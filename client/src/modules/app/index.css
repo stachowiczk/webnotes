@@ -6,7 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: hsl(230, 15%, 16%);
+  background-color: hsl(0, 0%, 52%);
   color: hsl(60, 1%, 81%);
 }
 
@@ -17,7 +17,7 @@ code {
 
 .editor {
   flex: 1;
-  max-width: 40vw;
+  display: flex;
 
   overflow-y: scroll;
 }
@@ -62,7 +62,7 @@ blockquote {
 .x-button {
   border-radius: 0.6em;
   background: none;
-  color: antiquewhite;
+  color: red;
   border: none;
   position: absolute;
   top: 0;
@@ -71,11 +71,14 @@ blockquote {
 }
 .entry-main {
   border: 1px solid hsl(60, 1%, 81%);
+  background-color: bisque;
+  color:black;
   border-radius: 0.6em;
   padding: 1em;
   padding-top: 0.1em;
   margin: 2rem;
   position: relative;
+  flex: 1;
 }
 .user-button {
   position: absolute;
@@ -85,25 +88,57 @@ blockquote {
   padding: 0.5rem;
   border: 1px solid hsl(60, 1%, 81%);
   border-radius: 0.5rem;
-  background-color: hsl(230, 15%, 16%);
+  background-color: bisque;
   color: hsl(60, 1%, 81%);
   font-size: 1rem;
   cursor: pointer;
 }
 
-.main-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 0;
+div.user-button {
+  background: none;
 }
 
-.item-list {
+.expand-button {
+  background: none;
+  border: none;
+
+
+  
+}
+
+.menu-button {
+  background-color: bisque;
+  border-radius: 0.6rem;
+  padding: 0.3rem;
+  padding-bottom: 1rem;
+  padding-right: 2rem;
+
+}
+.main-container {
+
+}
+
+#main-container {
+  display: flex;
+  flex-direction: row;
+  height: 100dvh;
+}
+
+#container-homejs {
   flex: 1;
-  overflow-y: scroll;
+  overflow: auto;
+}
+
+#divider {
+  height: 100%;
+  cursor: col-resize;
+  background-color: gray;
+  width: 10px;
+}
+
+#item-list {
+  overflow: auto;
   /* Hide scrollbar for Chrome, Safari and Opera */
-  max-width: 50vw;
-  overflow-x: hidden;
   margin-top: 2.5rem;
 }
 

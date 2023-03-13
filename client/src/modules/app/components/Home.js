@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
+import Draggable from "react-draggable";
 import EditorComponent from "../../common/components/Editor.js";
 import http from "../../auth/components/Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
@@ -11,7 +12,12 @@ function Home() {
   const [isLoaded, setIsLoaded] = React.useState(true);
   const [dropdown, setDropdown] = React.useState(false);
   const [value, setValue] = React.useState("");
+  const [leftWidth, setLeftWidth] = React.useState(window.innerWidth / 2);
 
+  function handleResize(e, {deltaX}) {
+    const newWidth = leftWidth + deltaX;
+    setLeftWidth(newWidth);
+  }
   function toggleDropdown() {
     setDropdown(!dropdown);
   }
@@ -58,28 +64,34 @@ function Home() {
       <>
         <div>
           <button className="user-button" onClick={toggleDropdown}>
-            user
+                
           </button>
           {dropdown && <Menu />}
         </div>
-        <div className="main-container">
-          <div className="item-list">
+        <div id="main-container">
+          <div className="item-list" id="item-list" style={{width: `${leftWidth}px`}}>
             {isLoaded ? (
               <TextFeed className="item-list" reload={reloadFeed} />
             ) : (
               <div>Loading...</div>
             )}
           </div>
-          <div className="editor">
-            <EditorComponent value={value} setValue={setValue} />
-          </div>
-          <div className="submit-button-container">
-            <button className="submit-button" onClick={deleteAllPosts}>
-              Clear all data
-            </button>
-            <button className="submit-button" onClick={addUserPost} style={{}}>
-              Save
-            </button>
+          <Draggable axis="x" onDrag={handleResize} positionOffset>
+            <div id="divider" />
+          </Draggable>
+
+          <div id="container-homejs">
+            <div className="editor">
+              <EditorComponent value={value} setValue={setValue} />
+            </div>
+            <div className="submit-button-container">
+              <button className="submit-button" onClick={deleteAllPosts}>
+                Clear all data
+              </button>
+              <button className="submit-button" onClick={addUserPost} style={{}}>
+                Save
+              </button>
+            </div>
           </div>
         </div>
       </>
