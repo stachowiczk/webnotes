@@ -19,40 +19,38 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
     dispatch(setExpanded(keyProp));
   }
 
-    return (
-      <>
-        <div
-          onClick={toggleExpanded}
-          className="entry-main"
-          style={{ cursor: "pointer" }}
-        >
-          <div>
-            <button type="delete" className="x-button" onClick={deleteNoteById}>
-              {" "}
-              x{" "}
-            </button>
-          </div>
-          <div
-            style={{
-              marginTop: "0em",
-              display: data[keyProp].isExpanded ? "none" : "block",
-              fontSize: "1.3em",
-            }}
-            dangerouslySetInnerHTML={{ __html: title }}
-          />
-          <div
-            style={{
-              display: data[keyProp].isExpanded ? "block" : "none",
-              cursor: "pointer",
-            }}
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
-          <span
-            style={{ fontStyle: "italic" }}
-          >{`Created: ${created_at}`}</span>
+  return (
+    <>
+      <div
+        onClick={toggleExpanded}
+        className="entry-main"
+        style={{ cursor: "pointer" }}
+      >
+        <div>
+          <button type="delete" className="x-button" onClick={deleteNoteById}>
+            {" "}
+            x{" "}
+          </button>
         </div>
-      </>
-    );
-  }
+        <div
+          style={{
+            marginTop: "0em",
+            display: data[keyProp].isExpanded ? "none" : "block",
+            fontSize: "1.3em",
+          }}
+          dangerouslySetInnerHTML={{ __html: title }}
+        />
+        <div
+          style={{
+            display: data[keyProp].isExpanded ? "block" : "none",
+            cursor: "pointer",
+          }}
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+        <span style={{ fontStyle: "italic" }}>{`Created: ${created_at}`}</span>
+      </div>
+    </>
+  );
+}
 
 export default Entry;

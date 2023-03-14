@@ -2,11 +2,7 @@ import React from "react";
 import DOMPurify from "dompurify";
 import Entry from "./Entry";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setEntries,
-  expandAll,
-  collapseAll,
-} from "../slices/feedSlice";
+import { setEntries, expandAll, collapseAll } from "../slices/feedSlice";
 import http from "../../auth/components/Interceptor";
 
 function TextFeed({ reload }) {
@@ -44,9 +40,11 @@ function TextFeed({ reload }) {
     getUserPosts();
   }, [reload]);
 
-  function removeChild (childId) {
-      setEntryComponents((prevState => prevState.filter((child) => child.props.noteId !== childId)));
-    }
+  function removeChild(childId) {
+    setEntryComponents((prevState) =>
+      prevState.filter((child) => child.props.noteId !== childId)
+    );
+  }
 
   const makeRows = () => {
     try {
@@ -56,8 +54,8 @@ function TextFeed({ reload }) {
           keyProp={index}
           noteId={row.id}
           created_at={row.created_at}
-          title={DOMPurify.sanitize(row.title)} 
-          content={DOMPurify.sanitize(row.content)} 
+          title={DOMPurify.sanitize(row.title)}
+          content={DOMPurify.sanitize(row.content)}
           removeMe={removeChild}
         />
       ));
@@ -70,7 +68,6 @@ function TextFeed({ reload }) {
   React.useEffect(() => {
     setEntryComponents(makeRows());
   }, [entries]);
-  
 
   const toggleExpand = () => {
     if (expandButton) {
@@ -96,8 +93,11 @@ function TextFeed({ reload }) {
     return (
       <>
         <div className="editor">
-          <button onClick={toggleExpand} className="expand-button" 
-           style={entryComponents.length === 0 ? {display: "none"} : {}}>
+          <button
+            onClick={toggleExpand}
+            className="expand-button"
+            style={entryComponents.length === 0 ? { display: "none" } : {}}
+          >
             {expandButton ? "Expand All" : "Collapse All"}
           </button>
         </div>

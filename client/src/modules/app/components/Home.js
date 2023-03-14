@@ -14,7 +14,7 @@ function Home() {
   const [value, setValue] = React.useState("");
   const [leftWidth, setLeftWidth] = React.useState(window.innerWidth / 2);
 
-  function handleResize(e, {deltaX}) {
+  function handleResize(e, { deltaX }) {
     const newWidth = leftWidth + deltaX;
     setLeftWidth(newWidth);
   }
@@ -63,22 +63,28 @@ function Home() {
     return (
       <>
         <div>
-          <button className="user-button" onClick={toggleDropdown}>
-                
-          </button>
+          <button className="user-button" onClick={toggleDropdown}></button>
           {dropdown && <Menu />}
         </div>
         <div id="main-container">
-          <div className="item-list" id="item-list" style={{width: `${leftWidth}px`}}>
+          <div
+            className="item-list"
+            id="item-list"
+            style={{ width: `${leftWidth}px` }}
+          >
             {isLoaded ? (
               <TextFeed className="item-list" reload={reloadFeed} />
             ) : (
               <div>Loading...</div>
             )}
           </div>
-          <Draggable axis="x" onDrag={handleResize} positionOffset={
-            {x: "none", y: 0} // using only positionOffset or x: true works fine, no idea why
-          }>
+          <Draggable
+            axis="x"
+            onDrag={handleResize}
+            positionOffset={
+              { x: "none", y: 0 } // using only positionOffset or x: true works fine, no idea why
+            }
+          >
             <div id="divider" />
           </Draggable>
 
@@ -90,7 +96,11 @@ function Home() {
               <button className="submit-button" onClick={deleteAllPosts}>
                 Clear all data
               </button>
-              <button className="submit-button" onClick={addUserPost} style={{}}>
+              <button
+                className="submit-button"
+                onClick={addUserPost}
+                style={{}}
+              >
                 Save
               </button>
             </div>

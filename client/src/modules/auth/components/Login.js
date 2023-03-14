@@ -16,10 +16,6 @@ function Login({}) {
   const { state, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  
-
- 
-
   const handleChange = (e) => {
     e.preventDefault();
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -62,29 +58,29 @@ function Login({}) {
   // this prevents the user from seeing the login page if they are already logged in
   React.useEffect(() => {
     async function checkLoggedIn() {
-        dispatch({ type: "LOADING" });
-        try {
-          const res = await http.get("http://localhost:5000/auth/login", {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Credentials": "true",
-            },
-          });
-          if (res.status === 200) {
-            dispatch({ type: "USER_LOADED", payload: res.data });
-            navigate("/home");
-          } else {
-            dispatch({ type: "LOGIN_FAIL" });
-            setIsLoaded(true);
-          }
-        } catch (err) {
-          console.log(err);
+      dispatch({ type: "LOADING" });
+      try {
+        const res = await http.get("http://localhost:5000/auth/login", {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": "true",
+          },
+        });
+        if (res.status === 200) {
+          dispatch({ type: "USER_LOADED", payload: res.data });
+          navigate("/home");
+        } else {
           dispatch({ type: "LOGIN_FAIL" });
+          setIsLoaded(true);
         }
-      setIsLoaded(true);
+      } catch (err) {
+        console.log(err);
+        dispatch({ type: "LOGIN_FAIL" });
       }
+      setIsLoaded(true);
+    }
     checkLoggedIn();
     setUserData({ username: "", password: "" });
     return () => {

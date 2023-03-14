@@ -5,7 +5,7 @@ from flask.views import MethodView
 from api.common.models import Note
 from api.common import notes_bp
 import re
-
+from api.common.const import SPECIAL_CHARACTERS
 
 @notes_bp.route("/", methods=["GET", "POST", "DELETE"])
 class NotesAPI(MethodView):
@@ -74,11 +74,14 @@ class NotesAPI(MethodView):
     '''
     
     def set_title2(content):
-        for i in range(50, 200):
-            if content[i] == " ":
-                if content[i-1] in [".", ",", "!", "?"]:
-                    return content[:i-1]
-                return content[:i]
+        try:
+            for i in range(50, 200):
+                if content[i] == " ":
+                    if content[i-1] in SPECIAL_CHARACTERS:
+                        return content[:i-1]
+                    return content[:i]
+        except IndexError:
+            return content[:50]
             
 
 
