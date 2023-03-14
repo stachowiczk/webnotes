@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import http from "../../auth/components/Interceptor";
 import { setExpanded } from "../slices/feedSlice";
 
-function Entry({ keyProp, noteId, title, content, created_at }) {
-  const [reload, setReload] = useState(false);
+function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
   const data = useSelector((state) => state.feed.entries);
   const dispatch = useDispatch();
 
@@ -13,7 +11,7 @@ function Entry({ keyProp, noteId, title, content, created_at }) {
   async function deleteNoteById() {
     if (window.confirm("Are you sure you want to delete this post?")) {
       await http.delete(`http://localhost:5000/notes/${noteId}`);
-      setReload(!reload);
+      removeMe(noteId);
     }
   }
 
@@ -21,9 +19,6 @@ function Entry({ keyProp, noteId, title, content, created_at }) {
     dispatch(setExpanded(keyProp));
   }
 
-  if (reload) {
-    return;
-  } else {
     return (
       <>
         <div
@@ -59,6 +54,5 @@ function Entry({ keyProp, noteId, title, content, created_at }) {
       </>
     );
   }
-}
 
 export default Entry;

@@ -39,8 +39,6 @@ function Login({}) {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Credentials": true,
         },
-
-        // set the json data to the value of the text state
         withCredentials: true,
         data: JSON.stringify({
           username: userData.username,
@@ -61,6 +59,7 @@ function Login({}) {
     }
   }
 
+  // this prevents the user from seeing the login page if they are already logged in
   React.useEffect(() => {
     async function checkLoggedIn() {
         dispatch({ type: "LOADING" });

@@ -61,6 +61,7 @@ class NotesAPI(MethodView):
             print(e)
             return jsonify({"message": "Invalid request"}), 400
 
+    ''' DEPRECATED
     def set_title(content):
         first_50 = content[:60]
         next_space = content[:60].find(" ")
@@ -70,6 +71,7 @@ class NotesAPI(MethodView):
             title_line = content[: 30 + next_space]
             stripped_title = re.sub(r"[^/w/s]+$", "", title_line)
         return stripped_title
+    '''
     
     def set_title2(content):
         for i in range(50, 200):
@@ -78,7 +80,6 @@ class NotesAPI(MethodView):
                     return content[:i-1]
                 return content[:i]
             
-    # TODO
 
 
 

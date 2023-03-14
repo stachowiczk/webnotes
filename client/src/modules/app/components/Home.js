@@ -76,7 +76,9 @@ function Home() {
               <div>Loading...</div>
             )}
           </div>
-          <Draggable axis="x" onDrag={handleResize} positionOffset>
+          <Draggable axis="x" onDrag={handleResize} positionOffset={
+            {x: "none", y: 0} // using only positionOffset or x: true works fine, no idea why
+          }>
             <div id="divider" />
           </Draggable>
 
