@@ -93,15 +93,15 @@ function Home() {
               <EditorComponent value={value} setValue={setValue} />
             </div>
             <div className="submit-button-container">
-              <button className="submit-button" onClick={deleteAllPosts}>
-                Clear all data
-              </button>
               <button
                 className="submit-button"
                 onClick={addUserPost}
                 style={{}}
               >
                 Save
+              </button>
+              <button className="submit-button" onClick={deleteAllPosts}>
+                Delete all
               </button>
             </div>
           </div>

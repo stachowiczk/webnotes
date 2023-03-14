@@ -6,7 +6,12 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
   const data = useSelector((state) => state.feed.entries);
   const dispatch = useDispatch();
 
-  created_at = created_at.slice(0, 17); // only show date
+  try {
+    created_at = created_at.slice(0, 17); // only show date
+  }
+  catch {
+    created_at = "no data";
+  }
 
   async function deleteNoteById() {
     if (window.confirm("Are you sure you want to delete this post?")) {
@@ -22,14 +27,12 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
   return (
     <>
       <div
-        onClick={toggleExpanded}
         className="entry-main"
-        style={{ cursor: "pointer" }}
       >
         <div>
-          <button type="delete" className="x-button" onClick={deleteNoteById}>
-            {" "}
-            x{" "}
+          <button type="button" className="x-button" onClick={deleteNoteById}>
+            {""}
+            x{""}
           </button>
         </div>
         <div
@@ -43,11 +46,11 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
         <div
           style={{
             display: data[keyProp].isExpanded ? "block" : "none",
-            cursor: "pointer",
           }}
           dangerouslySetInnerHTML={{ __html: content }}
         />
         <span style={{ fontStyle: "italic" }}>{`Created: ${created_at}`}</span>
+        <button className="expand-button expand-item" onClick={toggleExpanded}>{data[keyProp].isExpanded ? "collapse" : "expand"}</button>
       </div>
     </>
   );

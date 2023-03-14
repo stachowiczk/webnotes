@@ -66,8 +66,9 @@ function TextFeed({ reload }) {
   };
 
   React.useEffect(() => {
+    getUserPosts();
     setEntryComponents(makeRows());
-  }, [entries]);
+  }, [entries.length]);
 
   const toggleExpand = () => {
     if (expandButton) {
@@ -92,7 +93,7 @@ function TextFeed({ reload }) {
   } else {
     return (
       <>
-        <div className="editor">
+        <div className="expand-button-container">
           <button
             onClick={toggleExpand}
             className="expand-button"
