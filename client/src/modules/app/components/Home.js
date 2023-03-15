@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, Navigate, Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Draggable from "react-draggable";
 import EditorComponent from "../../common/components/Editor.js";
 import http from "../../auth/components/Interceptor";

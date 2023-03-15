@@ -49,7 +49,7 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
           }}
           dangerouslySetInnerHTML={{ __html: content }}
         />
-        <span style={{ fontStyle: "italic" }}>{`Created: ${created_at}`}</span>
+        <span style={{ fontStyle: "italic", fontSize: "small" }}>{`Created: ${created_at}`}</span>
         <button className="expand-button expand-item" onClick={toggleExpanded}>{data[keyProp].isExpanded ? "collapse" : "expand"}</button>
       </div>
     </>

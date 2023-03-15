@@ -1,11 +1,10 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../context/UserContext";
 import { useNavigate, Link } from "react-router-dom";
-import Register from "./Register";
 import axios from "axios";
 import http from "./Interceptor";
 
-function Login({}) {
+function Login() {
   const [userData, setUserData] = React.useState({
     username: "",
     password: "",
@@ -86,7 +85,7 @@ function Login({}) {
     return () => {
       Promise.resolve();
     };
-  }, []);
+  }, [dispatch, navigate]);
 
   if (!isLoaded) {
     return (

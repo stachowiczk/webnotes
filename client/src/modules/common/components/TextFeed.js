@@ -1,4 +1,4 @@
-import React from "react";
+import  {useState, useEffect} from "react";
 import DOMPurify from "dompurify";
 import Entry from "./Entry";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,11 +6,11 @@ import { setEntries, expandAll, collapseAll } from "../slices/feedSlice";
 import http from "../../auth/components/Interceptor";
 
 function TextFeed({ reload }) {
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  const [data, setData] = React.useState(null);
-  const [expandButton, setExpandButton] = React.useState(true);
-  const [error, setError] = React.useState(null);
-  const [entryComponents, setEntryComponents] = React.useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [data, setData] = useState(null);
+  const [expandButton, setExpandButton] = useState(true);
+  const [error, setError] = useState(null);
+  const [entryComponents, setEntryComponents] = useState([]);
   const entries = useSelector((state) => state.feed.entries);
   const dispatch = useDispatch();
 
@@ -31,14 +31,14 @@ function TextFeed({ reload }) {
         setError(err);
       });
   }
-  React.useEffect(() => {
-    getUserPosts();
-  }, []);
+  //useEffect(() => {
+    //getUserPosts();
+  //}, []);
 
-  React.useEffect(() => {
-    setIsLoaded(false);
-    getUserPosts();
-  }, [reload]);
+  //useEffect(() => {
+    //setIsLoaded(false);
+    //getUserPosts();
+  //}, [reload]);
 
   function removeChild(childId) {
     setEntryComponents((prevState) =>
@@ -65,10 +65,10 @@ function TextFeed({ reload }) {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     getUserPosts();
     setEntryComponents(makeRows());
-  }, [entries.length]);
+  }, [entries.length, reload]);
 
   const toggleExpand = () => {
     if (expandButton) {
@@ -90,6 +90,8 @@ function TextFeed({ reload }) {
     return <div className="editor">Loading...</div>;
   } else if (!data) {
     return <div className="editor">No data</div>;
+  } else if (error) {
+    return <div className="editor">Error: {error.message}</div>;
   } else {
     return (
       <>
