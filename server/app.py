@@ -22,7 +22,7 @@ with app.app_context():
     db.metadata.create_all(bind=db.engine, tables=target_metadata)
 
 with app.app_context():
-    target = [Note, User, Folder]
+    target = [Note, User, Folder] # Folder is TODO
     app.db.create_all()
 
 from api.common.views import notes_bp
@@ -30,32 +30,6 @@ from api.auth.views import auth_bp
 from api.auth import views as av
 from api.common import views as cv
 
-app.add_url_rule(
-    "/notes", view_func=cv.NotesAPI.as_view("notes"), methods=["GET", "POST", "DELETE"]
-)
-
-app.add_url_rule(
-    "/notes/<string:note_id>",
-    view_func=cv.NoteAPI.as_view("note"),
-    methods=["GET", "PUT", "DELETE"],
-)
-
-app.add_url_rule(
-    "/notes/share/<string:note_id>",
-    view_func=cv.ShareAPI.as_view("share"),
-    methods=["POST", "GET", "DELETE"],
-)
-
-app.add_url_rule(
-    "/auth/register",
-    view_func=av.RegisterAPI.as_view("register"),
-    methods=["POST", "GET"],
-)
-app.add_url_rule(
-    "/auth/login",
-    view_func=av.LoginAPI.as_view("login"),
-    methods=["POST", "GET", "PUT", "DELETE"],
-)
 app.register_blueprint(notes_bp)
 app.register_blueprint(auth_bp)
 

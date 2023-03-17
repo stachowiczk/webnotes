@@ -23,10 +23,11 @@ function TextFeed({ reload }) {
           dispatch(setEntries(res.data));
           setIsLoaded(true);
         } catch (err) {
-          console.log(err);
+          console.error(err);
         }
       })
       .catch((err) => {
+        console.error(err);
         setIsLoaded(true);
         setError(err);
       });
@@ -57,11 +58,6 @@ function TextFeed({ reload }) {
     }
   };
 
-  useEffect(() => {
-    getUserPosts();
-    setEntryComponents(makeRows());
-  }, [entries.length, reload]);
-
   const toggleExpand = () => {
     if (expandButton) {
       for (let i = 0; i < entries.length; i++) {
@@ -77,6 +73,11 @@ function TextFeed({ reload }) {
       setExpandButton(true);
     }
   };
+
+  useEffect(() => {
+    getUserPosts();
+    setEntryComponents(makeRows());
+  }, [entries.length, reload]);
 
   if (!isLoaded) {
     return <div className="editor">Loading...</div>;

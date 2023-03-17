@@ -63,7 +63,7 @@ function Home() {
     return (
       <>
         <div>
-          <button className="user-button" onMouseOver={toggleDropdown} ></button>
+          <button className="user-button" onClick={toggleDropdown} ></button>
           {dropdown && <Menu toggleDropdown={toggleDropdown}/>}
         </div>
         <div id="main-container">
