@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef, useEffect} from "react";
 import { Navigate } from "react-router-dom";
 import Draggable from "react-draggable";
 import EditorComponent from "../../common/components/Editor.js";
@@ -13,14 +13,29 @@ function Home() {
   const [dropdown, setDropdown] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [leftWidth, setLeftWidth] = React.useState(window.innerWidth / 2);
+  const dropdownRef = useRef(null);
 
   function handleResize(e, { deltaX }) {
     const newWidth = leftWidth + deltaX;
     setLeftWidth(newWidth);
   }
-  function toggleDropdown() {
-    setDropdown(!dropdown);
+  function toggleDropdown(dropdown) {
+    setDropdown(dropdown);
   }
+
+  function handleClickOutside(event) {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setDropdown(false);
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
+
 
   async function addUserPost() {
     await http.post(
@@ -62,9 +77,9 @@ function Home() {
   } else {
     return (
       <>
-        <div>
+        <div ref={dropdownRef}>
           <button className="user-button" onClick={toggleDropdown} ></button>
-          {dropdown && <Menu toggleDropdown={toggleDropdown}/>}
+          {dropdown && <Menu />}
         </div>
         <div id="main-container">
           <div
