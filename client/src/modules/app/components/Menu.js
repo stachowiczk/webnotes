@@ -2,12 +2,12 @@ import { useContext}from 'react'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../auth/context/UserContext'
 
-function Menu() {
+function Menu({toggleDropdown}) {
     //eslint-disable-next-line
     const { state, dispatch } = useContext(AuthContext);
   return (
     <div className="user-button" style={{position: 'absolute', top: '1%', border: 'none'}}>
-        <div className="menu-button" style={{position: 'absolute', left: '0', top: '170%'}}>
+        <div className="menu-button" style={{position: 'absolute', left: '0', top: '170%'}} onMouseOut={toggleDropdown()}>
             <>
                 {state.isAuthenticated ? null : <Link to="/login">Login </Link>}
             </>

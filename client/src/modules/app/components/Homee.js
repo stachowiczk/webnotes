@@ -7,41 +7,38 @@ function Homee() {
   const { state, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  async function checkLoggedIn() {
+  async function checkLoggedIn(dispatch, navigate) {
     dispatch({ type: "LOADING" });
     try {
       const res = await http.get("http://localhost:5000/auth/login", {
         withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": "true",
-        },
-      });
+    });
       if (res.status === 200) {
         dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
         navigate("/home");
       } else {
-        dispatch({ type: "LOGIN_FAIL" });
-        navigate("/login");
+        handleLoginFailure();
       }
     } catch (err) {
-      console.log(err);
-      dispatch({ type: "LOGIN_FAIL" });
-      navigate("/login");
+      console.error(err);
+      handleLoginFailure();
     }
   }
 
-  useEffect(() => {
-    checkLoggedIn();
-  }, []);
+  function handleLoginFailure() {
+    dispatch({ type: "LOGIN_FAIL" });
+    navigate("/login");
+  }
 
-  if (state.isLoaded) {
-    if (state.isAuthenticated === true) {
-      return <></>;
-    }
-  } else {
+  useEffect(() => {
+    checkLoggedIn(dispatch, navigate);
+  }, [dispatch, navigate]);
+
+  if (!state.isLoaded) {
     return <div>Loading...</div>;
+  }
+  if (state.isAuthenticated) {
+    return <></>;
   }
 }
 

@@ -15,8 +15,12 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
 
   async function deleteNoteById() {
     if (window.confirm("Are you sure you want to delete this post?")) {
+      try {
       await http.delete(`http://localhost:5000/notes/${noteId}`);
       removeMe(noteId);
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 

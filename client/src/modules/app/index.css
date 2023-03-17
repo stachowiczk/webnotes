@@ -17,10 +17,9 @@ code {
 
 .editor {
   flex: 1;
-  padding-left: 5vw;
-  padding-right: 5vw;
-  
-
+  padding-left: 4dvw;
+  padding-top: 3rem;
+  padding-right:2dvw;
   overflow-y: scroll;
 }
 
@@ -29,6 +28,7 @@ code {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  padding-right: 4dvw;
 }
 
 .ql-container.ql-snow {
@@ -41,6 +41,7 @@ code {
 
 div.ql-toolbar.ql-snow {
   border: none;
+  margin-bottom: 2rem;
 }
 
 .ql-editor {
@@ -61,19 +62,23 @@ div.ql-toolbar.ql-snow {
 div.submit-button-container {
   display: flex;
   flex-direction: column;
+  margin-top: 25rem;
+  margin-left: 0;
+  margin-right: auto;
 }
 .submit-button {
   margin-top: 1rem;
   padding: 0.5rem;
-  border: 1px solid hsl(60, 1%, 81%);
+  border: 0px solid hsl(60, 1%, 81%);
   border-radius: 0.5rem;
   background-color: hsl(230, 15%, 16%);
   color: hsl(60, 1%, 81%);
   font-size: 1rem;
   cursor: pointer;
   max-width: max-content;
-  margin-right: 2rem;
-  margin-left: auto;
+  margin-right: auto;
+  margin-left: 0rem;
+
 }
 
 blockquote {
@@ -99,13 +104,14 @@ blockquote {
 .entry-main {
   border: 1px solid hsl(60, 1%, 81%);
   background-color: bisque;
-  color:black;
+  color: black;
   border-radius: 0.6em;
   border-top-left-radius: 0;
   box-shadow: 0 0 0.5em hsl(0, 0%, 26%);
   padding: 1em;
   padding-top: 0.1em;
   margin: 2rem;
+  margin-right: 0;
   position: relative;
   flex: 1;
 }
@@ -115,12 +121,17 @@ blockquote {
   left: 0;
   margin: 1rem;
   padding: 0.5rem;
-  border: 1px solid hsl(60, 1%, 81%);
-  border-radius: 0.5rem;
-  background-color: bisque;
-  color: hsl(60, 1%, 81%);
+  border: 0px solid hsl(60, 1%, 81%);
+  border-radius: 0.25rem;
+  background-color: hsl(230, 15%, 16%);
+  color: hsl(230, 15%, 16%); 
   font-size: 1rem;
   cursor: pointer;
+}
+
+button.user-button:hover {
+  border: 1px solid hsl(60, 1%, 81%);
+  
 }
 
 div.user-button {
@@ -148,25 +159,24 @@ div.user-button {
   margin-right: 2rem;
   margin-left: auto;
   word-wrap: normal;
-
 }
 
 .expand-item {
   background: none;
   cursor: pointer;
-
 }
 
 .menu-button {
-  background-color: bisque;
-  border-radius: 0.6rem;
+  background-color: hsl(230, 15%, 16%);
+  border-radius: 0.3rem;
   padding: 0.3rem;
   padding-bottom: 1rem;
   padding-right: 2rem;
-
 }
-.main-container {
 
+.menu-button>a {
+  color: hsl(60, 1%, 81%);
+  text-decoration: none;
 }
 
 #main-container {
@@ -187,8 +197,6 @@ div.user-button {
   background-color: rgb(51, 51, 51);
   width: 0.5em;
   border-radius: 0.1em;
-  margin-right: 0.5em;
-  margin-left: -0.5em;
   opacity: 0.8;
 }
 

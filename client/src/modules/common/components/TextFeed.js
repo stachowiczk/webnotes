@@ -1,4 +1,4 @@
-import  {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import DOMPurify from "dompurify";
 import Entry from "./Entry";
 import { useSelector, useDispatch } from "react-redux";
@@ -31,14 +31,6 @@ function TextFeed({ reload }) {
         setError(err);
       });
   }
-  //useEffect(() => {
-    //getUserPosts();
-  //}, []);
-
-  //useEffect(() => {
-    //setIsLoaded(false);
-    //getUserPosts();
-  //}, [reload]);
 
   function removeChild(childId) {
     setEntryComponents((prevState) =>

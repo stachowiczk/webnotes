@@ -13,7 +13,7 @@ function App() {
     <AuthContextProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" exact element={<Homee />} /> 
+          <Route path="/" exact element={<Homee />} />
           <Route path="/login" element={<Login />} />
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
