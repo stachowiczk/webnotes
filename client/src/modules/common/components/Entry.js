@@ -8,16 +8,15 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
 
   try {
     created_at = created_at.slice(0, 17); // only show date
-  }
-  catch {
+  } catch {
     created_at = "no data";
   }
 
   async function deleteNoteById() {
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
-      await http.delete(`http://localhost:5000/notes/${noteId}`);
-      removeMe(noteId);
+        await http.delete(`http://localhost:5000/notes/${noteId}`);
+        removeMe(noteId);
       } catch (err) {
         console.log(err);
       }
@@ -30,13 +29,10 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
 
   return (
     <>
-      <div
-        className="entry-main"
-      >
+      <div className="entry-main">
         <div>
           <button type="button" className="x-button" onClick={deleteNoteById}>
-            {""}
-            x{""}
+            {""}x{""}
           </button>
         </div>
         <div
@@ -53,8 +49,12 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
           }}
           dangerouslySetInnerHTML={{ __html: content }}
         />
-        <span style={{ fontStyle: "italic", fontSize: "small" }}>{`Created: ${created_at}`}</span>
-        <button className="expand-button expand-item" onClick={toggleExpanded}>{data[keyProp].isExpanded ? "collapse" : "expand"}</button>
+        <span
+          style={{ fontStyle: "italic", fontSize: "small" }}
+        >{`Created: ${created_at}`}</span>
+        <button className="expand-button expand-item" onClick={toggleExpanded}>
+          {data[keyProp].isExpanded ? "collapse" : "expand"}
+        </button>
       </div>
     </>
   );

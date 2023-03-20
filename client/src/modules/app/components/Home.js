@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from "react";
+import React, { useRef, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import Draggable from "react-draggable";
 import EditorComponent from "../../common/components/Editor.js";
@@ -6,18 +6,32 @@ import http from "../../auth/components/Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
 import Menu from "./Menu.js";
 
+const LOCAL_STORAGE_WIDTH_KEY = "WIDTH";
+
 function Home() {
   const [error, setError] = React.useState(null);
   const [reloadFeed, setReloadFeed] = React.useState(false);
   const [isLoaded, setIsLoaded] = React.useState(true);
   const [dropdown, setDropdown] = React.useState(false);
   const [value, setValue] = React.useState("");
-  const [leftWidth, setLeftWidth] = React.useState(window.innerWidth / 2);
+  const [leftWidth, setLeftWidth] = React.useState(window.innerWidth / 4);
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      const storedWidth = localStorage.getItem(LOCAL_STORAGE_WIDTH_KEY);
+      if (storedWidth) {
+        setLeftWidth(parseInt(storedWidth));
+      } 
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
 
   function handleResize(e, { deltaX }) {
     const newWidth = leftWidth + deltaX;
     setLeftWidth(newWidth);
+    localStorage.setItem(LOCAL_STORAGE_WIDTH_KEY, newWidth);
   }
   function toggleDropdown(dropdown) {
     setDropdown(dropdown);
@@ -30,37 +44,40 @@ function Home() {
   }
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mouseover", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mouseover", handleClickOutside);
     };
   });
 
-
   async function addUserPost() {
-    await http.post(
-      "http://localhost:5000/notes/",
-      JSON.stringify({
-        title: value,
-        content: value,
-      })
-    );
-    setValue("");
-    setReloadFeed(!reloadFeed);
+    try {
+      await http.post(
+        "http://localhost:5000/notes/",
+        JSON.stringify({
+          title: value,
+          content: value,
+        })
+      );
+      setValue("");
+      setReloadFeed(!reloadFeed);
+    } catch (err) {
+      console.error(err);
+      setError(err);
+    }
   }
 
-  function deleteAllPosts() {
+  async function deleteAllPosts() {
     if (window.confirm("Are you sure you want to delete all posts?")) {
-      http
-        .delete("http://localhost:5000/notes/")
-        .then(setReloadFeed(!reloadFeed))
-        .then(() => {
-          setIsLoaded(true);
-        })
-        .catch((err) => {
-          setIsLoaded(true);
-          setError(err);
-        });
+      try {
+        setIsLoaded(false);
+        await http.delete("http://localhost:5000/notes/");
+        setReloadFeed(!reloadFeed);
+        setIsLoaded(true);
+      } catch (err) {
+        setIsLoaded(true);
+        setError(err);
+      }
     }
   }
 
@@ -77,8 +94,8 @@ function Home() {
   } else {
     return (
       <>
+        <button className="user-button" onClick={dropdown ? toggleDropdown : toggleDropdown} style={{color: "#ffffff"}}>Logout</button>
         <div ref={dropdownRef}>
-          <button className="user-button" onClick={toggleDropdown} ></button>
           {dropdown && <Menu />}
         </div>
         <div id="main-container">

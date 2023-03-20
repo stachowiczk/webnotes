@@ -12,7 +12,7 @@ function Homee() {
     try {
       const res = await http.get("http://localhost:5000/auth/login", {
         withCredentials: true,
-    });
+      });
       if (res.status === 200) {
         dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
         navigate("/home");

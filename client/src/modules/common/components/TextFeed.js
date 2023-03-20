@@ -14,23 +14,18 @@ function TextFeed({ reload }) {
   const entries = useSelector((state) => state.feed.entries);
   const dispatch = useDispatch();
 
-  function getUserPosts() {
-    http
-      .get("http://localhost:5000/notes/")
-      .then((res) => {
-        try {
-          setData((data) => res.data);
-          dispatch(setEntries(res.data));
-          setIsLoaded(true);
-        } catch (err) {
-          console.error(err);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        setIsLoaded(true);
-        setError(err);
-      });
+  async function getUserPosts() {
+    setIsLoaded(false);
+    try {
+      const res = await http.get("http://localhost:5000/notes/");
+      setData((data) => res.data);
+      dispatch(setEntries(res.data));
+      setIsLoaded(true);
+    } catch (err) {
+      setError(err);
+      console.error(err);
+      setIsLoaded(true);
+    }
   }
 
   function removeChild(childId) {
@@ -53,7 +48,8 @@ function TextFeed({ reload }) {
         />
       ));
     } catch (error) {
-      console.log(error);
+      setError(error);
+      console.error(error);
       return <div className="editor">No data</div>;
     }
   };

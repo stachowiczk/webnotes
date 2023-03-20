@@ -12,17 +12,15 @@ app = Flask(__name__)
 app.config.from_object("config")
 jwt = JWTManager(app)
 CORS(app, origins="http://localhost:3000", supports_credentials=True)
-
-
 db = SQLAlchemy(app)
 app.db = db
-# db.metadata.clear()
+
 with app.app_context():
     target_metadata = [Note.__table__, User.__table__, Folder.__table__]
     db.metadata.create_all(bind=db.engine, tables=target_metadata)
 
 with app.app_context():
-    target = [Note, User, Folder] # Folder is TODO
+    target = [Note, User, Folder]  # Folder is TODO
     app.db.create_all()
 
 from api.common.views import notes_bp
