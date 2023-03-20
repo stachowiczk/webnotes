@@ -22,7 +22,7 @@ function Home() {
       const storedWidth = localStorage.getItem(LOCAL_STORAGE_WIDTH_KEY);
       if (storedWidth) {
         setLeftWidth(parseInt(storedWidth));
-      } 
+      }
     } catch (err) {
       console.error(err);
     }
@@ -94,10 +94,14 @@ function Home() {
   } else {
     return (
       <>
-        <button className="user-button" onClick={dropdown ? toggleDropdown : toggleDropdown} style={{color: "#ffffff"}}>Logout</button>
-        <div ref={dropdownRef}>
-          {dropdown && <Menu />}
-        </div>
+        <button
+          className="user-button"
+          onClick={dropdown ? toggleDropdown : toggleDropdown}
+          style={{ color: "#ffffff" }}
+        >
+          Logout
+        </button>
+        <div ref={dropdownRef}>{dropdown && <Menu />}</div>
         <div id="main-container">
           <div
             className="item-list"
@@ -123,19 +127,19 @@ function Home() {
           <div id="container-homejs">
             <div className="editor">
               <EditorComponent value={value} setValue={setValue} />
-            </div>
             <div className="submit-button-container">
               <button
                 className="submit-button"
                 onClick={addUserPost}
                 style={{}}
-              >
+                >
                 Save
               </button>
-              <button className="submit-button" onClick={deleteAllPosts}>
+              <button className="submit-button" onClick={deleteAllPosts} style={{display: "none"}}>
                 Delete all
               </button>
             </div>
+                </div>
           </div>
         </div>
       </>

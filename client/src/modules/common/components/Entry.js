@@ -51,7 +51,7 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
         />
         <span
           style={{ fontStyle: "italic", fontSize: "small" }}
-        >{`Created: ${created_at}`}</span>
+        >{`${created_at}`}</span>
         <button className="expand-button expand-item" onClick={toggleExpanded}>
           {data[keyProp].isExpanded ? "collapse" : "expand"}
         </button>
