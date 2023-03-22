@@ -93,28 +93,29 @@ function Login() {
       </div>
     );
   } else {
+
     return (
-      <div style={formStyle}>
-        <h1>Login</h1>
-        <form onSubmit={submit}>
-          <label htmlFor="username">Username</label>
+      <>
+        <form className="form" id="login-form" onSubmit={submit}>
+          <div id="register-form-label-main">Log in to WebNotes</div>
           <input
             type="text"
             name="username"
             value={userData.username}
             onChange={handleChange}
+            placeholder="Username"
           />
-          <label htmlFor="password">Password</label>
           <input
             type="password"
             name="password"
             value={userData.password}
             onChange={handleChange}
+            placeholder="Password"
           />
-          <button type="submit">Login</button>
+          <button className="submit" id="login" type="submit">Login</button>
+        Need and account? <Link to="/register" style={{textDecoration: "none", color: "black"}}>Register here!</Link>
         </form>
-        <Link to="/register">Need and account? Register here!</Link>
-      </div>
+      </>
     );
   }
 }

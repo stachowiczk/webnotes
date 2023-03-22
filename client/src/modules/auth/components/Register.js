@@ -117,7 +117,7 @@ function Register() {
           />
           <label htmlFor="repeatPassword" style={labelStyle}>
             {pwMatch && " "}
-            {(!pwMatch && userData.password!="") && "Passwords do not match"}
+            {(!pwMatch && userData.password!=="") && "Passwords do not match"}
           </label>
           <button className="submit" id="register" type="submit">Register</button>
           Already have an account?<Link to="/login" style={{textDecoration: "none", color: "black"}}>Login</Link>
@@ -127,9 +127,7 @@ function Register() {
   }
 }
 
-const hideLabel = {
-  display: "none",
-};
+
 
 const labelStyle = {
   flex: "0",
