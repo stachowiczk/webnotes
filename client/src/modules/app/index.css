@@ -210,3 +210,73 @@ div.user-button {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+form {
+  width: 20vw;
+  border-radius: 2em;
+  border: 1px solid black;
+  background-color: rgb(240, 240, 240);
+  height: 50dvh;
+  margin-top: 25dvh;
+  flex: 1;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  flex: 0 0 auto;
+  padding: 0.5rem;
+  border: 1px solid hsl(60, 1%, 81%);
+  border-radius: 0.5rem;
+  background-color: hsl(0, 0%, 73%);
+  color: hsl(60, 1%, 81%);
+  font-size: 1rem;
+  cursor: pointer;
+  max-width: min-content;
+}
+
+input:focus {
+  box-shadow: 0 0 0.8em hsl(224, 38%, 50%);
+} 
+
+#register-form-label-main {
+  font-size: x-large;
+  font-weight: 500;
+  color: black;
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+  height: 3rem;
+  text-align: center;
+
+}
+
+button#register {
+  padding: 0.5rem;
+  border: 1px solid hsl(60, 1%, 81%);
+  border-radius: 0.5rem;
+  background-color: hsl(230, 15%, 16%);
+  color: hsl(60, 1%, 81%);
+  font-size: 1rem;
+  cursor: pointer;
+  max-width: max-content;
+  margin-right: 2rem;
+  margin-left: auto;
+  font-size: small;
+}
+
+button#register:hover {
+  border: 1px solid hsl(230, 15%, 16%);
+}
+
+input[type="password"]:hover {
+  
+
+}

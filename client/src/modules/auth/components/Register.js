@@ -1,13 +1,17 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/UserContext";
+
+const PAGE_NUMBER = new Set([1, 2]);
 
 function Register() {
   const [userData, setUserData] = useState({
     username: "",
     password: "",
+    repeatPassword: "",
   });
+  const [pwMatch, setPwMatch] = useState(false);
   const [isAvailable, setIsAvailable] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
   const { state, dispatch } = useContext(AuthContext);
@@ -15,6 +19,14 @@ function Register() {
   const handleChange = (e) => {
     e.preventDefault();
     setUserData({ ...userData, [e.target.name]: e.target.value });
+    if (
+      userData.password === userData.repeatPassword &&
+      userData.password !== ""
+    ) {
+      setPwMatch(true);
+    } else {
+      setPwMatch(false);
+    }
   };
 
   useEffect(() => {
@@ -22,7 +34,18 @@ function Register() {
     return () => {
       setIsAvailable(true);
     };
-  }, [userData]);
+  }, [userData.username]);
+
+  useEffect(() => {
+    if (
+      userData.password === userData.repeatPassword &&
+      userData.password !== ""
+    ) {
+      setPwMatch(true);
+    } else {
+      setPwMatch(false);
+    }
+  }, [userData.repeatPassword, userData.password]);
 
   const checkAvailable = () => {
     axios({
@@ -55,7 +78,7 @@ function Register() {
     });
   }
   useEffect(() => {
-    setUserData({ username: "", password: "" });
+    setUserData({ username: "", password: "", repeatPassword: "" });
     setIsLoaded(true);
   }, []);
   if (!isLoaded) {
@@ -65,15 +88,14 @@ function Register() {
   } else {
     return (
       <>
-        <div style={{ height: "2em" }}>
-          <label
-            htmlFor="username"
-            style={isAvailable ? hideLabel : labelStyle}
-          >
-            Username is not available
-          </label>
+        <div className="form" id="register-form">
         </div>
         <form onSubmit={submit} style={formStyle}>
+          <div id="register-form-label-main">Create a WebNotes Account</div>
+          <label htmlFor="username" style={labelStyle}>
+            {isAvailable && " "}
+            {!isAvailable && "Username is not available"}
+          </label>
           <input
             type="text"
             placeholder="Username"
@@ -87,7 +109,18 @@ function Register() {
             name="password"
             onChange={handleChange}
           />
-          <button type="submit">Register</button>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            name="repeatPassword"
+            onChange={handleChange}
+          />
+          <label htmlFor="repeatPassword" style={labelStyle}>
+            {pwMatch && " "}
+            {(!pwMatch && userData.password!="") && "Passwords do not match"}
+          </label>
+          <button className="submit" id="register" type="submit">Register</button>
+          Already have an account?<Link to="/login" style={{textDecoration: "none", color: "black"}}>Login</Link>
         </form>
       </>
     );
@@ -96,20 +129,20 @@ function Register() {
 
 const hideLabel = {
   display: "none",
-  position: "relative",
-  right: "-10px",
 };
 
 const labelStyle = {
+  flex: "0",
   color: "red",
-  position: "relative",
-  right: "-10px",
+  minHeight: "1em",
+  marginTop: "0em",
+  fontSize: "0.9em",
 };
 
 const formStyle = {
   display: "flex",
   gap: "10px",
-  marginRight: "20vw",
+  marginRight: "auto",
   marginLeft: "auto",
   padding: "10px",
 };

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import Draggable from "react-draggable";
 import EditorComponent from "../../common/components/Editor.js";
@@ -9,12 +9,12 @@ import Menu from "./Menu.js";
 const LOCAL_STORAGE_WIDTH_KEY = "WIDTH";
 
 function Home() {
-  const [error, setError] = React.useState(null);
-  const [reloadFeed, setReloadFeed] = React.useState(false);
-  const [isLoaded, setIsLoaded] = React.useState(true);
-  const [dropdown, setDropdown] = React.useState(false);
-  const [value, setValue] = React.useState("");
-  const [leftWidth, setLeftWidth] = React.useState(window.innerWidth / 4);
+  const [error, setError] = useState(null);
+  const [reloadFeed, setReloadFeed] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
+  const [dropdown, setDropdown] = useState(false);
+  const [value, setValue] = useState("");
+  const [leftWidth, setLeftWidth] = useState(window.innerWidth / 4);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -118,7 +118,7 @@ function Home() {
             axis="x"
             onDrag={handleResize}
             positionOffset={
-              { x: "none", y: 0 } // using only positionOffset or x: true works fine, no idea why
+              { x: "none", y: 0 } //dont touch
             }
           >
             <div id="divider" />
@@ -127,19 +127,23 @@ function Home() {
           <div id="container-homejs">
             <div className="editor">
               <EditorComponent value={value} setValue={setValue} />
-            <div className="submit-button-container">
-              <button
-                className="submit-button"
-                onClick={addUserPost}
-                style={{}}
+              <div className="submit-button-container">
+                <button
+                  className="submit-button"
+                  onClick={addUserPost}
+                  style={{}}
                 >
-                Save
-              </button>
-              <button className="submit-button" onClick={deleteAllPosts} style={{display: "none"}}>
-                Delete all
-              </button>
+                  Save
+                </button>
+                <button
+                  className="submit-button"
+                  onClick={deleteAllPosts}
+                  style={{ display: "none" }}
+                >
+                  Delete all
+                </button>
+              </div>
             </div>
-                </div>
           </div>
         </div>
       </>

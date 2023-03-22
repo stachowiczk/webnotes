@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/UserContext";
+import http from "./Interceptor";
 
 function Logout() {
   const { state, dispatch } = useContext(AuthContext);
@@ -10,25 +11,19 @@ function Logout() {
     dispatch({ type: "LOADING" });
 
     try {
-      const response = await axios({
+      const response = await http({
         method: "delete",
         url: "http://localhost:5000/auth/login",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-        },
-        withCredentials: true,
       });
       const data = await response.data;
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 401) {
         dispatch({ type: "LOGOUT_SUCCESS" });
         navigate("/login");
       }
     } catch (error) {
       console.log(error);
-      dispatch({ type: "LOGOUT_FAIL" });
-      navigate("/");
+      dispatch({ type: "LOGOUT_SUCCESS" });
+      navigate("/login");
     }
   }
 

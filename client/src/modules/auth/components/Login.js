@@ -59,14 +59,7 @@ function Login() {
     async function checkLoggedIn() {
       dispatch({ type: "LOADING" });
       try {
-        const res = await http.get("http://localhost:5000/auth/login", {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Credentials": "true",
-          },
-        });
+        const res = await http.get("http://localhost:5000/auth/login");
         if (res.status === 200) {
           dispatch({ type: "USER_LOADED", payload: res.data });
           navigate("/home");
