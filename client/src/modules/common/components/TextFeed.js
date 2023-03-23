@@ -73,6 +73,9 @@ function TextFeed({ reload }) {
   useEffect(() => {
     getUserPosts();
     setEntryComponents(makeRows());
+    return () => {
+      Promise.resolve();
+    }
   }, [entries.length, reload]);
 
   if (!isLoaded) {

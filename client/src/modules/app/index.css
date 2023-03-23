@@ -223,7 +223,7 @@ div.user-button {
 }
 
 form {
-  width: 20vw;
+  width: 16vw;
   border-radius: 2em;
   border: 1px solid black;
   background-color: rgb(240, 240, 240);
@@ -291,7 +291,9 @@ button#login {
 button#register:hover {
   border: 1px solid hsl(230, 15%, 16%);
 }
-
+button#login:hover {
+  border: 1px solid hsl(230, 15%, 16%);
+}
 input[type="password"]:hover {
   
 

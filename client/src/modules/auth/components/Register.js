@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Navigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const PAGE_NUMBER = new Set([1, 2]);
 
@@ -15,6 +16,7 @@ function Register() {
   const [isAvailable, setIsAvailable] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
   const { state, dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -33,6 +35,7 @@ function Register() {
     checkAvailable();
     return () => {
       setIsAvailable(true);
+      Promise.resolve()
     };
   }, [userData.username]);
 
@@ -64,6 +67,9 @@ function Register() {
 
   function submit(e) {
     e.preventDefault();
+    if (!pwMatch || !isAvailable) {
+      return;
+    }
     axios({
       method: "post",
       url: "http://localhost:5000/auth/register",
@@ -75,6 +81,7 @@ function Register() {
       }),
     }).then((res) => {
       console.log(res.data);
+      navigate("/login");
     });
   }
   useEffect(() => {
@@ -119,7 +126,7 @@ function Register() {
             {pwMatch && " "}
             {(!pwMatch && userData.password!=="") && "Passwords do not match"}
           </label>
-          <button className="submit" id="register" type="submit">Register</button>
+          <button className="submit" id="register" type="submit" >Register</button>
           Already have an account?<Link to="/login" style={{textDecoration: "none", color: "black"}}>Login</Link>
         </form>
       </>
