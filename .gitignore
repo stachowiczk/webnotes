@@ -16,6 +16,7 @@ client/node_modules
 .DS_Store
 /server_env
 notes
+server/migrations/versions
 
 /.pytest_cache
 server/__pycache__
