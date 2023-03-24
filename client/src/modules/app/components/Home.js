@@ -5,6 +5,8 @@ import EditorComponent from "../../common/components/Editor.js";
 import http from "../../auth/components/Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
 import Menu from "./Menu.js";
+import { setEditedNoteId, setEditingExisting, setEditorState } from "../../common/slices/editorSlice.js";
+import { useDispatch, useSelector } from "react-redux";
 
 const LOCAL_STORAGE_WIDTH_KEY = "WIDTH";
 
@@ -16,6 +18,10 @@ function Home() {
   const [value, setValue] = useState("");
   const [leftWidth, setLeftWidth] = useState(window.innerWidth / 4);
   const dropdownRef = useRef(null);
+  const editorState = useSelector((state) => state.editor.editorState);
+  const editingExisting = useSelector((state) => state.editor.editingExisting);
+  const editedNoteId = useSelector((state) => state.editor.editedNoteId);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     try {
@@ -55,16 +61,37 @@ function Home() {
       await http.post(
         "http://localhost:5000/notes/",
         JSON.stringify({
-          title: value,
-          content: value,
+          title: editorState,
+          content: editorState,
         })
       );
-      setValue("");
+      dispatch(setEditorState(""));
       setReloadFeed(!reloadFeed);
     } catch (err) {
       console.error(err);
       setError(err);
     }
+  }
+
+  async function editUserPost() {
+    try {
+      await http.put(
+        `http://localhost:5000/notes/${editedNoteId}`,
+        JSON.stringify({
+          title: editorState,
+          content: editorState,
+        })
+      );
+      dispatch(setEditorState(""));
+      dispatch(setEditingExisting(false));
+      dispatch(setEditedNoteId(null));
+      setReloadFeed(!reloadFeed);
+    }
+    catch (err) {
+      console.error(err);
+      setError(err);
+    }
+
   }
 
   async function deleteAllPosts() {
@@ -126,11 +153,11 @@ function Home() {
 
           <div id="container-homejs">
             <div className="editor">
-              <EditorComponent value={value} setValue={setValue} />
+              <EditorComponent  />
               <div className="submit-button-container">
                 <button
                   className="submit-button"
-                  onClick={addUserPost}
+                  onClick={editingExisting ? editUserPost : addUserPost}
                   style={{}}
                 >
                   Save

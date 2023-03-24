@@ -35,7 +35,7 @@ function Register() {
     checkAvailable();
     return () => {
       setIsAvailable(true);
-      Promise.resolve()
+      Promise.resolve();
     };
   }, [userData.username]);
 
@@ -95,8 +95,7 @@ function Register() {
   } else {
     return (
       <>
-        <div className="form" id="register-form">
-        </div>
+        <div className="form" id="register-form"></div>
         <form onSubmit={submit} style={formStyle}>
           <div id="register-form-label-main">Create a WebNotes Account</div>
           <label htmlFor="username" style={labelStyle}>
@@ -124,17 +123,20 @@ function Register() {
           />
           <label htmlFor="repeatPassword" style={labelStyle}>
             {pwMatch && " "}
-            {(!pwMatch && userData.password!=="") && "Passwords do not match"}
+            {!pwMatch && userData.password !== "" && "Passwords do not match"}
           </label>
-          <button className="submit" id="register" type="submit" >Register</button>
-          Already have an account?<Link to="/login" style={{textDecoration: "none", color: "black"}}>Login</Link>
+          <button className="submit" id="register" type="submit">
+            Register
+          </button>
+          Already have an account?
+          <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
+            Login
+          </Link>
         </form>
       </>
     );
   }
 }
-
-
 
 const labelStyle = {
   flex: "0",

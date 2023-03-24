@@ -1,9 +1,16 @@
 import { useSelector, useDispatch } from "react-redux";
 import http from "../../auth/components/Interceptor";
 import { setExpanded } from "../slices/feedSlice";
+import { useEffect, useState } from "react";
+import { setEditorState, setEditingExisting, setEditedNoteId } from "../slices/editorSlice";
 
 function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
   const data = useSelector((state) => state.feed.entries);
+  const editorState = useSelector((state) => state.editor.editorState);
+  const isEditingExisting = useSelector(
+    (state) => state.editor.isEditingExisting
+  );
+
   const dispatch = useDispatch();
 
   try {
@@ -25,6 +32,12 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
 
   function toggleExpanded() {
     dispatch(setExpanded(keyProp));
+  }
+
+  function editNote() { 
+    dispatch(setEditingExisting(true));
+    dispatch(setEditedNoteId(noteId));
+    dispatch(setEditorState(content));
   }
 
   return (
@@ -55,6 +68,7 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
         <button className="expand-button expand-item" onClick={toggleExpanded}>
           {data[keyProp].isExpanded ? "collapse" : "expand"}
         </button>
+        <button className="edit-button edit-item" onClick={editNote}>Edit</button>
       </div>
     </>
   );

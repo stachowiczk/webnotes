@@ -8,6 +8,7 @@ from api.common.models import Note
 from api.auth.models import User
 from api.db import db
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object("config")
@@ -19,7 +20,7 @@ def create_app():
     from api.auth.views import auth_bp
     from api.auth import views as av
     from api.common import views as cv
-    
+
     app.register_blueprint(notes_bp)
     app.register_blueprint(auth_bp)
 
@@ -27,14 +28,8 @@ def create_app():
 
     return app
 
+
 app = create_app()
-
-
-
-
-
-
-
 
 
 if __name__ == "__main__":

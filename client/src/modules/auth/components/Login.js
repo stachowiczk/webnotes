@@ -93,7 +93,6 @@ function Login() {
       </div>
     );
   } else {
-
     return (
       <>
         <form className="form" id="login-form" onSubmit={submit}>
@@ -112,8 +111,16 @@ function Login() {
             onChange={handleChange}
             placeholder="Password"
           />
-          <button className="submit" id="login" type="submit">Login</button>
-        Need and account? <Link to="/register" style={{textDecoration: "none", color: "black"}}>Register here!</Link>
+          <button className="submit" id="login" type="submit">
+            Login
+          </button>
+          Need and account?{" "}
+          <Link
+            to="/register"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            Register here!
+          </Link>
         </form>
       </>
     );

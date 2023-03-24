@@ -1,8 +1,27 @@
+import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "../../app/index.css";
+import { setEditorState } from "../slices/editorSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-function EditorComponent({ value, setValue }) {
+function EditorComponent() {
+  const editorState = useSelector((state) => state.editor.editorState);
+  const dispatch = useDispatch();
+
+
+  const [value, setValue] = useState(editorState);
+
+  useEffect(() => {
+    dispatch(setEditorState(value));
+  }, [value]);
+
+  useEffect(() => {
+    setValue(editorState);
+  }, [editorState]);
+
+
+
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
@@ -30,7 +49,7 @@ function EditorComponent({ value, setValue }) {
 
   return (
     <>
-      <div id="quill" style={{ maxHeight: "60vh" }}>
+      <div id="quill" style={{}}>
         <ReactQuill
           style={{ border: "none", outline: "none" }}
           theme="snow"
