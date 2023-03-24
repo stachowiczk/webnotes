@@ -5,6 +5,7 @@ import EditorComponent from "../../common/components/Editor.js";
 import http from "../../auth/components/Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
 import Menu from "./Menu.js";
+import { setReload } from "../../common/slices/feedSlice.js";
 import { setEditedNoteId, setEditingExisting, setEditorState } from "../../common/slices/editorSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -85,7 +86,7 @@ function Home() {
       dispatch(setEditorState(""));
       dispatch(setEditingExisting(false));
       dispatch(setEditedNoteId(null));
-      setReloadFeed(!reloadFeed);
+      dispatch(setReload());
     }
     catch (err) {
       console.error(err);

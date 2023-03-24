@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import DOMPurify from "dompurify";
 import Entry from "./Entry";
 import { useSelector, useDispatch } from "react-redux";
-import { setEntries, expandAll, collapseAll } from "../slices/feedSlice";
+import { setEntries, expandAll, collapseAll, setReload } from "../slices/feedSlice";
 import http from "../../auth/components/Interceptor";
 
 function TextFeed({ reload }) {
@@ -12,6 +12,7 @@ function TextFeed({ reload }) {
   const [error, setError] = useState(null);
   const [entryComponents, setEntryComponents] = useState([]);
   const entries = useSelector((state) => state.feed.entries);
+  const reloadFeed = useSelector((state) => state.feed.reload);
   const dispatch = useDispatch();
 
   async function getUserPosts() {
@@ -72,11 +73,17 @@ function TextFeed({ reload }) {
 
   useEffect(() => {
     getUserPosts();
+    return () => {
+      Promise.resolve();
+    }
+  }, [entries.length, reload, reloadFeed]);
+
+  useEffect(() => {
     setEntryComponents(makeRows());
     return () => {
       Promise.resolve();
     }
-  }, [entries.length, reload]);
+  }, [entries]);
 
   if (!isLoaded) {
     return <div className="editor">Loading...</div>;

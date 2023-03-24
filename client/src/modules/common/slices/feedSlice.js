@@ -13,6 +13,7 @@ const initialState = {
   ],
   isLoaded: false,
   error: null,
+  reload: false,
 };
 
 export const feedSlice = createSlice({
@@ -27,6 +28,9 @@ export const feedSlice = createSlice({
     },
     setError: (state, action) => {
       state.error = action.payload;
+    },
+    setReload: (state, action) => {
+      state.reload = !state.reload;
     },
     setExpanded: (state, action) => {
       state.entries[action.payload].isExpanded =
@@ -49,6 +53,7 @@ export const {
   setEntries,
   setIsLoaded,
   setError,
+  setReload,
   setExpanded,
   expandAll,
   collapseAll,
