@@ -130,12 +130,20 @@ blockquote {
   left: 0;
   margin: 1rem;
   padding: 0.5rem;
-  border: 0px solid hsl(60, 1%, 81%);
   border-radius: 0.25rem;
-  background-color: hsl(230, 15%, 16%);
-  color: hsl(230, 15%, 16%);
   font-size: 1rem;
   cursor: pointer;
+  background-color: hsl(60, 11%, 69%);
+  opacity: 0.75;
+  border: none;
+  font-size: x-small;
+  color: rgb(61, 119, 228);
+  max-width: max-content;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  border-radius: 0.5em;
+  border-top-right-radius: 0;
+  word-wrap: normal;
 }
 
 button.user-button:hover {
@@ -175,15 +183,16 @@ div.user-button {
 }
 
 .menu-button {
-  background-color: hsl(230, 15%, 16%);
+
+  background-color: hsl(60, 11%, 69%);
+  color: rgb(61, 119, 228);
   border-radius: 0.3rem;
-  padding: 0.3rem;
-  padding-bottom: 1rem;
-  padding-right: 2rem;
+  padding: 0.5rem;
+
 }
 
 .menu-button > a {
-  color: hsl(60, 1%, 81%);
+  color:rgb(61, 119, 228);
   text-decoration: none;
 }
 
