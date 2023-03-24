@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "../../app/index.css";
@@ -11,6 +11,7 @@ function EditorComponent() {
 
 
   const [value, setValue] = useState(editorState);
+  const quillRef = React.useRef();
 
   useEffect(() => {
     dispatch(setEditorState(value));
@@ -21,36 +22,49 @@ function EditorComponent() {
   }, [editorState]);
 
 
-
   const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ list: "ordered" }],
-      ["link", "image", "video"],
-      ["clean"],
-    ],
-  };
+      toolbar: [
+        [{ font: [] }],
+        [{ size: ['small', false, 'large', 'huge'] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        [{ indent: '-1' }, { indent: '+1' }],
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ color: [] }, { background: [] }],
+        [{ align: [] }],
+        ['link', 'image', 'video'],
+        ['clean'],
+      ],
+      // TODO: imageResize: {}, // add the image resize module
+    };
 
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "code-block",
-    "code",
-    "list",
-    "link",
-    "image",
-    "video",
+    const formats = [
+    'font',
+    'size',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'indent',
+    'header',
+    'color',
+    'background',
+    'align',
+    'link',
+    'image',
+    'video',
   ];
+
+
 
   return (
     <>
       <div id="quill" style={{}}>
         <ReactQuill
+          className="custom-quill"
           style={{ border: "none", outline: "none" }}
           theme="snow"
           modules={modules}
