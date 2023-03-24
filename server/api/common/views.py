@@ -10,10 +10,16 @@ from api.common.const import SPECIAL_CHARACTERS
 
 def set_title2(content):
     try:
+        for i in range(50):
+            if content[i] == " ":
+                if content[i - 1] == ".":
+                    return content[:i]
         for i in range(50, 200):
             if content[i] == " ":
                 if content[i - 1] in SPECIAL_CHARACTERS:
-                    return content[: i - 1]
+                    if content[i -1] == ".":
+                        return content[:i]
+                    return content[:i - 1]
                 return content[:i]
     except IndexError:
         return content[:50]

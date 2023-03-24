@@ -23,6 +23,11 @@ export const feedSlice = createSlice({
     setEntries: (state, action) => {
       state.entries = action.payload;
     },
+    removeEntry: (state, action) => {
+      state.entries = state.entries.filter(
+        (entry) => entry.noteId !== action.payload
+      );
+    },
     setIsLoaded: (state, action) => {
       state.isLoaded = action.payload;
     },
@@ -51,6 +56,7 @@ export const feedSlice = createSlice({
 
 export const {
   setEntries,
+  removeEntry,
   setIsLoaded,
   setError,
   setReload,

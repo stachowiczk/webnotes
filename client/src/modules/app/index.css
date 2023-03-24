@@ -111,6 +111,7 @@ blockquote {
   margin: 0.1rem;
 }
 .entry-main {
+  
   border: 1px solid hsl(60, 1%, 81%);
   background-color: bisque;
   color: black;
@@ -123,7 +124,11 @@ blockquote {
   margin-right: 0;
   position: relative;
   flex: 1;
+  transition: flex 0.5s ease;
 }
+
+
+
 .user-button {
   position: absolute;
   top: 0;

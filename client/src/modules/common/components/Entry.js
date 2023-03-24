@@ -1,8 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import http from "../../auth/components/Interceptor";
-import { setExpanded } from "../slices/feedSlice";
+import { removeEntry, setExpanded, setReload } from "../slices/feedSlice";
 import { useEffect, useState } from "react";
 import { setEditorState, setEditingExisting, setEditedNoteId } from "../slices/editorSlice";
+import styles from "./Entry.module.css";
 
 function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
   const data = useSelector((state) => state.feed.entries);
@@ -23,7 +24,8 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
         await http.delete(`http://localhost:5000/notes/${noteId}`);
-        removeMe(noteId);
+        dispatch(removeEntry(noteId));
+        dispatch(setReload());
       } catch (err) {
         console.log(err);
       }
@@ -40,6 +42,15 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
     dispatch(setEditorState(content));
   }
 
+  const titleClassName = data[keyProp].isExpanded
+    ? `${styles['entry-title']} ${styles.expanded}`
+    : `${styles['entry-title']} ${styles.collapsed}`;
+
+  const contentClassName = data[keyProp].isExpanded
+    ? `${styles['entry-content']} ${styles.expanded}`
+    : `${styles['entry-content']} ${styles.collapsed}`;
+
+
   return (
     <>
       <div className="entry-main">
@@ -48,18 +59,11 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
             {""}x{""}
           </button>
         </div>
-        <div
-          style={{
-            marginTop: "0em",
-            display: data[keyProp].isExpanded ? "none" : "block",
-            fontSize: "1.3em",
-          }}
+        <div className={titleClassName}
+          
           dangerouslySetInnerHTML={{ __html: title }}
         />
-        <div
-          style={{
-            display: data[keyProp].isExpanded ? "block" : "none",
-          }}
+        <div className={contentClassName}
           dangerouslySetInnerHTML={{ __html: content }}
         />
         <span
