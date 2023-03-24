@@ -19,16 +19,13 @@ code {
   padding-left: 4dvw;
   padding-top: 3rem;
   padding-right: 4dvw;
-  overflow-y: scroll;
   display: flex;
   flex-direction: column;
 }
 
 div#quill {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
   padding-right: 4dvw;
 }
 
@@ -40,8 +37,11 @@ div#quill {
   padding-right: 4dvw;
 }
 
-.ql-container.ql-snow {
+div.ql-container.ql-snow {
   border: none;
+  flex: 1;
+  overflow-y: scroll;
+  max-height: 70vh;
 }
 
 .ql-toolbar.ql-snow + .ql-container.ql-snow {
@@ -51,6 +51,7 @@ div#quill {
 div.ql-toolbar.ql-snow {
   border: none;
   margin-bottom: 2rem;
+  
 }
 
 .ql-editor {
@@ -61,7 +62,7 @@ div.ql-toolbar.ql-snow {
   font-size: 1.2rem;
   font-family: "Roboto", sans-serif;
   line-height: 1.5;
-  overflow-y: hidden;
+  overflow-y: scroll;
   min-height: 50vh;
   width: 100%;
   margin-bottom: 2vh;
@@ -72,8 +73,7 @@ div.submit-button-container {
   flex: 1;
   max-width: max-content;
   flex-direction: column;
-  margin-top: 2rem;
-  margin-right: 0;
+  margin-right: 2rem;
   margin-left: auto;
 }
 .submit-button {
@@ -197,7 +197,6 @@ div.user-button {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
 }
 
 #divider {

@@ -95,6 +95,12 @@ function Home() {
 
   }
 
+  function cancelEdit() {
+    dispatch(setEditorState(""));
+    dispatch(setEditingExisting(false));
+    dispatch(setEditedNoteId(null));
+  }
+
   async function deleteAllPosts() {
     if (window.confirm("Are you sure you want to delete all posts?")) {
       try {
@@ -155,14 +161,16 @@ function Home() {
           <div id="container-homejs">
             <div className="editor">
               <EditorComponent  />
+                </div>
               <div className="submit-button-container">
                 <button
                   className="submit-button"
                   onClick={editingExisting ? editUserPost : addUserPost}
                   style={{}}
                 >
-                  Save
+                Save&nbsp;&nbsp;&nbsp;
                 </button>
+                <button className="submit-button" onClick={cancelEdit}>Cancel</button>
                 <button
                   className="submit-button"
                   onClick={deleteAllPosts}
@@ -171,7 +179,6 @@ function Home() {
                   Delete all
                 </button>
               </div>
-            </div>
           </div>
         </div>
       </>

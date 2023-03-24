@@ -7,6 +7,18 @@ from api.common import notes_bp
 import re
 from api.common.const import SPECIAL_CHARACTERS
 
+
+def set_title2(content):
+    try:
+        for i in range(50, 200):
+            if content[i] == " ":
+                if content[i - 1] in SPECIAL_CHARACTERS:
+                    return content[: i - 1]
+                return content[:i]
+    except IndexError:
+        return content[:50]
+
+
 @notes_bp.route("/", methods=["GET", "POST", "DELETE"])
 class NotesAPI(MethodView):
     @cross_origin(supports_credentials=True)
@@ -34,7 +46,7 @@ class NotesAPI(MethodView):
         try:
             req_data = request.get_json()
             content = req_data["content"]
-            title = NotesAPI.set_title2(content)
+            title = set_title2(content)
             identity = get_jwt_identity()
             if not content:
                 content = ""
@@ -61,7 +73,7 @@ class NotesAPI(MethodView):
             print(e)
             return jsonify({"message": "Invalid request"}), 400
 
-    ''' DEPRECATED
+    """ DEPRECATED
     def set_title(content):
         first_50 = content[:60]
         next_space = content[:60].find(" ")
@@ -71,19 +83,7 @@ class NotesAPI(MethodView):
             title_line = content[: 30 + next_space]
             stripped_title = re.sub(r"[^/w/s]+$", "", title_line)
         return stripped_title
-    '''
-    
-    def set_title2(content):
-        try:
-            for i in range(50, 200):
-                if content[i] == " ":
-                    if content[i-1] in SPECIAL_CHARACTERS:
-                        return content[:i-1]
-                    return content[:i]
-        except IndexError:
-            return content[:50]
-            
-
+    """
 
 
 @notes_bp.route("/<string:note_id>", methods=["GET", "PUT", "DELETE"])
@@ -108,8 +108,8 @@ class NoteAPI(MethodView):
             session = current_app.db.session
             note = session.query(Note).filter_by(id=note_id, user_id=identity).one()
             req_data = request.get_json()
-            note.title = req_data["title"]
             note.content = req_data["content"]
+            note.title = set_title2(note.content)
             session.commit()
             return jsonify({"message": "Note updated successfully"}), 200
         except Exception as e:
@@ -129,6 +129,7 @@ class NoteAPI(MethodView):
         except Exception as e:
             print(e)
             return jsonify({"message": "Invalid request"}), 400
+
 
 @notes_bp.route("/share/<string:note_id>", methods=["POST", "GET", "DELETE"])
 class ShareAPI(MethodView):
