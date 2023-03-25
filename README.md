@@ -1,11 +1,44 @@
-# Note editor v0.6 
-### Development version 
+# WebNotes - A simple note taking app
+### v1.0.0
 
-#### requires a config.py file with a secret key for JWT authentication and setting up sqlite3
-##### requirements_backup.txt should be used instead of requirements.txt
-###### the list currently includes some redundancies :TODO
+## Features
+- Full stack web application: React.js + Python-Flask
+- SQLite3 database with SQLAlchemy ORM
+- User registration and login with JWT authentication
+- Create, edit, and delete notes
+- Built-in text editor (React Quill)
+- Responsive design
+- Resizable UI elements
+
+### Planned features
+- Mobile device support
+- User settings (change password, change username, etc.)
+- Dark/light mode
+- Folder/tags support
+- Note sharing and collaboration
+
+#### Live version coming soon
+
+## Screenshots
+![Registration](https://i.imgur.com/EjM55lp.png)
+![Registration](https://i.imgur.com/8aaIe5x.png)
+![Login page](https://i.imgur.com/Da5gDiw.png)
+![Main page](https://i.imgur.com/Cc59mDu.png)
+![Main page - expanded](https://i.imgur.com/GARWhTx.png)
+
+### How to run the dev server
+Requirements.txt is functional, but contains a lot of unnecessary packages. I will clean it up later.
+###### Initialize venv:
+```python -m venv venv```
+
+```source venv/bin/activate```
+###### Install the required packages:
+```pip install -r requirements.txt```
+#### requires a config.py file with a secret key for JWT authentication and setting up SQLAlchemy.
+
 
 ###### Example config.py: 
+CSRF will be disabled for now, as it is not needed for the current state of the app. Make sure it is disabled in the config file.
 
 ```
 SQLALCHEMY_DATABASE_URI = "sqlite:///your_database_filename.db"
@@ -21,5 +54,10 @@ place the file in the 'server' directory and run:
 
 ```flask db migrate```
 
-```flask db upgrade```
+```flask db upgrade``` # make sure the Alembic script is correct
+
+
+to create the database schema and initialize the database.
+
+
 
