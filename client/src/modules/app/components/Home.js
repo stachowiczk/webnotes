@@ -16,7 +16,6 @@ function Home() {
   const [reloadFeed, setReloadFeed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(true);
   const [dropdown, setDropdown] = useState(false);
-  const [value, setValue] = useState("");
   const [leftWidth, setLeftWidth] = useState(window.innerWidth / 4);
   const dropdownRef = useRef(null);
   const editorState = useSelector((state) => state.editor.editorState);
@@ -74,6 +73,12 @@ function Home() {
     }
   }
 
+  function resetEditorDispatch() {
+    dispatch(setEditorState(""));
+    dispatch(setEditingExisting(false));
+    dispatch(setEditedNoteId(null));
+  }
+
   async function editUserPost() {
     try {
       await http.put(
@@ -83,9 +88,8 @@ function Home() {
           content: editorState,
         })
       );
-      dispatch(setEditorState(""));
-      dispatch(setEditingExisting(false));
-      dispatch(setEditedNoteId(null));
+      resetEditorDispatch();
+      
       dispatch(setReload());
     }
     catch (err) {
@@ -95,11 +99,6 @@ function Home() {
 
   }
 
-  function cancelEdit() {
-    dispatch(setEditorState(""));
-    dispatch(setEditingExisting(false));
-    dispatch(setEditedNoteId(null));
-  }
 
   async function deleteAllPosts() {
     if (window.confirm("Are you sure you want to delete all posts?")) {
@@ -170,7 +169,7 @@ function Home() {
                 >
                 Save&nbsp;&nbsp;&nbsp;
                 </button>
-                <button className="submit-button" onClick={cancelEdit}>Cancel</button>
+                <button className="submit-button" onClick={resetEditorDispatch}>Cancel</button>
                 <button
                   className="submit-button"
                   onClick={deleteAllPosts}

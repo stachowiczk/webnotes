@@ -38,6 +38,7 @@ div#quill {
   flex-direction: column;
   overflow-y: scroll;
   padding-right: 4dvw;
+  gap: 2vh;
 }
 
 div.ql-container.ql-snow {
@@ -144,7 +145,8 @@ blockquote {
   box-shadow: 0 0 0.5em hsl(0, 0%, 26%);
   padding: 1em;
   padding-top: 0.1em;
-  margin: 2rem;
+  margin-left: 2rem;
+  margin-top: 2rem;
   margin-right: 0;
   position: relative;
   flex: 1;
@@ -341,8 +343,4 @@ button#register:hover {
 }
 button#login:hover {
   border: 1px solid hsl(230, 15%, 16%);
-}
-input[type="password"]:hover {
-  
-
 }

@@ -80,6 +80,7 @@ function TextFeed({ reload }) {
 
   useEffect(() => {
     setEntryComponents(makeRows());
+    setEntryComponents((prevState) => prevState.reverse());
     return () => {
       Promise.resolve();
     }
