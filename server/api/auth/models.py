@@ -48,4 +48,4 @@ class User(UserMixin, db.Model):
         return "%d%s" % (self.id, self.username)
 
     def __str__(self):
-        return f"{self.username}#{self.id}"  # returns username#id
+        return f"{self.username}"  # returns username#id

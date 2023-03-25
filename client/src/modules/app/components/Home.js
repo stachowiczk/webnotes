@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import Draggable from "react-draggable";
 import EditorComponent from "../../common/components/Editor.js";
@@ -6,8 +6,13 @@ import http from "../../auth/components/Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
 import Menu from "./Menu.js";
 import { setReload } from "../../common/slices/feedSlice.js";
-import { setEditedNoteId, setEditingExisting, setEditorState } from "../../common/slices/editorSlice.js";
+import {
+  setEditedNoteId,
+  setEditingExisting,
+  setEditorState,
+} from "../../common/slices/editorSlice.js";
 import { useDispatch, useSelector } from "react-redux";
+import { AuthContext } from "../../auth/context/UserContext.js";
 
 const LOCAL_STORAGE_WIDTH_KEY = "WIDTH";
 
@@ -22,6 +27,8 @@ function Home() {
   const editingExisting = useSelector((state) => state.editor.editingExisting);
   const editedNoteId = useSelector((state) => state.editor.editedNoteId);
   const dispatch = useDispatch();
+  const { state, dispatch: authDispatch } = useContext(AuthContext);
+  const { user } = state;
 
   useEffect(() => {
     try {
@@ -89,16 +96,13 @@ function Home() {
         })
       );
       resetEditorDispatch();
-      
+
       dispatch(setReload());
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
       setError(err);
     }
-
   }
-
 
   async function deleteAllPosts() {
     if (window.confirm("Are you sure you want to delete all posts?")) {
@@ -127,14 +131,19 @@ function Home() {
   } else {
     return (
       <>
-        <button
-          className="user-button"
-          onClick={dropdown ? toggleDropdown : toggleDropdown}
-          style={{ color: "#ffffff" }}
-        >
-          Logout
-        </button>
-        <div ref={dropdownRef}>{dropdown && <Menu />}</div>
+        <div className="navbar">
+            <h3>{user}'s WebNotes</h3>
+          <div className="logout">
+            <button
+              className="user-button"
+              onClick={dropdown ? toggleDropdown : toggleDropdown}
+              style={{ color: "#ffffff" }}
+            >
+              Logout
+            </button>
+            <div ref={dropdownRef}>{dropdown && <Menu />}</div>
+          </div>
+        </div>
         <div id="main-container">
           <div
             className="item-list"
@@ -159,25 +168,27 @@ function Home() {
 
           <div id="container-homejs">
             <div className="editor">
-              <EditorComponent  />
-                </div>
-              <div className="submit-button-container">
-                <button
-                  className="submit-button"
-                  onClick={editingExisting ? editUserPost : addUserPost}
-                  style={{}}
-                >
-                Save&nbsp;&nbsp;&nbsp;
-                </button>
-                <button className="submit-button" onClick={resetEditorDispatch}>Cancel</button>
-                <button
-                  className="submit-button"
-                  onClick={deleteAllPosts}
-                  style={{ display: "none" }}
-                >
-                  Delete all
-                </button>
-              </div>
+              <EditorComponent />
+            </div>
+            <div className="submit-button-container">
+              <button
+                className="submit-button"
+                onClick={editingExisting ? editUserPost : addUserPost}
+                style={{}}
+              >
+                &nbsp;Save&nbsp;&nbsp;
+              </button>
+              <button className="submit-button" onClick={resetEditorDispatch}>
+                Cancel
+              </button>
+              <button
+                className="submit-button"
+                onClick={deleteAllPosts}
+                style={{ display: "none" }}
+              >
+                Delete all
+              </button>
+            </div>
           </div>
         </div>
       </>

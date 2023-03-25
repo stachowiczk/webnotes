@@ -57,7 +57,6 @@ div.ql-container.ql-snow {
 div.ql-toolbar.ql-snow {
   border: none;
   margin-bottom: 2rem;
-  
 }
 
 .custom-quill {
@@ -136,7 +135,6 @@ blockquote {
   margin: 0.1rem;
 }
 .entry-main {
-  
   border: 1px solid hsl(60, 1%, 81%);
   background-color: bisque;
   color: black;
@@ -153,14 +151,7 @@ blockquote {
   transition: flex 0.5s ease;
 }
 
-
-
 .user-button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 1rem;
-  padding: 0.5rem;
   border-radius: 0.25rem;
   font-size: 1rem;
   cursor: pointer;
@@ -169,7 +160,7 @@ blockquote {
   border: none;
   font-size: x-small;
   color: rgb(61, 119, 228);
-  max-width: max-content;
+  max-width: min-content;
   padding-top: 0.3em;
   padding-bottom: 0.3em;
   border-radius: 0.5em;
@@ -188,14 +179,12 @@ div.user-button {
 .expand-button-container {
   display: flex;
   flex-direction: row;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
 }
 .expand-button {
   background-color: hsl(60, 11%, 69%);
   opacity: 0.75;
   border: none;
-  font-size: x-small;
+  font-size: smaller;
   color: rgb(61, 119, 228);
   flex: 1;
   max-width: max-content;
@@ -214,17 +203,36 @@ div.user-button {
 }
 
 .menu-button {
-
+  position: absolute;
   background-color: hsl(60, 11%, 69%);
   color: rgb(61, 119, 228);
   border-radius: 0.3rem;
+  flex: 0;
   padding: 0.5rem;
-
 }
 
 .menu-button > a {
-  color:rgb(61, 119, 228);
+  color: rgb(61, 119, 228);
   text-decoration: none;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  min-height: 7vh;
+  border-bottom: 2px solid hsl(60, 1%, 81%);
+}
+
+.logout {
+  position: relative;
+  margin-top: 0.6rem;
+  display: flex;
+  flex: 0;
+  flex-direction: column;
+  padding: 0;
+
 }
 
 #main-container {
@@ -254,7 +262,7 @@ div.user-button {
 
 #item-list {
   overflow: scroll;
-  margin-top: 2.5rem;
+  margin-top: 0.5rem;
 }
 
 ::-webkit-scrollbar {
@@ -269,7 +277,6 @@ div.user-button {
   margin-right: auto;
   margin-left: auto;
   padding: 10px;
-  
 }
 
 form {
@@ -299,7 +306,7 @@ input {
 
 input:focus {
   box-shadow: 0 0 0.8em hsl(224, 38%, 50%);
-} 
+}
 
 #register-form-label-main {
   font-size: x-large;
@@ -309,7 +316,6 @@ input:focus {
   margin-bottom: 5rem;
   height: 3rem;
   text-align: center;
-
 }
 
 button#register {

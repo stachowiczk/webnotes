@@ -9,11 +9,11 @@ function Menu() {
   return (
     <div
       className="user-button"
-      style={{ position: "absolute", top: "1%", border: "none" }}
+      style={{ border: "none" }}
     >
       <div
         className="menu-button"
-        style={{ position: "absolute", left: "0", top: "170%" }}
+        style={{}}
       >
         <>{state.isAuthenticated ? null : <Link to="/login">Login </Link>}</>
         <Link to="/logout">Confirm </Link>
