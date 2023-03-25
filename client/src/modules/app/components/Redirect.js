@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../auth/context/UserContext";
 import http from "../../auth/components/Interceptor";
 
-function Homee() {
+function Redirect() {
   const { state, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -42,4 +42,4 @@ function Homee() {
   }
 }
 
-export default Homee;
+export default Redirect;
