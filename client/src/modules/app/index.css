@@ -2,10 +2,14 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: hsl(0, 0%, 29%);
+  color: hsl(0, 0%, 21%);
+}
+
+body.dark {
   background-color: hsl(231, 14%, 20%);
   color: hsl(60, 1%, 81%);
 }
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

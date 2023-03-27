@@ -4,29 +4,7 @@ from flask_cors import cross_origin
 from flask.views import MethodView
 from api.common.models import Note
 from api.common import notes_bp
-import re
-from api.common.parser import get_first_sentence as set_title2
-# remove later
-# from api.common.const import SPECIAL_CHARACTERS
-
-"""
-remove later
-def set_title2(content):
-    try:
-        for i in range(50):
-            if content[i] == " ":
-                if content[i - 1] == ".":
-                    return content[:i]
-        for i in range(50, 200):
-            if content[i] == " ":
-                if content[i - 1] in SPECIAL_CHARACTERS:
-                    if content[i -1] == ".":
-                        return content[:i]
-                    return content[:i - 1]
-                return content[:i]
-    except IndexError:
-        return content[:50]
-"""
+from api.common.parser import get_first_sentence as set_title2 # too lazy to press ctrl+f2
 
 
 @notes_bp.route("/", methods=["GET", "POST", "DELETE"])
