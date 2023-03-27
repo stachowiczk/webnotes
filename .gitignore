@@ -22,7 +22,6 @@ server/migrations/versions
 server/__pycache__
 __pycache__/
 server/.auth
-const.py
 server/config.py
 *.pyc
 .env.local
