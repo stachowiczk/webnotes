@@ -160,11 +160,10 @@ blockquote {
   background-color: hsl(0, 0%, 69%);
 }
 
-.entry-main>span {
+.entry-main > span {
   margin: 1rem 0.5rem;
   padding: 1rem 0.5rem;
   flex: 1;
-
 }
 
 .user-button {
@@ -233,7 +232,6 @@ div.user-button {
 .menu-button > a {
   color: rgb(228, 61, 61);
   text-decoration: none;
-
 }
 
 .navbar {
@@ -252,7 +250,6 @@ div.user-button {
   flex: 0;
   flex-direction: column;
   padding: 0;
-
 }
 
 #main-container {
@@ -372,23 +369,24 @@ button#login:hover {
 }
 
 span.ql-font-Lato {
-  font-family: 'Lato', 'Arial', 'Helvetica', 'sans-serif';
+  font-family: "Lato", "Arial", "Helvetica", "sans-serif";
 }
 
 span.ql-font-Lora {
-  font-family: 'Lora', 'Georgia', 'serif';
+  font-family: "Lora", "Georgia", "serif";
 }
 
 span.ql-font-Inconsolata {
-  font-family: 'Inconsolata', 'Courier New', 'Courier', 'monospace';
+  font-family: "Inconsolata", "Courier New", "Courier", "monospace";
 }
 
 span.ql-font-Comic {
-  font-family: 'Comic Sans MS', 'Comic Sans', 'Marker Felt', 'Arial', 'sans-serif';
+  font-family: "Comic Sans MS", "Comic Sans", "Marker Felt", "Arial",
+    "sans-serif";
 }
 
 span.ql-font-Roboto {
-  font-family: 'Roboto', 'Arial', 'Helvetica', 'sans-serif';
+  font-family: "Roboto", "Arial", "Helvetica", "sans-serif";
 }
 
 span.ql-size-huge {
@@ -403,95 +401,26 @@ span.ql-size-small {
   font-size: 0.75em;
 }
 
-
-/* Override Quill's font classes */
-
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Lato"]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Lato"]::before {
-  content: 'Lato';
-  font-family: 'Lato', 'Arial', 'Helvetica', 'sans-serif';
+  content: "Lato";
+  font-family: "Lato", "Arial", "Helvetica", "sans-serif";
 }
 
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Lora"]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Lora"]::before {
-  content: 'Lora';
-  font-family: 'Lora', 'Georgia', 'serif';
+  content: "Lora";
+  font-family: "Lora", "Georgia", "serif";
 }
 
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Inconsolata"]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Inconsolata"]::before {
-  content: 'Inconsolata';
-  font-family: 'Inconsolata', 'Monaco', 'Consolas', 'Courier New', monospace;
+  content: "Inconsolata";
+  font-family: "Inconsolata", "Monaco", "Consolas", "Courier New", monospace;
 }
 
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Roboto"]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Roboto"]::before {
-  content: 'Roboto';
-  font-family: 'Roboto', 'Arial', 'Helvetica', 'sans-serif';
+  content: "Roboto";
+  font-family: "Roboto", "Arial", "Helvetica", "sans-serif";
 }
-
-
-/* Add more font classes as needed */
-
-/*
-div.ql-container .ql-editor .lato {
-  font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
-  }
-
-div.ql-container .ql-editor .lora {
-  font-family: 'Lora', 'Georgia', 'Times New Roman', serif;
-}
-
-div.ql-container .ql-editor .inconsolata {
-  font-family: 'Inconsolata', 'Monaco', 'Consolas', 'Courier New', monospace;
-}
-
-div.ql-container .ql-editor .roboto {
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-}
-
-
-.ql-snow .ql-picker.ql-font .ql-picker-label {
-  font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
-}
-
-.ql-snow .ql-picker.ql-font .ql-picker-item {
-  font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
-}
-
-
-
-.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Lato]::before,
-.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Lato]::before {
-  content: 'Lato';
-  font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
-}
-
-.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Lora]::before,
-.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Lora]::before {
-  content: 'Lora';
-  font-family: 'Lora', 'Georgia', 'Times New Roman', serif;
-}
-
-.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Roboto]::before,
-.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Roboto]::before {
-  content: 'Roboto';
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-}
-
-.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Inconsolata]::before,
-.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Inconsolata]::before {
-  content: 'Inconsolata';
-  font-family: 'Inconsolata', 'Consolas', 'Monaco', 'Andale Mono', monospace;
-}
-
-
-
-
-/*
-fonts
-font-family: 'Lato', sans-serif;
-font-family: 'Roboto', sans-serif;
-font-family: 'Lora', serif;
-
-*/

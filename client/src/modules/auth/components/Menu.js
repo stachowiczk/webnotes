@@ -10,19 +10,13 @@ function Menu() {
   const theme = useSelector((state) => state.theme.theme);
   const themeDispatch = useDispatch();
 
-  function handleTheme () {
+  function handleTheme() {
     themeDispatch(toggleTheme());
   }
 
   return (
-    <div
-      className="user-button"
-      style={{ border: "none" }}
-    >
-      <div
-        className="menu-button"
-        style={{}}
-      >
+    <div className="user-button" style={{ border: "none" }}>
+      <div className="menu-button" style={{}}>
         <>{state.isAuthenticated ? null : <Link to="/login">Login </Link>}</>
         <Link to="/logout">Confirm </Link>
         <button onClick={handleTheme}>Theme</button>

@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import DOMPurify from "dompurify";
 import Entry from "./Entry";
 import { useSelector, useDispatch } from "react-redux";
-import { setEntries, expandAll, collapseAll, setReload } from "../slices/feedSlice";
+import {
+  setEntries,
+  expandAll,
+  collapseAll,
+  setReload,
+} from "../slices/feedSlice";
 import http from "../../auth/components/Interceptor";
 
 function TextFeed({ reload }) {
@@ -75,7 +80,7 @@ function TextFeed({ reload }) {
     getUserPosts();
     return () => {
       Promise.resolve();
-    }
+    };
   }, [entries.length, reload, reloadFeed]);
 
   useEffect(() => {
@@ -83,7 +88,7 @@ function TextFeed({ reload }) {
     setEntryComponents((prevState) => prevState.reverse());
     return () => {
       Promise.resolve();
-    }
+    };
   }, [entries]);
 
   if (!isLoaded) {

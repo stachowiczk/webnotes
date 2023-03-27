@@ -8,6 +8,5 @@ export const store = configureStore({
     feed: feedReducer,
     editor: editorReducer,
     theme: themeReducer,
-
   },
 });

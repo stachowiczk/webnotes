@@ -4,7 +4,9 @@ from flask_cors import cross_origin
 from flask.views import MethodView
 from api.common.models import Note
 from api.common import notes_bp
-from api.common.parser import get_first_sentence as set_title2 # too lazy to press ctrl+f2
+from api.common.parser import (
+    get_first_sentence as set_title2,
+)  # too lazy to press ctrl+f2
 
 
 @notes_bp.route("/", methods=["GET", "POST", "DELETE"])
@@ -60,18 +62,6 @@ class NotesAPI(MethodView):
         except Exception as e:
             print(e)
             return jsonify({"message": "Invalid request"}), 400
-
-    """ DEPRECATED
-    def set_title(content):
-        first_50 = content[:60]
-        next_space = content[:60].find(" ")
-        if next_space == -1:
-            return first_50
-        else:
-            title_line = content[: 30 + next_space]
-            stripped_title = re.sub(r"[^/w/s]+$", "", title_line)
-        return stripped_title
-    """
 
 
 @notes_bp.route("/<string:note_id>", methods=["GET", "PUT", "DELETE"])
