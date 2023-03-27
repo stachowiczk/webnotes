@@ -38,6 +38,10 @@ div#quill {
   gap: 2vh;
 }
 
+.textfeed-js:nth-child(odd) {
+  background-color: hsl(0, 0%, 29%);
+}
+
 div.ql-container.ql-snow {
   border: none;
   flex: 1;
@@ -132,8 +136,8 @@ blockquote {
   margin: 0.1rem;
 }
 .entry-main {
-  border: 1px solid hsl(60, 1%, 81%);
-  background-color: bisque;
+  border: 0px solid hsl(60, 1%, 81%);
+  background-color: rgb(201, 201, 201);
   color: black;
   border-radius: 0.6em;
   border-top-left-radius: 0;
@@ -146,6 +150,10 @@ blockquote {
   position: relative;
   flex: 1;
   transition: flex 0.5s ease;
+}
+
+.entry-main:nth-child(odd) {
+  background-color: hsl(0, 0%, 69%);
 }
 
 .entry-main>span {

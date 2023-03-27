@@ -7,10 +7,12 @@
 - User registration and login with JWT authentication
 - Create, edit, and delete notes
 - Built-in text editor (React Quill)
+- Four available fonts and basic formatting tools
 - Responsive design
 - Resizable UI elements
 
 ### Planned features
+- More fonts
 - Mobile device support
 - User settings (change password, change username, etc.)
 - Dark/light mode

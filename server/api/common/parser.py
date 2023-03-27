@@ -1,44 +1,30 @@
 import re
-from html.parser import HTMLParser
 
-class HTMLExtract(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.reset()
-        self.strict = False
-        self.convert_charrefs= True
-        self.text = []
+def get_first_sentence(html_text):
+    def find_split_point(text):
+        patterns = [r'<p><br></p>', r'<p></p>', r'<br>']
+        for pattern in patterns:
+            match = re.search(pattern, text)
+            if match:
+                return match.start()
+        return -1
 
-    def handle_data(self, data):
-        self.text.append(data) 
+    # Find the first sentence ending with a period
+    first_period = html_text.find(".")
+    if first_period != -1 and first_period <= 100:
+        return html_text[:first_period + 1]
 
-    def get_text(self):
-        return ''.join(self.text)
+    # Find the first line break or paragraph break
+    split_point = find_split_point(html_text)
+    if split_point != -1 and split_point <= 100:
+        return html_text[:split_point]
 
-def strip_tags(html):
-    s = HTMLExtract()
-    s.feed(html)
-    return s.get_text()
+    # If no suitable breaking point is found, preserve entire words up to 100 characters
+    if len(html_text) > 100:
+        return html_text[:100].rsplit(" ", 1)[0]
 
-def get_title(text_string):
-    text = strip_tags(text_string)
-    first_sentence = ""
-    first_line = ""
-    char_count = 0
+    return html_text
 
-    for index, char in enumerate(text):
-        first_sentence += char
-        char_count += 1
-
-        if char == ".":
-            break
-
-        if char == "\n":
-            first_line = first_sentence.rstrip()
-            break
-
-        if char_count >= 100:
-            first_sentence = text[:index].rsplit(" ", 1)[0]
-            break
-
-    return first_sentence or first_line or text[:100]
+# Test with sample HTML string
+html_text = "<p>Here is an example of a sentence with HTML tags. This is another sentence.</p>"
+print(get_first_sentence(html_text))

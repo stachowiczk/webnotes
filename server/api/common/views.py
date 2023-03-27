@@ -5,7 +5,7 @@ from flask.views import MethodView
 from api.common.models import Note
 from api.common import notes_bp
 import re
-from api.common.parser import get_title as set_title2
+from api.common.parser import get_first_sentence as set_title2
 # remove later
 # from api.common.const import SPECIAL_CHARACTERS
 
