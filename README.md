@@ -23,6 +23,7 @@
 ![Registration](https://i.imgur.com/EjM55lp.png)
 ![Registration](https://i.imgur.com/8aaIe5x.png)
 ![Login page](https://i.imgur.com/Da5gDiw.png)
+![Main page - formatting](https://i.imgur.com/0zL5U14.png)
 ![Main page](https://i.imgur.com/Cc59mDu.png)
 ![Main page - expanded](https://i.imgur.com/GARWhTx.png)
 
