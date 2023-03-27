@@ -1,8 +1,5 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: hsl(231, 14%, 20%);
@@ -142,13 +139,20 @@ blockquote {
   border-top-left-radius: 0;
   box-shadow: 0 0 0.5em hsl(0, 0%, 26%);
   padding: 1em;
-  padding-top: 0.1em;
+  padding-top: 1em;
   margin-left: 2rem;
   margin-top: 2rem;
   margin-right: 0;
   position: relative;
   flex: 1;
   transition: flex 0.5s ease;
+}
+
+.entry-main>span {
+  margin: 1rem 0.5rem;
+  padding: 1rem 0.5rem;
+  flex: 1;
+
 }
 
 .user-button {
@@ -354,3 +358,128 @@ button#register:hover {
 button#login:hover {
   border: 1px solid hsl(230, 15%, 16%);
 }
+
+span.ql-font-Lato {
+  font-family: 'Lato', 'Arial', 'Helvetica', 'sans-serif';
+}
+
+span.ql-font-Lora {
+  font-family: 'Lora', 'Georgia', 'serif';
+}
+
+span.ql-font-Inconsolata {
+  font-family: 'Inconsolata', 'Courier New', 'Courier', 'monospace';
+}
+
+span.ql-font-Comic {
+  font-family: 'Comic Sans MS', 'Comic Sans', 'Marker Felt', 'Arial', 'sans-serif';
+}
+
+span.ql-font-Roboto {
+  font-family: 'Roboto', 'Arial', 'Helvetica', 'sans-serif';
+}
+
+span.ql-size-huge {
+  font-size: 2.5em;
+}
+
+span.ql-size-large {
+  font-size: 1.5em;
+}
+
+span.ql-size-small {
+  font-size: 0.75em;
+}
+
+
+/* Override Quill's font classes */
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Lato"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Lato"]::before {
+  content: 'Lato';
+  font-family: 'Lato', 'Arial', 'Helvetica', 'sans-serif';
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Lora"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Lora"]::before {
+  content: 'Lora';
+  font-family: 'Lora', 'Georgia', 'serif';
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Inconsolata"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Inconsolata"]::before {
+  content: 'Inconsolata';
+  font-family: 'Inconsolata', 'Monaco', 'Consolas', 'Courier New', monospace;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Roboto"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Roboto"]::before {
+  content: 'Roboto';
+  font-family: 'Roboto', 'Arial', 'Helvetica', 'sans-serif';
+}
+
+
+/* Add more font classes as needed */
+
+/*
+div.ql-container .ql-editor .lato {
+  font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
+  }
+
+div.ql-container .ql-editor .lora {
+  font-family: 'Lora', 'Georgia', 'Times New Roman', serif;
+}
+
+div.ql-container .ql-editor .inconsolata {
+  font-family: 'Inconsolata', 'Monaco', 'Consolas', 'Courier New', monospace;
+}
+
+div.ql-container .ql-editor .roboto {
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+
+.ql-snow .ql-picker.ql-font .ql-picker-label {
+  font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-item {
+  font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
+}
+
+
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Lato]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Lato]::before {
+  content: 'Lato';
+  font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Lora]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Lora]::before {
+  content: 'Lora';
+  font-family: 'Lora', 'Georgia', 'Times New Roman', serif;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Roboto]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Roboto]::before {
+  content: 'Roboto';
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Inconsolata]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Inconsolata]::before {
+  content: 'Inconsolata';
+  font-family: 'Inconsolata', 'Consolas', 'Monaco', 'Andale Mono', monospace;
+}
+
+
+
+
+/*
+fonts
+font-family: 'Lato', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Lora', serif;
+
+*/

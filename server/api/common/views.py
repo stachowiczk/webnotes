@@ -5,9 +5,12 @@ from flask.views import MethodView
 from api.common.models import Note
 from api.common import notes_bp
 import re
-from api.common.const import SPECIAL_CHARACTERS
+from api.common.parser import get_title as set_title2
+# remove later
+# from api.common.const import SPECIAL_CHARACTERS
 
-
+"""
+remove later
 def set_title2(content):
     try:
         for i in range(50):
@@ -23,6 +26,7 @@ def set_title2(content):
                 return content[:i]
     except IndexError:
         return content[:50]
+"""
 
 
 @notes_bp.route("/", methods=["GET", "POST", "DELETE"])

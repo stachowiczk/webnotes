@@ -24,7 +24,7 @@ function EditorComponent() {
 
   const modules = {
       toolbar: [
-        [{ font: [] }],
+        [{ font: ['Lato', 'Lora', 'Inconsolata', 'Roboto'] }],
         [{ size: ['small', false, 'large', 'huge'] }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         [{ list: 'ordered' }, { list: 'bullet' }],

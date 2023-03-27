@@ -9,6 +9,8 @@ import Register from "../../auth/components/Register";
 import Logout from "../../auth/components/Logout";
 
 function App() {
+
+ 
   return (
     <AuthContextProvider>
       <BrowserRouter>
