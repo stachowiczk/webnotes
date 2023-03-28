@@ -3,10 +3,12 @@ import http from "../../auth/components/Interceptor";
 import { removeEntry, setExpanded, setReload } from "../slices/feedSlice";
 import { useEffect, useState } from "react";
 import { setEditorState, setEditingExisting, setEditedNoteId } from "../slices/editorSlice";
+
 import styles from "./Entry.module.css";
 
 function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
   const data = useSelector((state) => state.feed.entries);
+  const theme = useSelector((state) => state.theme.theme);
   const editorState = useSelector((state) => state.editor.editorState);
   const isEditingExisting = useSelector(
     (state) => state.editor.isEditingExisting
@@ -53,7 +55,7 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
 
   return (
     <>
-      <div className="entry-main">
+      <div className={`entry-main ${theme}`}>
         <div>
           <button type="button" className="x-button" onClick={deleteNoteById}>
             {""}x{""}

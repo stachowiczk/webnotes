@@ -37,6 +37,11 @@ class NotesAPI(MethodView):
             req_data = request.get_json()
             content = req_data["content"]
             title = set_title2(content)
+            print(title)
+            if not title:
+                title = "Untitled"
+            elif "<img" in title:
+                title = "Image"
             identity = get_jwt_identity()
             if not content:
                 content = ""

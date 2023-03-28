@@ -13,7 +13,7 @@ import {
 } from "../../common/slices/editorSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthContext } from "../../auth/context/UserContext.js";
-import { toggleTheme } from "../../common/slices/themeSlice.js";
+import { toggleTheme, loadTheme } from "../../common/slices/themeSlice.js";
 
 const LOCAL_STORAGE_WIDTH_KEY = "WIDTH";
 
@@ -32,20 +32,7 @@ function Home() {
   const { user } = state;
   const currentTheme = useSelector((state) => state.theme.theme);
 
-  function handleInitialThemeLoad() {
-    if (currentTheme === "light") {
-      if (document.body.classList.contains("dark")) {
-        document.body.classList.remove("dark");
-      }
-    } else {
-      if (!document.body.classList.contains("dark")) {
-        document.body.classList.add("dark");
-      }
-    }
-  }
-
   useEffect(() => {
-    handleInitialThemeLoad();
     try {
       const storedWidth = localStorage.getItem(LOCAL_STORAGE_WIDTH_KEY);
       if (storedWidth) {
@@ -145,7 +132,7 @@ function Home() {
     );
   } else {
     return (
-      <>
+      <div className={`root-element ${currentTheme}`}>
         <div className="navbar">
           <h3>{user}'s WebNotes</h3>
           <div className="logout">
@@ -181,7 +168,7 @@ function Home() {
             <div id="divider" />
           </Draggable>
 
-          <div id="container-homejs">
+          <div id="container-homejs" className={`editor ${currentTheme}`}>
             <div className="editor">
               <EditorComponent />
             </div>
@@ -206,7 +193,7 @@ function Home() {
             </div>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }

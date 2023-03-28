@@ -1,8 +1,8 @@
-import { useEffect } from "react";
 import { createSlice } from "@reduxjs/toolkit";
 
+const LOCAL_STORAGE_THEME_KEY = "theme";
 const initialState = {
-  theme: localStorage.getItem("THEME"),
+  theme: localStorage.getItem(LOCAL_STORAGE_THEME_KEY),
 };
 
 export const themeSlice = createSlice({
@@ -11,12 +11,11 @@ export const themeSlice = createSlice({
   reducers: {
     toggleTheme: (state) => {
       state.theme = state.theme === "light" ? "dark" : "light";
-      localStorage.setItem("THEME", state.theme);
-      document.body.classList.toggle("dark");
+      localStorage.setItem(LOCAL_STORAGE_THEME_KEY, state.theme);
     },
   },
 });
 
-export const { toggleTheme } = themeSlice.actions;
+export const { toggleTheme, loadTheme } = themeSlice.actions;
 
 export default themeSlice.reducer;

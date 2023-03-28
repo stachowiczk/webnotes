@@ -2,14 +2,26 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: hsl(0, 0%, 29%);
   color: hsl(0, 0%, 21%);
 }
 
-body.dark {
-  background-color: hsl(231, 14%, 20%);
+.root-element.light {
+  background-color: hsl(0, 0%, 85%);
+  color: hsl(0, 0%, 21%);
+}
+.root-element.dark {
+  background-color: hsl(0, 0%, 20%);
   color: hsl(60, 1%, 81%);
 }
+
+.root-element.dark div#divider {
+  background-color: hsl(0, 0%, 29%);
+}
+
+.root-element.dark .navbar {
+  border-bottom: 1px solid hsl(0, 0%, 29%);
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -24,6 +36,35 @@ code {
   flex-direction: column;
   overflow: visible;
   position: relative;
+}
+
+#container-homejs.dark .ql-blank.ql-snow .ql-editor {
+  background-color: hsl(0, 0%, 31%);
+  color: hsl(60, 1%, 81%);
+}
+
+#container-homejs.dark .ql-toolbar .ql-stroke {
+  stroke: #fff;
+  background-color: hsl(0, 0%, 29%);
+}
+
+#container-homejs.dark .ql-toolbar .ql-picker span.ql-picker-options {
+  color: #000;
+  background-color: hsl(0, 0%, 26%);
+}
+
+#container-homejs.dark .ql-toolbar .ql-fill {
+  fill: #fff;
+  background-color: hsl(0, 0%, 29%);
+}
+
+#container-homejs.dark .ql-toolbar span.ql-picker-label {
+  color:#fff;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 div#quill {
@@ -83,9 +124,9 @@ p {
   position: relative;
 }
 
-.ql-editor {
-  background-color: hsl(230, 15%, 16%);
-  color: hsl(60, 1%, 81%);
+#container-homejs .ql-editor {
+  background-color: hsl(0, 0%, 95%);
+  color: hsl(0, 0%, 0%);
   border-radius: 0.5rem;
   padding: 1rem;
   font-size: 1.2rem;
@@ -96,6 +137,26 @@ p {
   width: 100%;
   margin-bottom: 2vh;
 }
+
+#container-homejs.dark .ql-editor {
+  background-color: hsl(0, 0%, 35%);
+  color: hsl(0, 0%, 85%);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-family: "Roboto", sans-serif;
+  line-height: 1.5;
+  overflow-y: scroll;
+  min-height: 50vh;
+  width: 100%;
+  margin-bottom: 2vh;
+}
+
+#container-homejs.dark button.submit-button {
+  background-color: hsl(0, 0%, 29%);
+
+}
+
 
 div.submit-button-container {
   display: flex;
@@ -123,7 +184,6 @@ blockquote {
   border-left: 0.25em solid hsl(0, 0%, 29%);
   padding-left: 1em;
   margin-left: 0;
-  color: hsl(0, 0%, 21%);
   font-style: italic;
   font: 1.2em Georgia, "Times New Roman", Times, serif;
 }
@@ -141,7 +201,7 @@ blockquote {
 }
 .entry-main {
   border: 0px solid hsl(60, 1%, 81%);
-  background-color: rgb(201, 201, 201);
+  background-color: hsl(0, 0%, 73%);
   color: black;
   border-radius: 0.6em;
   border-top-left-radius: 0;
@@ -157,7 +217,12 @@ blockquote {
 }
 
 .entry-main:nth-child(odd) {
-  background-color: hsl(0, 0%, 69%);
+  background-color: hsl(0, 0%, 81%);
+}
+
+.entry-main.dark {
+  background-color: hsl(0, 0%, 25%);
+  color: hsl(60, 1%, 81%);
 }
 
 .entry-main > span {
