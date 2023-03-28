@@ -8,6 +8,8 @@ import {
   collapseAll,
   setReload,
 } from "../slices/feedSlice";
+
+import { toggleShowEditor } from "../slices/themeSlice";
 import http from "../../auth/components/Interceptor";
 
 function TextFeed({ reload }) {
@@ -18,6 +20,7 @@ function TextFeed({ reload }) {
   const [entryComponents, setEntryComponents] = useState([]);
   const entries = useSelector((state) => state.feed.entries);
   const reloadFeed = useSelector((state) => state.feed.reload);
+  const showEditor = useSelector((state) => state.theme.showEditor);
   const dispatch = useDispatch();
 
   async function getUserPosts() {
@@ -100,6 +103,7 @@ function TextFeed({ reload }) {
   } else {
     return (
       <>
+
         <div className="expand-button-container">
           <button
             onClick={toggleExpand}

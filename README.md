@@ -7,15 +7,15 @@
 - User registration and login with JWT authentication
 - Create, edit, and delete notes
 - Built-in text editor (React Quill)
-- Four available fonts and basic formatting tools
+- Basic formatting tools, four available fonts
 - Responsive design
 - Resizable UI elements
+- Dark/light mode
 
 ### Planned features
 - More fonts
 - Mobile device support
 - User settings (change password, change username, etc.)
-- Dark/light mode
 - Folder/tags support
 - Note sharing and collaboration
 
@@ -40,7 +40,9 @@ Requirements.txt is functional, but contains a lot of unnecessary packages. I wi
 #### requires a config.py file with a secret key for JWT authentication and setting up SQLAlchemy.
 
 
+
 ###### Example config.py: 
+Environment variable support will be implemented later.
 CSRF will be disabled for now, as it is not needed for the current state of the app. Make sure it is disabled in the config file.
 
 ```
@@ -49,7 +51,9 @@ SQLALCHEMY_TRACK_MODIFICATIONS = True
 JWT_SECRET_KEY = "your_super_secret_key"
 JWT_TOKEN_LOCATION = ["cookies"]
 JWT_COOKIE_CSRF_PROTECT = False
+
 ```
+
 
 place the file in the 'server' directory and run:
 

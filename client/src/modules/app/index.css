@@ -3,6 +3,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: hsl(0, 0%, 21%);
+  font-family: Roboto, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .root-element.light {
@@ -29,12 +31,12 @@ code {
 
 .editor {
   flex: 1;
-  margin-left: 4dvw;
-  margin-top: 3rem;
-  margin-right: 4dvw;
+  margin-left: 2dvw;
+  margin-top: 1rem;
+  margin-right: 1dvw;
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  overflow: hidden;
   position: relative;
 }
 
@@ -59,7 +61,7 @@ code {
 }
 
 #container-homejs.dark .ql-toolbar span.ql-picker-label {
-  color:#fff;
+  color: #fff;
 }
 
 img {
@@ -83,8 +85,10 @@ div#quill {
   gap: 2vh;
 }
 
-.textfeed-js:nth-child(odd) {
-  background-color: hsl(0, 0%, 29%);
+@media screen and (max-width: 900px) {
+  .textfeed-js {
+    padding-right: 0;
+  }
 }
 
 div.ql-container.ql-snow {
@@ -154,16 +158,15 @@ p {
 
 #container-homejs.dark button.submit-button {
   background-color: hsl(0, 0%, 29%);
-
+  color: hsl(0, 0%, 73%);
 }
-
 
 div.submit-button-container {
   display: flex;
-  flex: 1;
+  flex: 0;
+  gap: 1rem;
   max-width: max-content;
-  flex-direction: column;
-  margin-right: 2rem;
+  max-height: min-content;
   margin-left: auto;
 }
 .submit-button {
@@ -171,14 +174,25 @@ div.submit-button-container {
   padding: 0.5rem;
   border: 0px solid hsl(60, 1%, 81%);
   border-radius: 0.5rem;
-  background-color: hsl(230, 15%, 16%);
-  color: hsl(60, 1%, 81%);
+  background-color: hsl(0, 0%, 73%);
+  color: hsl(0, 1%, 26%);
   font-size: 1rem;
   cursor: pointer;
   max-width: max-content;
-  margin-right: auto;
-  margin-left: 0rem;
 }
+
+@media screen and (min-width: 900px) {
+  .mobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .desktop {
+    display: none;
+  }
+}
+  
 
 blockquote {
   border-left: 0.25em solid hsl(0, 0%, 29%);
@@ -209,11 +223,17 @@ blockquote {
   padding: 1em;
   padding-top: 1em;
   margin-left: 2rem;
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   margin-right: 0;
   position: relative;
   flex: 1;
   transition: flex 0.5s ease;
+}
+
+.entry-main p,
+.entry-main blockquote .entry-main ul,
+.entry-main ol {
+  margin: 0.3em;
 }
 
 .entry-main:nth-child(odd) {
@@ -246,6 +266,31 @@ blockquote {
   border-radius: 0.5em;
   border-top-right-radius: 0;
   word-wrap: normal;
+}
+
+.theme-button {
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: hsl(0, 0%, 21%);
+  opacity: 0.75;
+  border: none;
+  font-size: 0.9em;
+  color: hsl(0, 0%, 75%);
+  max-width: max-content;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  border-radius: 0.5em;
+  border-top-left-radius: 0;
+  word-wrap: nowrap;
+
+  margin-right: auto;
+  margin-left: 5vw;
+}
+
+.root-element.dark .theme-button {
+  color: hsl(0, 0%, 21%);
+  background-color: hsl(0, 0%, 75%);
 }
 
 button.user-button:hover {
@@ -284,6 +329,7 @@ div.user-button {
 
 .menu-button {
   position: absolute;
+  z-index: 100;
   background-color: hsl(60, 11%, 69%);
   color: rgb(228, 61, 61);
   border-radius: 0.3rem;
@@ -302,6 +348,7 @@ div.user-button {
 .navbar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding-left: 1rem;
   padding-right: 1rem;
   min-height: 7vh;
@@ -310,7 +357,6 @@ div.user-button {
 
 .logout {
   position: relative;
-  margin-top: 0.6rem;
   display: flex;
   flex: 0;
   flex-direction: column;
@@ -327,12 +373,13 @@ div.user-button {
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 #divider {
   height: 100dvh;
   cursor: col-resize;
-  background-color: rgb(153, 153, 153);
+  background-color: hsl(0, 0%, 73%);
   width: 0.3em;
   border-radius: 0.1em;
   opacity: 0.8;
@@ -372,6 +419,31 @@ form {
   align-items: center;
   display: flex;
   flex-direction: column;
+}
+
+@media screen and (max-width: 600px) {
+  form {
+    width: 75vw;
+    height: 75dvh;
+    margin: 5vh auto;
+  }
+
+  .item-list {
+    display: none;
+  }
+
+  #container-homejs {
+    margin: 0;
+    flex-direction: column;
+  }
+
+  div.ql-editor {
+    height: 61vh;
+  }
+
+  #divider {
+    display: none;
+  }
 }
 
 input {
