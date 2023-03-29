@@ -16,6 +16,7 @@ import { AuthContext } from "../../auth/context/UserContext.js";
 import {
   toggleTheme,
   toggleShowEditor,
+  setLeftWidth,
 } from "../../common/slices/themeSlice.js";
 
 const LOCAL_STORAGE_WIDTH_KEY = "WIDTH";
@@ -31,8 +32,8 @@ function Home() {
   const { state, dispatch: authDispatch } = useContext(AuthContext);
   const { user } = state;
 
-  const [leftWidth, setLeftWidth] = useState(); //move to redux
-
+  //const [leftWidth, setLeftWidth] = useState(); //move to redux
+  const leftWidth = useSelector((state) => state.theme.leftWidth);
   const editorState = useSelector((state) => state.editor.editorState);
   const editingExisting = useSelector((state) => state.editor.editingExisting);
   const editedNoteId = useSelector((state) => state.editor.editedNoteId);
@@ -47,18 +48,24 @@ function Home() {
     try {
       const storedWidth = localStorage.getItem(LOCAL_STORAGE_WIDTH_KEY);
       if (storedWidth && !isMobile) {
-        setLeftWidth(parseInt(storedWidth));
+        dispatch(setLeftWidth(parseInt(storedWidth)));
       } else if (isMobile) {
-        setLeftWidth(window.innerWidth);
+        dispatch(setLeftWidth(window.innerWidth));
       }
     } catch (err) {
       console.error(err);
     }
   }, []);
 
+  useEffect(() => {
+    if (editingExisting) {
+      dispatch(setEditorState(editorState));
+    }
+  }, [editingExisting]);
+
   function handleResize(e, { deltaX }) {
     const newWidth = leftWidth + deltaX;
-    setLeftWidth(newWidth);
+    dispatch(setLeftWidth(newWidth));
     localStorage.setItem(LOCAL_STORAGE_WIDTH_KEY, newWidth);
   }
   function toggleDropdown(dropdown) {
@@ -89,6 +96,7 @@ function Home() {
       );
       dispatch(setEditorState(""));
       setReloadFeed(!reloadFeed);
+      handleMoblileViewChange();
     } catch (err) {
       console.error(err);
       setError(err);
@@ -103,12 +111,12 @@ function Home() {
 
   function handleMoblileViewChange() {
     resetEditorDispatch();
-    dispatch(toggleShowEditor());
     if (!showEditor) {
-      setLeftWidth(window.innerWidth);
+      dispatch(setLeftWidth(window.innerWidth));
     } else {
-      setLeftWidth(0);
+      dispatch(setLeftWidth(0));
     }
+    dispatch(toggleShowEditor());
   }
 
   async function editUserPost() {
@@ -120,6 +128,7 @@ function Home() {
           content: editorState,
         })
       );
+      handleMoblileViewChange();
       resetEditorDispatch();
 
       dispatch(setReload());
@@ -193,7 +202,7 @@ function Home() {
                 onClick={handleMoblileViewChange}
               >
                 {" "}
-                {!showEditor ? "Hide Editor" : "New note"}
+                {showEditor ? "New note" : "Close editor"}
               </button>
             </div>
             {isLoaded ? (

@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const LOCAL_STORAGE_THEME_KEY = "theme";
-const LOCAL_STORAGE_SHOW_EDITOR = "showEditor";
-
+const LOCAL_STORAGE_SHOW_EDITOR = "hideEditor";
 
 function isMobile() {
   if (window.innerWidth > 900) {
@@ -13,9 +12,9 @@ function isMobile() {
 }
 const initialState = {
   theme: localStorage.getItem(LOCAL_STORAGE_THEME_KEY),
-  mobile: isMobile(),
-  showEditor: false,
-  
+  mobile: (window.innerWidth < 900),
+  showEditor: true || localStorage.getItem(LOCAL_STORAGE_SHOW_EDITOR),
+  leftWidth: window.innerWidth/4,
 };
 
 export const themeSlice = createSlice({
@@ -26,13 +25,21 @@ export const themeSlice = createSlice({
       state.theme = state.theme === "light" ? "dark" : "light";
       localStorage.setItem(LOCAL_STORAGE_THEME_KEY, state.theme);
     },
-    toggleShowEditor: (state) => {
+    toggleShowEditor: (state, action) => {
+      if (action.payload !== undefined) {
+        state.showEditor = action.payload;
+        localStorage.setItem(LOCAL_STORAGE_SHOW_EDITOR, state.showEditor);
+      } else
       state.showEditor = !state.showEditor;
       localStorage.setItem(LOCAL_STORAGE_SHOW_EDITOR, state.showEditor);
-    }
+    },
+    setLeftWidth: (state, action) => {
+      state.leftWidth = action.payload;
+    },
   },
 });
 
-export const { toggleTheme, toggleShowEditor } = themeSlice.actions;
+export const { toggleTheme, toggleShowEditor, setLeftWidth } =
+  themeSlice.actions;
 
 export default themeSlice.reducer;

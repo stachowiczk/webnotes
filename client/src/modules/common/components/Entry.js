@@ -3,7 +3,7 @@ import http from "../../auth/components/Interceptor";
 import { removeEntry, setExpanded, setReload } from "../slices/feedSlice";
 import { useEffect, useState } from "react";
 import { setEditorState, setEditingExisting, setEditedNoteId } from "../slices/editorSlice";
-import { toggleShowEditor } from "../slices/themeSlice";
+import { toggleShowEditor, setLeftWidth,setIsMobile } from "../slices/themeSlice";
 
 import styles from "./Entry.module.css";
 
@@ -12,10 +12,12 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
   const theme = useSelector((state) => state.theme.theme);
   const editorState = useSelector((state) => state.editor.editorState);
   const showEditor = useSelector((state) => state.theme.showEditor);
-  const isMobile = useSelector((state) => state.theme.isMobile);
+  const isMobile = useSelector((state) => state.theme.mobile);
   const isEditingExisting = useSelector(
     (state) => state.editor.isEditingExisting
   );
+
+
 
   const dispatch = useDispatch();
 
@@ -47,7 +49,7 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
     dispatch(setEditorState(content));
     if (isMobile) {
       dispatch(toggleShowEditor());
-      
+      dispatch(setLeftWidth(0));
     }
 
   }
