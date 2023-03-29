@@ -94,9 +94,8 @@ function Register() {
     return <Navigate to="/home" />;
   } else {
     return (
-      <>
-        <div className="form" id="register-form"></div>
-        <form onSubmit={submit} style={formStyle}>
+      <div id="login-container">
+        <form className="form" id="register-form" onSubmit={submit} >
           <div id="register-form-label-main">Create a WebNotes Account</div>
           <label htmlFor="username" style={labelStyle}>
             {isAvailable && " "}
@@ -133,7 +132,7 @@ function Register() {
             Login
           </Link>
         </form>
-      </>
+      </div>
     );
   }
 }
@@ -146,12 +145,6 @@ const labelStyle = {
   fontSize: "0.9em",
 };
 
-const formStyle = {
-  display: "flex",
-  gap: "10px",
-  marginRight: "auto",
-  marginLeft: "auto",
-  padding: "10px",
-};
+
 
 export default Register;

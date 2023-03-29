@@ -8,13 +8,13 @@
 - Create, edit, and delete notes
 - Built-in text editor (React Quill)
 - Basic formatting tools, four available fonts
+- Mobile device support
 - Responsive design
 - Resizable UI elements
 - Dark/light mode
 
 ### Planned features
 - More fonts
-- Mobile device support
 - User settings (change password, change username, etc.)
 - Folder/tags support
 - Note sharing and collaboration

@@ -195,7 +195,6 @@ div.submit-button-container {
     display: none;
   }
 }
-  
 
 blockquote {
   border-left: 0.25em solid hsl(0, 0%, 29%);
@@ -416,25 +415,46 @@ div.user-button {
   padding: 10px;
 }
 
+@media screen and (min-width: 900px) {
+}
 form {
   width: 16vw;
   border-radius: 2em;
-  border: 1px solid black;
+  border: 1px solid lightgray;
   background-color: rgb(240, 240, 240);
   height: 50dvh;
-  margin-top: 25dvh;
-  flex: 1;
+  flex: 0 1 auto;
   align-items: center;
+  justify-content: center;
   display: flex;
   flex-direction: column;
 }
-
-@media screen and (max-width: 600px) {
-  form {
-    width: 75vw;
-    height: 75dvh;
-    margin: 5vh auto;
+#login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: hsl(0, 0%,69%);
   }
+@media screen and (max-width: 900px) {
+  form {
+    width: max-content;
+    padding: 0 1rem;
+    height: 40dvh;
+    flex: 0 1 auto;
+  }
+
+  
+  #login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: hsl(0, 0%,69%);
+  }
+  
 
   .item-list {
     display: none;
@@ -475,7 +495,7 @@ input:focus {
   font-weight: 500;
   color: black;
   margin-top: 2rem;
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
   height: 3rem;
   text-align: center;
 }
