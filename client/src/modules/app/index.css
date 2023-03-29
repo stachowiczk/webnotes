@@ -447,6 +447,7 @@ form {
     height: 100vh;
     background-color: hsl(0, 0%,69%);
   }
+}
 @media screen and (max-width: 900px) {
   form {
     width: max-content;
