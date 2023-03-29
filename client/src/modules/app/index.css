@@ -40,6 +40,9 @@ code {
   position: relative;
 }
 
+#container-homejs.dark .ql-snow.ql-toolbar button.ql-active .ql-stroke {
+  stroke: #06c;
+}
 #container-homejs.dark .ql-blank.ql-snow .ql-editor {
   background-color: hsl(0, 0%, 31%);
   color: hsl(60, 1%, 81%);
@@ -224,6 +227,7 @@ blockquote {
   padding-top: 1em;
   margin-left: 2rem;
   margin-top: 0.5rem;
+  margin-bottom: 0.2em;
   margin-right: 0;
   position: relative;
   flex: 1;

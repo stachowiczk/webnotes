@@ -4,7 +4,7 @@ import Draggable from "react-draggable";
 import EditorComponent from "../../common/components/Editor.js";
 import http from "../../auth/components/Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
-import Menu from "../../auth/components/Menu.js";
+import Menu from "../../auth/components/Menu.js"
 import { setReload } from "../../common/slices/feedSlice.js";
 import {
   setEditedNoteId,
@@ -13,26 +13,34 @@ import {
 } from "../../common/slices/editorSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthContext } from "../../auth/context/UserContext.js";
-import { toggleTheme, toggleShowEditor } from "../../common/slices/themeSlice.js";
+import {
+  toggleTheme,
+  toggleShowEditor,
+} from "../../common/slices/themeSlice.js";
 
 const LOCAL_STORAGE_WIDTH_KEY = "WIDTH";
 
 function Home() {
   const [error, setError] = useState(null);
-  const [reloadFeed, setReloadFeed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(true);
+  const [reloadFeed, setReloadFeed] = useState(false);
+
   const [dropdown, setDropdown] = useState(false);
-  const [leftWidth, setLeftWidth] = useState();
   const dropdownRef = useRef(null);
+
+  const { state, dispatch: authDispatch } = useContext(AuthContext);
+  const { user } = state;
+
+  const [leftWidth, setLeftWidth] = useState(); //move to redux
+
   const editorState = useSelector((state) => state.editor.editorState);
   const editingExisting = useSelector((state) => state.editor.editingExisting);
   const editedNoteId = useSelector((state) => state.editor.editedNoteId);
-  const dispatch = useDispatch();
-  const { state, dispatch: authDispatch } = useContext(AuthContext);
-  const { user } = state;
   const currentTheme = useSelector((state) => state.theme.theme);
   const isMobile = useSelector((state) => state.theme.mobile);
   const showEditor = useSelector((state) => state.theme.showEditor);
+
+  const dispatch = useDispatch();
   const themeDispatch = useDispatch();
 
   useEffect(() => {
@@ -40,8 +48,7 @@ function Home() {
       const storedWidth = localStorage.getItem(LOCAL_STORAGE_WIDTH_KEY);
       if (storedWidth && !isMobile) {
         setLeftWidth(parseInt(storedWidth));
-      }
-      else if (isMobile) {
+      } else if (isMobile) {
         setLeftWidth(window.innerWidth);
       }
     } catch (err) {
@@ -102,7 +109,6 @@ function Home() {
     } else {
       setLeftWidth(0);
     }
-
   }
 
   async function editUserPost() {
@@ -155,7 +161,7 @@ function Home() {
     return (
       <div className={`root-element ${currentTheme}`}>
         <div className="navbar">
-          <h3>{user}'s WebNotes</h3>
+          <h3>{user}'s Notes</h3>
           <button className="theme-button" onClick={handleThemeChange}>
             {currentTheme === "dark" ? "Light mode" : "Dark mode"}
           </button>
@@ -179,7 +185,11 @@ function Home() {
             <div className="expand-button-container">
               <button
                 className="mobile-view-button expand-button"
-                style={!isMobile ? { display: "none" } : {marginTop: "0.5rem", marginBottom: "0.5rem"}}
+                style={
+                  !isMobile
+                    ? { display: "none" }
+                    : { marginTop: "0.5rem", marginBottom: "0.5rem" }
+                }
                 onClick={handleMoblileViewChange}
               >
                 {" "}
@@ -198,15 +208,11 @@ function Home() {
             positionOffset={
               { x: "none", y: 0 } //dont touch
             }
-            >
-            <div id="divider" 
-            style={isMobile ? { display: "none" } : {}} />
+          >
+            <div id="divider" style={isMobile ? { display: "none" } : {}} />
           </Draggable>
 
-          <div
-            id="container-homejs"
-            className={`editor ${currentTheme}`}
-          >
+          <div id="container-homejs" className={`editor ${currentTheme}`}>
             <div className="submit-button-container">
               <button
                 className="submit-button"

@@ -15,8 +15,10 @@ import http from "../../auth/components/Interceptor";
 function TextFeed({ reload }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState(null);
-  const [expandButton, setExpandButton] = useState(true);
   const [error, setError] = useState(null);
+
+  const [expandButton, setExpandButton] = useState(true);
+
   const [entryComponents, setEntryComponents] = useState([]);
   const entries = useSelector((state) => state.feed.entries);
   const reloadFeed = useSelector((state) => state.feed.reload);

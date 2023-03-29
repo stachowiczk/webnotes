@@ -47,7 +47,9 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
     dispatch(setEditorState(content));
     if (isMobile) {
       dispatch(toggleShowEditor());
+      
     }
+
   }
 
   const titleClassName = data[keyProp].isExpanded
