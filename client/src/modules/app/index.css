@@ -31,9 +31,7 @@ code {
 
 .editor {
   flex: 1;
-  margin-left: 2dvw;
   margin-top: 1rem;
-  margin-right: 1dvw;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -76,6 +74,7 @@ div#quill {
   display: flex;
   flex-direction: column;
   padding-right: 4dvw;
+  padding-left: 4dvw;
   position: relative;
 }
 
@@ -84,11 +83,10 @@ div#quill {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  padding-right: 4dvw;
   gap: 2vh;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 960px) {
   .textfeed-js {
     padding-right: 0;
   }
@@ -168,6 +166,7 @@ div.submit-button-container {
   display: flex;
   flex: 0;
   gap: 1rem;
+  padding-right: 4dvw;
   max-width: max-content;
   max-height: min-content;
   margin-left: auto;
@@ -184,13 +183,13 @@ div.submit-button-container {
   max-width: max-content;
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 960px) {
   .mobile {
     display: none;
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 960px) {
   .desktop {
     display: none;
   }
@@ -227,10 +226,16 @@ blockquote {
   margin-left: 2rem;
   margin-top: 0.5rem;
   margin-bottom: 0.2em;
-  margin-right: 0;
+  margin-right: 2rem;
   position: relative;
   flex: 1;
   transition: flex 0.5s ease;
+}
+@media screen and (max-width: 960px) {
+  .entry-main {
+    margin-right: 1rem;
+    margin-left: 1rem;
+  }
 }
 
 .entry-main p,
@@ -415,7 +420,7 @@ div.user-button {
   padding: 10px;
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 960px) {
 }
 form {
   width: 16vw;
@@ -431,24 +436,24 @@ form {
   flex-direction: column;
 }
 #login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: hsl(0, 0%, 69%);
+}
+@media screen and (max-width: 960px) {
+  #login-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: hsl(0, 0%,69%);
-  }
-@media screen and (max-width: 900px) {
-#login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: hsl(0, 0%,69%);
+    background-color: hsl(0, 0%, 69%);
   }
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 960px) {
   form {
     width: max-content;
     padding: 0 1rem;
@@ -456,30 +461,24 @@ form {
     flex: 0 1 auto;
   }
 
-  
   #login-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: hsl(0, 0%,69%);
+    background-color: hsl(0, 0%, 69%);
   }
-  
 
-  
   #login-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: hsl(0, 0%,69%);
+    background-color: hsl(0, 0%, 69%);
   }
-  
-  
-  
-  
+
   #container-homejs {
     margin: 0;
     flex-direction: column;
