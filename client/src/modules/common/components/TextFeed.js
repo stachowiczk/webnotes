@@ -100,13 +100,20 @@ function TextFeed({ reload }) {
   if (!isLoaded) {
     return <div className="editor">Loading...</div>;
   } else if (entryComponents.length === 0) {
-    return <div className="editor"><i>No notes yet. {isMobile ? "Tap \"New note\"":"Start typing and click save"} to add your first note! </i></div>;
+    return (
+      <div className="editor">
+        <i>
+          No notes yet.{" "}
+          {isMobile ? 'Tap "New note"' : "Start typing and click \"Save\""} to add
+          your first note!{" "}
+        </i>
+      </div>
+    );
   } else if (error) {
     return <div className="editor">Error: {error.message}</div>;
   } else {
     return (
       <>
-
         <div className="expand-button-container">
           <button
             onClick={toggleExpand}
