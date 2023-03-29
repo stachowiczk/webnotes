@@ -82,8 +82,8 @@ function Login() {
 
   if (!isLoaded) {
     return (
-      <div style={formStyle}>
-        <h1>Loading...</h1>
+      <div className="form">
+        <h1></h1>
       </div>
     );
   } else if (state.isAuthenticated) {
@@ -94,7 +94,7 @@ function Login() {
     );
   } else {
     return (
-      <>
+      <div id="login-container">
         <form className="form" id="login-form" onSubmit={submit}>
           <div id="register-form-label-main">Log in to WebNotes</div>
           <input
@@ -122,15 +122,11 @@ function Login() {
             Register here!
           </Link>
         </form>
-      </>
+      </div>
     );
   }
 }
 const formStyle = {
-  display: "flex",
-  flexDirection: "column",
-  gap: "10px",
-  marginRight: "20vw",
-  marginLeft: "auto",
+  
 };
 export default Login;
