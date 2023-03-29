@@ -249,6 +249,10 @@ blockquote {
   color: hsl(60, 1%, 81%);
 }
 
+.entry-main.dark:nth-child(even) {
+  background-color: hsl(0, 0%, 29%);
+}
+
 .entry-main > span {
   margin: 1rem 0.5rem;
   padding: 1rem 0.5rem;

@@ -36,15 +36,16 @@ class NotesAPI(MethodView):
         try:
             req_data = request.get_json()
             content = req_data["content"]
+
             title = set_title2(content)
             print(title)
             if not title:
                 title = "Untitled"
             elif "<img" in title:
                 title = "Image"
+            if not content or content == "":
+                content = "Empty note"
             identity = get_jwt_identity()
-            if not content:
-                content = ""
             note = Note(title=title, content=content, user_id=identity)
             current_app.db.session.add(note)
             current_app.db.session.commit()
@@ -93,6 +94,8 @@ class NoteAPI(MethodView):
             req_data = request.get_json()
             note.content = req_data["content"]
             note.title = set_title2(note.content)
+            if not note.content:
+                note.content = ""
             session.commit()
             return jsonify({"message": "Note updated successfully"}), 200
         except Exception as e:

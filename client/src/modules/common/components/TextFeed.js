@@ -22,6 +22,7 @@ function TextFeed({ reload }) {
   const [entryComponents, setEntryComponents] = useState([]);
   const entries = useSelector((state) => state.feed.entries);
   const reloadFeed = useSelector((state) => state.feed.reload);
+  const isMobile = useSelector((state) => state.theme.mobile);
   const showEditor = useSelector((state) => state.theme.showEditor);
   const dispatch = useDispatch();
 
@@ -98,8 +99,8 @@ function TextFeed({ reload }) {
 
   if (!isLoaded) {
     return <div className="editor">Loading...</div>;
-  } else if (!data) {
-    return <div className="editor">No data</div>;
+  } else if (entryComponents.length === 0) {
+    return <div className="editor"><i>No notes yet. {isMobile ? "Tap \"New note\"":"Start typing and click save"} to add your first note! </i></div>;
   } else if (error) {
     return <div className="editor">Error: {error.message}</div>;
   } else {

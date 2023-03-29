@@ -111,12 +111,12 @@ function Home() {
 
   function handleMoblileViewChange() {
     resetEditorDispatch();
-    if (!showEditor) {
+    if (!showEditor && isMobile) {
       dispatch(setLeftWidth(window.innerWidth));
-    } else {
+    } else if (showEditor && isMobile){
       dispatch(setLeftWidth(0));
     }
-    dispatch(toggleShowEditor());
+    if (isMobile) themeDispatch(toggleShowEditor());
   }
 
   async function editUserPost() {
