@@ -11,6 +11,7 @@ import {
   setEditingExisting,
   setEditorState,
 } from "../../common/slices/editorSlice.js";
+import { setIsEdited } from "../../common/slices/feedSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthContext } from "../../auth/context/UserContext.js";
 import {
@@ -134,7 +135,7 @@ function Home() {
   }
 
   function handleMoblileViewChange() {
-
+    setReloadFeed(!reloadFeed);
     resetEditorDispatch();
     if (!showEditor && isMobile) {
       dispatch(setLeftWidth(window.innerWidth));

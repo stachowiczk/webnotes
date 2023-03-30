@@ -7,6 +7,7 @@ import {
   expandAll,
   collapseAll,
   setReload,
+  setIsEdited,
 } from "../slices/feedSlice";
 
 import { toggleShowEditor } from "../slices/themeSlice";

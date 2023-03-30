@@ -9,6 +9,7 @@ const initialState = {
       title: null,
       content: null,
       isExpanded: false,
+      isEdited: null,
     },
   ],
   isLoaded: false,
@@ -51,6 +52,10 @@ export const feedSlice = createSlice({
         entry.isExpanded = false;
       });
     },
+    setIsEdited : (state, action) => {
+      state.entries[action.payload].isEdited = !state.entries[action.payload].isEdited;
+      
+    },
   },
 });
 
@@ -63,6 +68,7 @@ export const {
   setExpanded,
   expandAll,
   collapseAll,
+  setIsEdited,
 } = feedSlice.actions;
 
 export default feedSlice.reducer;
