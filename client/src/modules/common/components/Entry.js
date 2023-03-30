@@ -105,7 +105,7 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
         >
           {data[keyProp].isExpanded ? "collapse" : ""}
         </button>
-        <button className="expand-button expand-item" onClick={editNote}>
+        <button className="expand-button expand-item" onClick={editNote} style={isEditingExisting ? {display: "none"} : {}}>
           edit
         </button>
       </div>
