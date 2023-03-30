@@ -95,7 +95,7 @@ function Register() {
   } else {
     return (
       <div id="login-container">
-        <form className="form" id="register-form" onSubmit={submit} >
+        <form className="form" id="register-form" onSubmit={submit}>
           <div id="register-form-label-main">Create a WebNotes Account</div>
           <label htmlFor="username" style={labelStyle}>
             {isAvailable && " "}
@@ -144,7 +144,5 @@ const labelStyle = {
   marginTop: "0em",
   fontSize: "0.9em",
 };
-
-
 
 export default Register;

@@ -4,7 +4,7 @@ import Draggable from "react-draggable";
 import EditorComponent from "../../common/components/Editor.js";
 import http from "../../auth/components/Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
-import Menu from "../../auth/components/Menu.js"
+import Menu from "../../auth/components/Menu.js";
 import { setReload } from "../../common/slices/feedSlice.js";
 import {
   setEditedNoteId,
@@ -113,7 +113,7 @@ function Home() {
     resetEditorDispatch();
     if (!showEditor && isMobile) {
       dispatch(setLeftWidth(window.innerWidth));
-    } else if (showEditor && isMobile){
+    } else if (showEditor && isMobile) {
       dispatch(setLeftWidth(0));
     }
     if (isMobile) themeDispatch(toggleShowEditor());

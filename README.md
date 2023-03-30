@@ -1,16 +1,17 @@
 # WebNotes - A simple note taking app
-### v1.0.0
+### v1.1.0
 
 ## Features
-- Full stack web application: React.js + Python-Flask
-- SQLite3 database with SQLAlchemy ORM
+- Full stack web application: React.js client + Python-Flask server
+- SQLite3 database operated with SQLAlchemy 
 - User registration and login with JWT authentication
 - Create, edit, and delete notes
-- Built-in text editor (React Quill)
+- Built-in text editor (react-quill)
 - Basic formatting tools, four available fonts
-- Mobile device support
+- Image upload
+- Mobile friendly
 - Responsive design
-- Resizable UI elements
+- Resizable UI on desktop
 - Dark/light mode
 
 ### Planned features
@@ -19,7 +20,8 @@
 - Folder/tags support
 - Note sharing and collaboration
 
-#### Live version coming soon
+#### Live version 
+###### coming soon
 
 ## Screenshots
 ![Registration](https://i.imgur.com/EjM55lp.png)
