@@ -111,7 +111,7 @@ function Home() {
       );
       dispatch(setEditorState(""));
       // setReloadFeed(!reloadFeed);
-      handleMoblileViewChange();
+      handleSaveCancelClick();
     } catch (err) {
       console.error(err);
       setError(err);
@@ -134,7 +134,7 @@ function Home() {
     }
   }
 
-  function handleMoblileViewChange() {
+  function handleSaveCancelClick() {
     setReloadFeed(!reloadFeed);
     resetEditorDispatch();
     if (!showEditor && isMobile) {
@@ -154,7 +154,7 @@ function Home() {
           content: editorState,
         })
       );
-      handleMoblileViewChange();
+      handleSaveCancelClick();
       resetEditorDispatch();
 
       dispatch(setReload());
@@ -228,7 +228,7 @@ function Home() {
                     ? { display: "none" }
                     : { marginTop: "0.5rem", marginBottom: "0.5rem" }
                 }
-                onClick={handleMoblileViewChange}
+                onClick={handleSaveCancelClick}
               >
                 {" "}
                 {showEditor ? "New note" : "Close editor"}
@@ -261,7 +261,7 @@ function Home() {
               </button>
               <button
                 className="submit-button cancel-button desktop"
-                onClick={handleMoblileViewChange}
+                onClick={handleSaveCancelClick}
               >
                 Cancel
               </button>

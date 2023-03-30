@@ -221,9 +221,9 @@ blockquote {
   border-top-left-radius: 0;
   box-shadow: 0 0 0.5em hsl(0, 0%, 26%);
   padding: 1em;
-  padding-top: 1em;
+  padding-top: 0.5em;
   margin-left: 2rem;
-  margin-top: 0.5rem;
+  margin-top: 0.2em;
   margin-bottom: 0.2em;
   margin-right: 2rem;
   position: relative;
@@ -239,8 +239,8 @@ blockquote {
 
 @media screen and (max-width: 960px) {
   .entry-main {
-    margin-right: 1rem;
-    margin-left: 1rem;
+    margin-right: 0rem;
+    margin-left: 0rem;
   }
 }
 
@@ -257,6 +257,12 @@ blockquote {
 .entry-main.dark {
   background-color: hsl(0, 0%, 25%);
   color: hsl(60, 1%, 81%);
+  box-shadow: 0 0 0.5em hsl(0, 0%, 26%);
+}
+
+.entry-main.dark:hover {
+  box-shadow: 0 0 0.5em hsl(0, 0%, 45%);
+  transition: box-shadow 0.2s ease;
 }
 
 .entry-main.dark:nth-child(even) {
@@ -402,11 +408,13 @@ div.user-button {
   width: 0.3em;
   border-radius: 0.1em;
   opacity: 0.8;
+  position: relative;
 }
 
 #divider:hover {
   box-shadow: 0 0 0.2em hsl(0, 0%, 79%);
 }
+
 
 #item-list {
   overflow: scroll;
