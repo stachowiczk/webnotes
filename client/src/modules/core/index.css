@@ -1,0 +1,616 @@
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: hsl(0, 0%, 21%);
+  font-family: Roboto, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  scrollbar-width: none;
+}
+
+div {
+  scrollbar-width: none;
+}
+
+.root-element.light {
+  background-color: hsl(0, 0%, 85%);
+  color: hsl(0, 0%, 21%);
+}
+.root-element.dark {
+  background-color: hsl(0, 0%, 20%);
+  color: hsl(60, 1%, 81%);
+}
+
+.root-element.dark div#divider {
+  background-color: hsl(0, 0%, 29%);
+}
+
+.root-element.dark .navbar {
+  border-bottom: 1px solid hsl(0, 0%, 29%);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.editor {
+  flex: 1;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+#container-homejs.dark .ql-snow.ql-toolbar button.ql-active .ql-stroke {
+  stroke: #06c;
+}
+#container-homejs.dark .ql-blank.ql-snow .ql-editor {
+  background-color: hsl(0, 0%, 31%);
+  color: hsl(60, 1%, 81%);
+}
+
+#container-homejs.dark .ql-toolbar .ql-stroke {
+  stroke: #fff;
+  background-color: hsl(0, 0%, 29%);
+}
+
+#container-homejs.dark .ql-toolbar .ql-picker span.ql-picker-options {
+  color: #000;
+  background-color: hsl(0, 0%, 26%);
+}
+
+#container-homejs.dark .ql-toolbar .ql-fill {
+  fill: #fff;
+  background-color: hsl(0, 0%, 29%);
+}
+
+#container-homejs.dark .ql-toolbar span.ql-picker-label {
+  color: #fff;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+div#quill {
+  display: flex;
+  flex-direction: column;
+  padding-right: 4dvw;
+  padding-left: 4dvw;
+  position: relative;
+}
+
+.textfeed-js {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  gap: 2vh;
+}
+
+@media screen and (max-width: 960px) {
+  .textfeed-js {
+    padding-right: 0;
+  }
+}
+
+div.ql-container.ql-snow {
+  border: none;
+  flex: 1;
+  overflow-y: scroll;
+  overflow-x: visible;
+  max-height: 70vh;
+  position: relative;
+}
+/* this fixes link input tooltip in ql */
+div.ql-tooltip.ql-editing:not([style*="left: auto;"]):is([style*="left: -"]) {
+  left: 0 !important;
+}
+
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  border: none;
+}
+
+div.ql-toolbar.ql-snow {
+  border: none;
+  margin-bottom: 2rem;
+}
+
+.custom-quill {
+  position: relative;
+}
+
+.custom-quill .ql-tooltip {
+  position: absolute;
+  display: flex;
+  flex: 1;
+  z-index: auto;
+  background: white;
+  padding: 5px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+p {
+  position: relative;
+}
+
+#container-homejs .ql-editor {
+  background-color: hsl(0, 0%, 95%);
+  color: hsl(0, 0%, 0%);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-family: "Roboto", sans-serif;
+  line-height: 1.5;
+  overflow-y: scroll;
+  min-height: 50vh;
+  width: 100%;
+  margin-bottom: 2vh;
+}
+
+#container-homejs.dark .ql-editor {
+  background-color: hsl(0, 0%, 35%);
+  color: hsl(0, 0%, 85%);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-family: "Roboto", sans-serif;
+  line-height: 1.5;
+  overflow-y: scroll;
+  min-height: 50vh;
+  width: 100%;
+  margin-bottom: 2vh;
+}
+
+#container-homejs.dark button.submit-button {
+  background-color: hsl(0, 0%, 29%);
+  color: hsl(0, 0%, 73%);
+}
+
+div.submit-button-container {
+  display: flex;
+  flex: 0;
+  gap: 1rem;
+  padding-right: 4dvw;
+  max-width: max-content;
+  max-height: min-content;
+  margin-left: auto;
+}
+.submit-button {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border: 0px solid hsl(60, 1%, 81%);
+  border-radius: 0.5rem;
+  background-color: hsl(0, 0%, 73%);
+  color: hsl(0, 1%, 26%);
+  font-size: 1rem;
+  cursor: pointer;
+  max-width: max-content;
+}
+
+
+
+blockquote {
+  border-left: 0.25em solid hsl(0, 0%, 29%);
+  padding-left: 1em;
+  margin-left: 0;
+  font-style: italic;
+  font: 1.2em Georgia, "Times New Roman", Times, serif;
+}
+
+.x-button {
+  cursor: pointer;
+  border-radius: 0.5rem;
+  background: none;
+  color: red;
+  border: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.1rem;
+}
+.entry-main {
+  border: 0px solid hsl(60, 1%, 81%);
+  background-color: hsl(0, 0%, 73%);
+  color: black;
+  border-radius: 0.6em;
+  border-top-left-radius: 0;
+  box-shadow: 0 0 0.5em hsl(0, 0%, 26%);
+  padding: 1em;
+  padding-top: 1em;
+  margin-left: 2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.2em;
+  margin-right: 2rem;
+  position: relative;
+  flex: 1;
+  transition: flex 0.5s ease;
+}
+
+.entry-main:hover {
+  box-shadow: 0 0 0.3em hsl(0, 0%, 26%);
+  transition: box-shadow 0.2s ease;
+}
+
+
+@media screen and (max-width: 960px) {
+  .entry-main {
+    margin-right: 1rem;
+    margin-left: 1rem;
+  }
+}
+
+.entry-main p,
+.entry-main blockquote .entry-main ul,
+.entry-main ol {
+  margin: 0.3em;
+}
+
+.entry-main:nth-child(odd) {
+  background-color: hsl(0, 0%, 81%);
+}
+
+.entry-main.dark {
+  background-color: hsl(0, 0%, 25%);
+  color: hsl(60, 1%, 81%);
+}
+
+.entry-main.dark:nth-child(even) {
+  background-color: hsl(0, 0%, 29%);
+}
+
+.entry-main > span {
+  margin: 1rem 0.5rem;
+  padding: 1rem 0.5rem;
+  flex: 1;
+}
+
+.user-button {
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: hsl(60, 11%, 69%);
+  opacity: 0.75;
+  border: none;
+  font-size: smaller;
+  color: rgb(61, 119, 228);
+  max-width: min-content;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  border-radius: 0.5em;
+  border-top-right-radius: 0;
+  word-wrap: normal;
+}
+
+.theme-button {
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: hsl(0, 0%, 21%);
+  opacity: 0.75;
+  border: none;
+  font-size: 0.9em;
+  color: hsl(0, 0%, 75%);
+  max-width: max-content;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  border-radius: 0.5em;
+  border-top-left-radius: 0;
+  word-wrap: nowrap;
+
+  margin-right: auto;
+  margin-left: 5vw;
+}
+
+.root-element.dark .theme-button {
+  color: hsl(0, 0%, 21%);
+  background-color: hsl(0, 0%, 75%);
+}
+
+button.user-button:hover {
+  border: 1px solid hsl(60, 1%, 81%);
+}
+
+div.user-button {
+  background: none;
+}
+
+.expand-button-container {
+  display: flex;
+  flex-direction: row;
+}
+.expand-button {
+  background-color: hsl(60, 11%, 69%);
+  opacity: 0.75;
+  border: none;
+  font-size: smaller;
+  color: hsl(219, 76%, 57%);
+  flex: 1;
+  max-width: max-content;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  border-radius: 0.5em;
+  border-top-right-radius: 0;
+  margin-right: 2rem;
+  margin-left: auto;
+  word-wrap: normal;
+  cursor: pointer;
+}
+
+.expand-item {
+  background: none;
+  cursor: pointer;
+}
+
+.menu-button {
+  position: absolute;
+  z-index: 100;
+  background-color: hsl(60, 11%, 69%);
+  color: rgb(228, 61, 61);
+  border-radius: 0.3rem;
+  border-top-left-radius: 0;
+  flex: 0;
+  padding: 0.4rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+.menu-button > a {
+  color: rgb(228, 61, 61);
+  text-decoration: none;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  min-height: 7vh;
+  border-bottom: 2px solid hsl(60, 1%, 81%);
+}
+
+.logout {
+  position: relative;
+  display: flex;
+  flex: 0;
+  flex-direction: column;
+  padding: 0;
+}
+
+#main-container {
+  display: flex;
+  flex-direction: row;
+  height: 100dvh;
+}
+
+#container-homejs {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#divider {
+  height: 100dvh;
+  cursor: col-resize;
+  background-color: hsl(0, 0%, 73%);
+  width: 0.3em;
+  border-radius: 0.1em;
+  opacity: 0.8;
+}
+
+#divider:hover {
+  box-shadow: 0 0 0.2em hsl(0, 0%, 79%);
+}
+
+#item-list {
+  overflow: scroll;
+  margin-top: 0.5rem;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 10px;
+}
+
+@media screen and (min-width: 960px) {
+}
+form {
+  width: max-content;
+  border-radius: 2em;
+  border: 1px solid lightgray;
+  background-color: rgb(240, 240, 240);
+  flex: 0 1 40%;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  justify-content: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+#login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: hsl(0, 0%, 69%);
+}
+@media screen and (max-width: 960px) {
+  #login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: hsl(0, 0%, 69%);
+  }
+}
+@media screen and (max-width: 960px) {
+  form {
+    width: max-content;
+    padding: 0 1rem;
+    height: 40dvh;
+    flex: 0 1 auto;
+  }
+
+  #login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: hsl(0, 0%, 69%);
+  }
+
+  #login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: hsl(0, 0%, 69%);
+  }
+
+  #container-homejs {
+    margin: 0;
+    flex-direction: column;
+  }
+
+  div.ql-editor {
+    height: 61vh;
+  }
+
+ 
+}
+
+input {
+  flex: 0 0 auto;
+  padding: 0.5rem;
+  border: 1px solid hsl(60, 1%, 81%);
+  border-radius: 0.5rem;
+  background-color: hsl(0, 0%, 73%);
+  color: hsl(60, 1%, 81%);
+  font-size: 1rem;
+  cursor: pointer;
+  max-width: max-content;
+}
+
+input:focus {
+  box-shadow: 0 0 0.8em hsl(224, 38%, 50%);
+}
+
+#register-form-label-main {
+  font-size: x-large;
+  font-weight: 500;
+  color: black;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  height: 3rem;
+  text-align: center;
+}
+
+button#register {
+  padding: 0.5rem;
+  border: 1px solid hsl(60, 1%, 81%);
+  border-radius: 0.5rem;
+  background-color: hsl(230, 15%, 16%);
+  color: hsl(60, 1%, 81%);
+  font-size: 1rem;
+  cursor: pointer;
+  max-width: max-content;
+  margin-right: 2rem;
+  margin-left: auto;
+  font-size: small;
+}
+button#login {
+  padding: 0.5rem;
+  border: 1px solid hsl(60, 1%, 81%);
+  border-radius: 0.5rem;
+  background-color: hsl(230, 15%, 16%);
+  color: hsl(60, 1%, 81%);
+  font-size: 1rem;
+  cursor: pointer;
+  max-width: max-content;
+  margin-right: 2rem;
+  margin-left: auto;
+  font-size: small;
+}
+button#register:hover {
+  border: 1px solid hsl(230, 15%, 16%);
+}
+button#login:hover {
+  border: 1px solid hsl(230, 15%, 16%);
+}
+
+span.ql-font-Lato {
+  font-family: "Lato", "Arial", "Helvetica", "sans-serif";
+}
+
+span.ql-font-Lora {
+  font-family: "Lora", "Georgia", "serif";
+}
+
+span.ql-font-Inconsolata {
+  font-family: "Inconsolata", "Courier New", "Courier", "monospace";
+}
+
+span.ql-font-Comic {
+  font-family: "Comic Sans MS", "Comic Sans", "Marker Felt", "Arial",
+    "sans-serif";
+}
+
+span.ql-font-Roboto {
+  font-family: "Roboto", "Arial", "Helvetica", "sans-serif";
+}
+
+span.ql-size-huge {
+  font-size: 2.5em;
+}
+
+span.ql-size-large {
+  font-size: 1.5em;
+}
+
+span.ql-size-small {
+  font-size: 0.75em;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Lato"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Lato"]::before {
+  content: "Lato";
+  font-family: "Lato", "Arial", "Helvetica", "sans-serif";
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Lora"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Lora"]::before {
+  content: "Lora";
+  font-family: "Lora", "Georgia", "serif";
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Inconsolata"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Inconsolata"]::before {
+  content: "Inconsolata";
+  font-family: "Inconsolata", "Monaco", "Consolas", "Courier New", monospace;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Roboto"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Roboto"]::before {
+  content: "Roboto";
+  font-family: "Roboto", "Arial", "Helvetica", "sans-serif";
+}
