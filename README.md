@@ -13,12 +13,17 @@
 - Responsive design
 - Resizable UI on desktop
 - Dark/light mode
+- No email requred as this is a showcase project only
+
 
 ### Planned features
+- reCAPTCHAv2
+- Accessibility features
 - More fonts
-- User settings (change password, change username, etc.)
+- User settings (change password, change username)
 - Folder/tags support
 - Note sharing and collaboration
+- Themes
 
 #### Live version 
 ###### coming soon

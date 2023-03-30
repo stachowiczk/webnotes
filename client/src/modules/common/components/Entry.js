@@ -65,7 +65,7 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
 
   return (
     <>
-      <div className={`entry-main ${theme}`}>
+      <div className={`entry-main ${theme}`} onClick={data[keyProp].isExpanded ? null : toggleExpanded}>
         <div>
           <button type="button" className="x-button" onClick={deleteNoteById}>
             {""}x{""}
@@ -81,8 +81,8 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
         <span
           style={{ fontStyle: "italic", fontSize: "small" }}
         >{`${created_at}`}</span>
-        <button className="expand-button expand-item" onClick={toggleExpanded}>
-          {data[keyProp].isExpanded ? "collapse" : "expand"}
+        <button className="expand-button expand-item" onClick={toggleExpanded} style={data[keyProp].isExpanded ? {} : {display: "none"}}>
+          {data[keyProp].isExpanded ? "collapse" : ""}
         </button>
         <button className="expand-button expand-item" onClick={editNote}>edit</button>
       </div>

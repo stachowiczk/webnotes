@@ -230,6 +230,11 @@ blockquote {
   flex: 1;
   transition: flex 0.5s ease;
 }
+
+.entry-main:hover {
+  box-shadow: 0 0 0.3em hsl(0, 0%, 26%);
+  transition: box-shadow 0.2s ease;
+}
 @media screen and (max-width: 960px) {
   .entry-main {
     margin-right: 1rem;
