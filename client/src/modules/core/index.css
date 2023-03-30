@@ -15,10 +15,12 @@ div {
 .root-element.light {
   background-color: hsl(0, 0%, 85%);
   color: hsl(0, 0%, 21%);
+  transition: background-color 0.5s ease;
 }
 .root-element.dark {
   background-color: hsl(0, 0%, 20%);
   color: hsl(60, 1%, 81%);
+  transition: background-color 0.5s ease;
 }
 
 .root-element.dark div#divider {
@@ -180,19 +182,6 @@ div.submit-button-container {
   max-height: min-content;
   margin-left: auto;
 }
-.submit-button {
-  margin-top: 1rem;
-  padding: 0.5rem;
-  border: 0px solid hsl(60, 1%, 81%);
-  border-radius: 0.5rem;
-  background-color: hsl(0, 0%, 73%);
-  color: hsl(0, 1%, 26%);
-  font-size: 1rem;
-  cursor: pointer;
-  max-width: max-content;
-}
-
-
 
 blockquote {
   border-left: 0.25em solid hsl(0, 0%, 29%);
@@ -206,12 +195,21 @@ blockquote {
   cursor: pointer;
   border-radius: 0.5rem;
   background: none;
-  color: red;
+  color: hsl(0, 0%, 25%);
   border: none;
   position: absolute;
   top: 0;
   right: 0;
   margin: 0.1rem;
+}
+
+.root-element.dark .x-button {
+  color: hsl(0, 0%, 73%);
+}
+
+.x-button:hover,
+.root-element.dark .x-button:hover {
+  color: red;
 }
 .entry-main {
   border: 0px solid hsl(60, 1%, 81%);
@@ -236,11 +234,12 @@ blockquote {
   transition: box-shadow 0.2s ease;
 }
 
-
 @media screen and (max-width: 960px) {
   .entry-main {
-    margin-right: 0rem;
-    margin-left: 0rem;
+    margin: 0;
+  }
+  .textfeed-js {
+    gap: 2px;
   }
 }
 
@@ -275,21 +274,37 @@ blockquote {
   flex: 1;
 }
 
-.user-button {
+.user-button, .menu-button{
   border-radius: 0.25rem;
   font-size: 1rem;
   cursor: pointer;
-  background-color: hsl(60, 11%, 69%);
   opacity: 0.75;
-  border: none;
+  border: 1px solid transparent;
   font-size: smaller;
-  color: rgb(61, 119, 228);
+  background-color: hsl(0, 0%, 73%);
+  color: hsl(0, 0%, 26%);
   max-width: min-content;
   padding-top: 0.3em;
   padding-bottom: 0.3em;
   border-radius: 0.5em;
   border-top-right-radius: 0;
   word-wrap: normal;
+}
+
+.menu-button {
+  position: absolute;
+  color: red;
+  border-radius: 0.3rem;
+  border-top-left-radius: 0;
+  flex: 0;
+  padding: 0.4rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+.root-element.dark .user-button,.root-element.dark .menu-button {
+  background-color: hsl(0, 0%, 21%);
+  color: hsl(0, 0%, 69%);
 }
 
 .theme-button {
@@ -315,10 +330,19 @@ blockquote {
 .root-element.dark .theme-button {
   color: hsl(0, 0%, 21%);
   background-color: hsl(0, 0%, 75%);
+  transition: background-color 0.3s ease;
 }
 
-button.user-button:hover {
-  border: 1px solid hsl(60, 1%, 81%);
+.root-element.dark .user-button:hover,.root-element.dark .menu-button:hover{
+  background-color: hsl(0, 0%, 26%);
+  color: red;
+  border: 1px solid hsl(0, 0%, 73%);
+}
+
+button.user-button:hover, .menu-button:hover {
+  border: 1px solid hsl(0, 0%, 26%);
+  color: red;
+  transition: border 0.3s ease;
 }
 
 div.user-button {
@@ -329,6 +353,34 @@ div.user-button {
   display: flex;
   flex-direction: row;
 }
+
+.submit-button {
+  margin: 2px;
+  margin-top: 1rem;
+  padding: 0.3em 0.5em;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  border-top-right-radius: 0;
+  font-size: small;
+
+  background-color: hsl(0, 0%, 73%);
+  color: hsl(0, 1%, 26%);
+  cursor: pointer;
+  max-width: max-content;
+}
+
+.dark .submit-button:hover {
+  border: 1px solid hsl(60, 1%, 81%);
+  transition: border 0.2s ease;
+
+  
+}
+
+.submit-button:hover {
+  border: 1px solid hsl(0, 0%, 25%);
+  transition: border 0.3s ease;
+}
+
 .expand-button {
   background-color: hsl(60, 11%, 69%);
   opacity: 0.75;
@@ -339,6 +391,7 @@ div.user-button {
   max-width: max-content;
   padding-top: 0.3em;
   padding-bottom: 0.3em;
+  margin-bottom: 0.5em;
   border-radius: 0.5em;
   border-top-right-radius: 0;
   margin-right: 2rem;
@@ -347,26 +400,21 @@ div.user-button {
   cursor: pointer;
 }
 
+@media screen and (max-width: 960px) {
+  .expand-button {
+    margin-right: 0rem;
+    margin-top: 0;
+  }
+}
+
 .expand-item {
   background: none;
   cursor: pointer;
 }
 
-.menu-button {
-  position: absolute;
-  z-index: 100;
-  background-color: hsl(60, 11%, 69%);
-  color: rgb(228, 61, 61);
-  border-radius: 0.3rem;
-  border-top-left-radius: 0;
-  flex: 0;
-  padding: 0.4rem;
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
-}
 
 .menu-button > a {
-  color: rgb(228, 61, 61);
+  color: red;
   text-decoration: none;
 }
 
@@ -414,7 +462,6 @@ div.user-button {
 #divider:hover {
   box-shadow: 0 0 0.2em hsl(0, 0%, 79%);
 }
-
 
 #item-list {
   overflow: scroll;
@@ -503,8 +550,6 @@ form {
   div.ql-editor {
     height: 61vh;
   }
-
- 
 }
 
 input {

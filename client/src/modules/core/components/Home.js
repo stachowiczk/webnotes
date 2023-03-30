@@ -207,7 +207,7 @@ function Home() {
             <button
               className="user-button"
               onClick={dropdown ? toggleDropdown : toggleDropdown}
-              style={{ color: "#ffffff" }}
+              style={{}}
             >
               Logout
             </button>
@@ -226,7 +226,7 @@ function Home() {
                 style={
                   !isMobile
                     ? { display: "none" }
-                    : { marginTop: "0.5rem", marginBottom: "0.5rem" }
+                    : {}
                 }
                 onClick={handleSaveCancelClick}
               >

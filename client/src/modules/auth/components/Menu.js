@@ -10,7 +10,7 @@ function Menu() {
   
 
   return (
-    <div className="user-button" style={{ border: "none" }}>
+    <div className="user-button" style={{}}>
       <div className="menu-button" style={{}}>
         <>{state.isAuthenticated ? null : <Link to="/login">Login </Link>}</>
         <Link to="/logout">Confirm </Link>
