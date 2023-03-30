@@ -4,7 +4,7 @@ const LOCAL_STORAGE_THEME_KEY = "theme";
 const LOCAL_STORAGE_SHOW_EDITOR = "hideEditor";
 
 function isMobile() {
-  if (window.innerWidth > 900) {
+  if (window.innerWidth > 960) {
     return false;
   } else {
     return true;
@@ -12,7 +12,7 @@ function isMobile() {
 }
 const initialState = {
   theme: localStorage.getItem(LOCAL_STORAGE_THEME_KEY),
-  mobile: (window.innerWidth < 900),
+  mobile: (window.innerWidth < 960),
   showEditor: true || localStorage.getItem(LOCAL_STORAGE_SHOW_EDITOR),
   leftWidth: window.innerWidth/4,
 };
@@ -36,10 +36,14 @@ export const themeSlice = createSlice({
     setLeftWidth: (state, action) => {
       state.leftWidth = action.payload;
     },
+    setIsMobile: (state) => {
+      state.mobile = (window.innerWidth < 960)
+    },
+
   },
 });
 
-export const { toggleTheme, toggleShowEditor, setLeftWidth } =
+export const { toggleTheme, toggleShowEditor, setLeftWidth, setIsMobile } =
   themeSlice.actions;
 
 export default themeSlice.reducer;

@@ -17,6 +17,7 @@ import {
   toggleTheme,
   toggleShowEditor,
   setLeftWidth,
+  setIsMobile,
 } from "../../common/slices/themeSlice.js";
 
 const LOCAL_STORAGE_WIDTH_KEY = "WIDTH";
@@ -25,6 +26,7 @@ function Home() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(true);
   const [reloadFeed, setReloadFeed] = useState(false);
+  const innerWidth = useRef(window.innerWidth);
 
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef(null);
@@ -57,6 +59,18 @@ function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    dispatch(setIsMobile());
+  }, [innerWidth.current]);
+
+  useEffect(() => {
+    if (innerWidth.current !== window.innerWidth) {
+      innerWidth.current = window.innerWidth;
+      dispatch(setIsMobile());
+    }
+  }, [window.innerWidth]);
+
+  
   useEffect(() => {
     if (editingExisting) {
       dispatch(setEditorState(editorState));
@@ -109,7 +123,18 @@ function Home() {
     dispatch(setEditedNoteId(null));
   }
 
+  function handleWindowResize() {
+    if (leftWidth === window.innerWidth) {
+      try {
+        dispatch(setLeftWidth(localStorage.getItem(LOCAL_STORAGE_WIDTH_KEY)));
+      } catch (err) {
+        dispatch(setLeftWidth(window.innerWidth / 4));
+      }
+    }
+  }
+
   function handleMoblileViewChange() {
+
     resetEditorDispatch();
     if (!showEditor && isMobile) {
       dispatch(setLeftWidth(window.innerWidth));
@@ -232,16 +257,11 @@ function Home() {
               </button>
               <button
                 className="submit-button cancel-button desktop"
-                onClick={resetEditorDispatch}
-              >
-                Cancel
-              </button>
-              <button
-                className="submit-button cancel-button mobile"
                 onClick={handleMoblileViewChange}
               >
                 Cancel
               </button>
+              
               <button
                 className="submit-button"
                 onClick={deleteAllPosts}

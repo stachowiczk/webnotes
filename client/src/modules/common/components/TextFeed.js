@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import DOMPurify from "dompurify";
 import Entry from "./Entry";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,7 +16,6 @@ function TextFeed({ reload }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-
   const [expandButton, setExpandButton] = useState(true);
 
   const [entryComponents, setEntryComponents] = useState([]);

@@ -6,9 +6,6 @@ body {
   font-family: Roboto, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   scrollbar-width: none;
-  
-  
-  
 }
 
 div {
@@ -108,7 +105,7 @@ div.ql-container.ql-snow {
   max-height: 70vh;
   position: relative;
 }
-
+/* this fixes link input tooltip in ql */
 div.ql-tooltip.ql-editing:not([style*="left: auto;"]):is([style*="left: -"]) {
   left: 0 !important;
 }
@@ -195,17 +192,7 @@ div.submit-button-container {
   max-width: max-content;
 }
 
-@media screen and (min-width: 960px) {
-  .mobile {
-    display: none;
-  }
-}
 
-@media screen and (max-width: 960px) {
-  .desktop {
-    display: none;
-  }
-}
 
 blockquote {
   border-left: 0.25em solid hsl(0, 0%, 29%);
@@ -422,7 +409,6 @@ div.user-button {
   display: none;
 }
 
-
 .form {
   display: flex;
   flex-direction: column;
@@ -436,13 +422,14 @@ div.user-button {
 @media screen and (min-width: 960px) {
 }
 form {
-  width: 16vw;
+  width: max-content;
   border-radius: 2em;
   border: 1px solid lightgray;
   background-color: rgb(240, 240, 240);
-  height: 50dvh;
-  flex: 0 1 auto;
+  flex: 0 1 40%;
   align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
   justify-content: center;
   justify-content: center;
   display: flex;
@@ -501,9 +488,7 @@ form {
     height: 61vh;
   }
 
-  #divider {
-    display: none;
-  }
+ 
 }
 
 input {
@@ -515,7 +500,7 @@ input {
   color: hsl(60, 1%, 81%);
   font-size: 1rem;
   cursor: pointer;
-  max-width: min-content;
+  max-width: max-content;
 }
 
 input:focus {
