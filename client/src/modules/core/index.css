@@ -654,6 +654,11 @@ input {
   max-width: max-content;
 }
 
+.root-element.dark input {
+  color: hsl(0, 0%, 20%);
+  border: 1px solid hsl(0, 0%, 45%);
+}
+
 input:focus {
   box-shadow: 0 0 0.8em hsl(224, 38%, 50%);
 }
@@ -666,6 +671,10 @@ input:focus {
   margin-bottom: 2rem;
   height: 3rem;
   text-align: center;
+}
+
+.root-element.dark #register-form-label-main {
+  color: hsl(0, 0%, 85%);
 }
 
 
