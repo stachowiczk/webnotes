@@ -98,15 +98,24 @@ function TextFeed({ reload }) {
   }, [entries]);
 
   if (!isLoaded) {
-    return <div className="editor"><div className="loading"></div></div>;
-  } else if (entryComponents.length === 0) {
     return (
       <div className="editor">
-        <i>
-          No notes yet.{" "}
-          {isMobile ? 'Tap "New note"' : "Start typing and click \"Save\""} to add
-          your first note!{" "}
-        </i>
+        <div className="loading"></div>
+      </div>
+    );
+  } else if (entryComponents.length === 0) {
+    return (
+      <div
+        className="editor"
+        style={{
+          margin: "0 auto",
+          marginTop: "30%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <i>No notes yet.</i>
       </div>
     );
   } else if (error) {

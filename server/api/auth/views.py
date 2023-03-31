@@ -64,27 +64,6 @@ class LoginAPI(MethodView):
                 )
         except (NoResultFound, KeyError) as e:
             print(e)
-            return jsonify({"message": "Invalid username or password keyerror"}), 401
-
-    ### REFRESH TOKEN
-    @cross_origin(supports_credentials=True)
-    @jwt_required(refresh=True)
-    def put(self):
-        identity = get_jwt_identity()
-        access_token = User.generate_token(self, identity=identity)
-        response = make_response(jsonify({"message": "Token refreshed"}), 200)
-        set_access_cookies(response, access_token)
-        return response
-
-    ### LOGOUT
-    @cross_origin(supports_credentials=True)
-    @jwt_required()
-    def delete(self):
-        response = make_response(jsonify({"message": "Logged out"}), 200)
-        unset_jwt_cookies(response)
-        return response
-
-    ### GET USER INFO
     @cross_origin(supports_credentials=True)
     @jwt_required()
     def get(self):
@@ -95,3 +74,27 @@ class LoginAPI(MethodView):
         except Exception as e:
             print(e)
             return jsonify({"message": "Error getting user info"}), 401
+
+@auth_bp.route("/refresh", methods=["GET"])
+class RefreshAPI(MethodView):
+    @cross_origin(supports_credentials=True)
+    @jwt_required(refresh=True)
+    def get(self):
+        identity = get_jwt_identity()
+        access_token = User.generate_token(self, identity=identity)
+        response = make_response(jsonify({"message": "Token refreshed"}), 200)
+        set_access_cookies(response, access_token)
+        return response
+
+    ### LOGOUT
+
+@auth_bp.route("/logout", methods=["GET"])
+class LogoutAPI(MethodView):
+    @cross_origin(supports_credentials=True)
+    @jwt_required()
+    def get(self):
+        response = make_response(jsonify({"message": "Logged out"}), 200)
+        unset_jwt_cookies(response)
+        return response
+
+    

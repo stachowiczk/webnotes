@@ -12,8 +12,8 @@ function Logout() {
 
     try {
       const response = await http({
-        method: "delete",
-        url: "http://localhost:5000/auth/login",
+        method: "get",
+        url: "http://localhost:5000/auth/logout",
       });
       const data = await response.data;
       if (response.status === 200 || response.status === 401) {

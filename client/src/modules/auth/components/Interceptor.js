@@ -23,7 +23,7 @@ http.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const res = await axios.put("http://localhost:5000/auth/login", null, {
+      const res = await axios.get("http://localhost:5000/auth/refresh", null, {
         withCredentials: true,
       });
       if (res.status === 200) {

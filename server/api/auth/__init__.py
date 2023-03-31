@@ -12,5 +12,18 @@ auth_bp.add_url_rule(
 auth_bp.add_url_rule(
     "/auth/login",
     view_func=views.LoginAPI.as_view("login"),
-    methods=["POST", "GET", "PUT", "DELETE"],
+    methods=["POST", "GET"],
 )
+
+auth_bp.add_url_rule(
+    "/auth/logout",
+    view_func=views.LogoutAPI.as_view("logout"),
+    methods=["GET"],
+)
+
+auth_bp.add_url_rule(
+    "/auth/refresh",
+    view_func=views.RefreshAPI.as_view("refresh"),
+    methods=["GET"],
+)
+
