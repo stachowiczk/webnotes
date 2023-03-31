@@ -168,10 +168,7 @@ p {
   margin-bottom: 2vh;
 }
 
-#container-homejs.dark button.submit-button {
-  background-color: hsl(0, 0%, 29%);
-  color: hsl(0, 0%, 73%);
-}
+
 
 div.submit-button-container {
   display: flex;
@@ -325,24 +322,35 @@ blockquote {
 
   margin-right: auto;
   margin-left: 5vw;
+  transition: background-color 0.4s ease;
+}
+
+.theme-button:hover {
+  background-color: hsl(0, 0%, 31%);
+  transition: background-color 0.4s ease;
 }
 
 .root-element.dark .theme-button {
   color: hsl(0, 0%, 21%);
+  transition: background-color 0.4s ease;
   background-color: hsl(0, 0%, 75%);
-  transition: background-color 0.3s ease;
+}
+
+.root-element.dark .theme-button:hover {
+  background-color: hsl(0, 0%, 85%);
+  transition: background-color 0.4s ease;
 }
 
 .root-element.dark .user-button:hover,.root-element.dark .menu-button:hover{
   background-color: hsl(0, 0%, 26%);
   color: red;
-  border: 1px solid hsl(0, 0%, 73%);
+  transition: background-color 0.4s ease;
+  
 }
 
 button.user-button:hover, .menu-button:hover {
-  border: 1px solid hsl(0, 0%, 26%);
   color: red;
-  transition: border 0.3s ease;
+  transition: background-color 0.4s ease;
 }
 
 div.user-button {
@@ -367,22 +375,29 @@ div.user-button {
   color: hsl(0, 1%, 26%);
   cursor: pointer;
   max-width: max-content;
+  transition: background-color 0.4s ease;
 }
 
-.dark .submit-button:hover {
-  border: 1px solid hsl(60, 1%, 81%);
-  transition: border 0.2s ease;
+#container-homejs.dark button.submit-button {
+  background-color: hsl(0, 0%, 29%);
+  color: hsl(0, 0%, 73%);
+  transition: background-color 0.4s ease;
+}
+
+#container-homejs.dark .submit-button:hover {
+  background-color: hsl(0, 0%, 39%);
+  transition: background-color 0.4s ease;
 
   
 }
 
 .submit-button:hover {
-  border: 1px solid hsl(0, 0%, 25%);
-  transition: border 0.3s ease;
+  background-color: hsl(0, 0%, 83%);
+  transition: background-color 0.4s ease;
 }
 
 .expand-button {
-  background-color: hsl(60, 11%, 69%);
+  background-color: hsl(0, 0%, 70%);
   opacity: 0.75;
   border: none;
   font-size: smaller;
@@ -398,6 +413,12 @@ div.user-button {
   margin-right: auto;
   word-wrap: normal;
   cursor: pointer;
+  transition: background-color 0.4s ease;
+}
+
+.expand-button:hover {
+  background-color: hsl(0, 0%, 80%);
+  transition: background-color 0.4s ease;
 }
 
 .mobile-view-button {
