@@ -394,22 +394,33 @@ div.user-button {
   margin-bottom: 0.5em;
   border-radius: 0.5em;
   border-top-right-radius: 0;
-  margin-right: 2rem;
-  margin-left: auto;
+  margin-left: 2rem;
+  margin-right: auto;
   word-wrap: normal;
   cursor: pointer;
+}
+
+.mobile-view-button {
+  margin-right: 0;
+  margin-left: auto;
 }
 
 @media screen and (max-width: 960px) {
   .expand-button {
     margin-right: 0rem;
     margin-top: 0;
+    margin-left: 0;
   }
+.mobile-view-button {
+  margin-right: 0;
+  margin-left: auto;
+}
 }
 
 .expand-item {
   background: none;
   cursor: pointer;
+  margin-left: 0;
 }
 
 

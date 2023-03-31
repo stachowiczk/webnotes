@@ -120,7 +120,7 @@ function TextFeed({ reload }) {
             className="expand-button"
             style={entryComponents.length === 0 ? { display: "none" } : {}}
           >
-            {expandButton ? "Expand All" : "Collapse All"}
+            {expandButton ? "Expand all" : "Collapse all"}
           </button>
         </div>
         <div className="textfeed-js">{entryComponents}</div>
