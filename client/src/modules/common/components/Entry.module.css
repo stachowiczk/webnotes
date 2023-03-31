@@ -1,7 +1,12 @@
 
-.entry-title, .entry-content {
+.entry-content {
   transition: height 0.6s ease, opacity 0.6s ease;
 }
+.entry-title {
+  transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+
 
 .entry-title.collapsed {
   display: block;
@@ -22,10 +27,12 @@
   opacity: 0;
   height: 0;
   overflow: hidden;
+  transition: height 0.6s ease, opacity 0.6s ease-out;
 }
 
 .entry-content.expanded {
   display: block;
   opacity: 1;
   height: auto;
+  transition: height 0.6s ease, opacity 0.6s ease;
 }
