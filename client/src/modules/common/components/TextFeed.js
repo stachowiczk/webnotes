@@ -98,7 +98,7 @@ function TextFeed({ reload }) {
   }, [entries]);
 
   if (!isLoaded) {
-    return <div className="editor">Loading...</div>;
+    return <div className="editor"><div className="loading"></div></div>;
   } else if (entryComponents.length === 0) {
     return (
       <div className="editor">

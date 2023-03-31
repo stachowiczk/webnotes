@@ -34,9 +34,7 @@ function Redirect() {
     checkLoggedIn(dispatch, navigate);
   }, [dispatch, navigate]);
 
-  if (!state.isLoaded) {
-    return <div>Loading...</div>;
-  }
+  
   if (state.isAuthenticated) {
     return <></>;
   }

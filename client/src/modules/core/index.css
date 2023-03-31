@@ -93,6 +93,36 @@ div#quill {
   gap: 2vh;
 }
 
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  display: block;
+  margin: 0 auto;
+  margin-top: 30%;
+ 
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #06c;
+  animation: spin 1s linear infinite;
+}
+
+#login-container .loading {
+  margin-top: 0;
+}
+
+
+
+
 @media screen and (max-width: 960px) {
   .textfeed-js {
     padding-right: 0;
@@ -539,13 +569,14 @@ form button {
   color: hsl(0, 1%, 26%);
   cursor: pointer;
   max-width: max-content;
+  transition: background-color 0.4s ease;
 }
 
 @media screen and (min-width: 960px) {
 }
 form {
   width: max-content;
-  border-radius: 2em;
+  border-radius: 0.4em;
   border: 1px solid lightgray;
   background-color: rgb(240, 240, 240);
   flex: 0 1 40%;
@@ -640,10 +671,12 @@ input:focus {
 
 
 button#register:hover {
-  border: 1px solid hsl(230, 15%, 16%);
+  background-color: hsl(0, 0%, 83%);
+  transition: background-color 0.4s ease;
 }
 button#login:hover {
-  border: 1px solid hsl(230, 15%, 16%);
+  background-color: hsl(0, 0%, 83%);
+  transition: background-color 0.4s ease;
 }
 
 span.ql-font-Lato {

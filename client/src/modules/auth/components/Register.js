@@ -4,6 +4,7 @@ import { Navigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import http from "./Interceptor";
 
 const PAGE_NUMBER = new Set([1, 2]);
 
@@ -87,55 +88,79 @@ function Register() {
     });
   }
   useEffect(() => {
+    async function checkLoggedIn() {
+      dispatch({ type: "LOADING" });
+      try {
+        const res = await http.get("http://localhost:5000/auth/login");
+        if (res.status === 200) {
+          dispatch({ type: "USER_LOADED", payload: res.data });
+          navigate("/home");
+        } else {
+          dispatch({ type: "LOGIN_FAIL" });
+          setIsLoaded(true);
+        }
+      } catch (err) {
+        console.log(err);
+        dispatch({ type: "LOGIN_FAIL" });
+      }
+      setIsLoaded(true);
+    }
+    checkLoggedIn();
     setUserData({ username: "", password: "", repeatPassword: "" });
-    setIsLoaded(true);
   }, []);
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return (
+      <div id="login-container">
+        <div className={`loading ${currentTheme}`}></div>;
+      </div>
+    );
   } else if (state.isAuthenticated) {
     return <Navigate to="/home" />;
   } else {
     return (
       <div className={`root-element ${currentTheme}`}>
-      <div id="login-container">
-        <form className="form" id="register-form" onSubmit={submit}>
-          <div id="register-form-label-main">Create a WebNotes Account</div>
-          <label htmlFor="username" style={labelStyle}>
-            {isAvailable && " "}
-            {!isAvailable && "Username is not available"}
-          </label>
-          <input
-            type="text"
-            placeholder="Username"
-            name="username"
-            id="username"
-            onChange={handleChange}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={handleChange}
-          />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            name="repeatPassword"
-            onChange={handleChange}
-          />
-          <label htmlFor="repeatPassword" style={labelStyle}>
-            {pwMatch && " "}
-            {!pwMatch && userData.password !== "" && "Passwords do not match"}
-          </label>
-          <button className="submit" id="register" type="submit">
-            Register
-          </button>
-          Already have an account?
-          <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
-            Login
-          </Link>
-        </form>
-      </div>
+        <div id="login-container">
+          <form className="form" id="register-form" onSubmit={submit}>
+            <div id="register-form-label-main">Create a WebNotes Account</div>
+            <label htmlFor="username" style={labelStyle}>
+              {isAvailable && " "}
+              {!isAvailable && "Username is not available"}
+            </label>
+            <input
+              type="text"
+              placeholder="Username"
+              name="username"
+              id="username"
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              name="repeatPassword"
+              onChange={handleChange}
+            />
+            <label htmlFor="repeatPassword" style={labelStyle}>
+              {pwMatch && " "}
+              {!pwMatch && userData.password !== "" && "Passwords do not match"}
+            </label>
+            <button className="submit" id="register" type="submit">
+              Register
+            </button>
+            Already have an account?
+            <Link
+              to="/login"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              Login
+            </Link>
+          </form>
+        </div>
       </div>
     );
   }

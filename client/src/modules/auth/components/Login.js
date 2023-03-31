@@ -84,8 +84,8 @@ function Login() {
 
   if (!isLoaded) {
     return (
-      <div className="form">
-        <h1></h1>
+      <div id="login-container">
+        <div className={`loading ${currentTheme}`}></div>
       </div>
     );
   } else if (state.isAuthenticated) {
