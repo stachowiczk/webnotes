@@ -475,11 +475,38 @@ div.user-button {
 .form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  gap: 1rem;
   margin-right: auto;
   margin-left: auto;
   padding: 10px;
+  height: max-content;
+  box-shadow: 0 0 0.2em hsl(0, 0%, 79%);
+}
+
+.root-element.dark #login-container {
+  background-color: hsl(0, 0%, 21%);
+
+}
+
+.root-element.dark form {
+  background-color: hsl(0, 0%, 35%);
+  border: 1px solid hsl(0, 0%, 45%);
+}
+
+form button {
+  margin: 2px;
+  margin-left: auto;
+  margin-top: 1rem;
+  padding: 0.3em 0.5em;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  border-top-right-radius: 0;
+  font-size: small;
+
+  background-color: hsl(0, 0%, 73%);
+  color: hsl(0, 1%, 26%);
+  cursor: pointer;
+  max-width: max-content;
 }
 
 @media screen and (min-width: 960px) {
@@ -491,8 +518,8 @@ form {
   background-color: rgb(240, 240, 240);
   flex: 0 1 40%;
   align-items: center;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   justify-content: center;
   justify-content: center;
   display: flex;
@@ -578,32 +605,8 @@ input:focus {
   text-align: center;
 }
 
-button#register {
-  padding: 0.5rem;
-  border: 1px solid hsl(60, 1%, 81%);
-  border-radius: 0.5rem;
-  background-color: hsl(230, 15%, 16%);
-  color: hsl(60, 1%, 81%);
-  font-size: 1rem;
-  cursor: pointer;
-  max-width: max-content;
-  margin-right: 2rem;
-  margin-left: auto;
-  font-size: small;
-}
-button#login {
-  padding: 0.5rem;
-  border: 1px solid hsl(60, 1%, 81%);
-  border-radius: 0.5rem;
-  background-color: hsl(230, 15%, 16%);
-  color: hsl(60, 1%, 81%);
-  font-size: 1rem;
-  cursor: pointer;
-  max-width: max-content;
-  margin-right: 2rem;
-  margin-left: auto;
-  font-size: small;
-}
+
+
 button#register:hover {
   border: 1px solid hsl(230, 15%, 16%);
 }

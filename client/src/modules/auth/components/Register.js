@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Navigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const PAGE_NUMBER = new Set([1, 2]);
 
@@ -15,6 +16,7 @@ function Register() {
   const [pwMatch, setPwMatch] = useState(false);
   const [isAvailable, setIsAvailable] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+  const currentTheme = useSelector((state) => state.theme.theme);
   const { state, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -94,6 +96,7 @@ function Register() {
     return <Navigate to="/home" />;
   } else {
     return (
+      <div className={`root-element ${currentTheme}`}>
       <div id="login-container">
         <form className="form" id="register-form" onSubmit={submit}>
           <div id="register-form-label-main">Create a WebNotes Account</div>
@@ -132,6 +135,7 @@ function Register() {
             Login
           </Link>
         </form>
+      </div>
       </div>
     );
   }

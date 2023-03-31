@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../context/UserContext";
 import { useNavigate, Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import http from "./Interceptor";
 
@@ -11,6 +12,7 @@ function Login() {
   });
 
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const currentTheme = useSelector((state) => state.theme.theme);
 
   const { state, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -94,39 +96,39 @@ function Login() {
     );
   } else {
     return (
-      <div id="login-container">
-        <form className="form" id="login-form" onSubmit={submit}>
-          <div id="register-form-label-main">Log in to WebNotes</div>
-          <input
-            type="text"
-            name="username"
-            value={userData.username}
-            onChange={handleChange}
-            placeholder="Username"
-          />
-          <input
-            type="password"
-            name="password"
-            value={userData.password}
-            onChange={handleChange}
-            placeholder="Password"
-          />
-          <button className="submit" id="login" type="submit">
-            Login
-          </button>
-          Need and account?{" "}
-          <Link
-            to="/register"
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            Register here!
-          </Link>
-        </form>
+      <div className={`root-element ${currentTheme}`}>
+        <div id="login-container">
+          <form className="form" id="login-form" onSubmit={submit}>
+            <div id="register-form-label-main">Log in to WebNotes</div>
+            <input
+              type="text"
+              name="username"
+              value={userData.username}
+              onChange={handleChange}
+              placeholder="Username"
+            />
+            <input
+              type="password"
+              name="password"
+              value={userData.password}
+              onChange={handleChange}
+              placeholder="Password"
+            />
+            <button className="submit" id="login" type="submit">
+              Login
+            </button>
+            Need and account?{" "}
+            <Link
+              to="/register"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              Register here!
+            </Link>
+          </form>
+        </div>
       </div>
     );
   }
 }
-const formStyle = {
-  
-};
+const formStyle = {};
 export default Login;

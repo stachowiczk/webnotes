@@ -3,19 +3,20 @@ import { createSlice } from "@reduxjs/toolkit";
 const LOCAL_STORAGE_THEME_KEY = "theme";
 const LOCAL_STORAGE_SHOW_EDITOR = "hideEditor";
 
-function isMobile() {
-  if (window.innerWidth > 960) {
-    return false;
-  } else {
-    return true;
-  }
-}
+const getPreferredTheme = () => {
+  const storedTheme = localStorage.getItem(LOCAL_STORAGE_THEME_KEY);
+  if (storedTheme) return storedTheme;
+  const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  return darkModeMediaQuery.matches ? "dark" : "light";
+};
+
 const initialState = {
-  theme: localStorage.getItem(LOCAL_STORAGE_THEME_KEY),
+  theme: getPreferredTheme(),
   mobile: (window.innerWidth < 960),
   showEditor: true || localStorage.getItem(LOCAL_STORAGE_SHOW_EDITOR),
   leftWidth: window.innerWidth/4,
 };
+
 
 export const themeSlice = createSlice({
   name: "theme",
