@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import http from "./Interceptor";
 
-const PAGE_NUMBER = new Set([1, 2]);
 
 function Register() {
   const [userData, setUserData] = useState({

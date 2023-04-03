@@ -3,7 +3,7 @@ import re
 
 def get_first_sentence(html_text):
     def find_split_point(text):
-        patterns = [r"<p><br></p>", r"<p></p>", r"<br>"]
+        patterns = [r"<p><br></p>", r"<p></p>", r"<br>", r"<ol>", r"<ul>"]
         for pattern in patterns:
             match = re.search(pattern, text)
             if match:

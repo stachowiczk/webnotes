@@ -26,7 +26,7 @@ function EditorComponent() {
       toolbar: [
         [{ font: ['Lato', 'Lora', 'Inconsolata', 'Roboto'] }],
         [{ size: ['small', false, 'large', 'huge'] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
         [{ list: 'ordered' }, { list: 'bullet' }],
         [{ indent: '-1' }, { indent: '+1' }],
         [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -46,6 +46,7 @@ function EditorComponent() {
     'underline',
     'strike',
     'blockquote',
+    'code-block',
     'list',
     'bullet',
     'indent',
