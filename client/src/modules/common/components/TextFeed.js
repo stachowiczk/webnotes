@@ -6,31 +6,24 @@ import {
   setEntries,
   expandAll,
   collapseAll,
-  setReload,
-  setIsEdited,
 } from "../slices/feedSlice";
 
-import { toggleShowEditor } from "../slices/themeSlice";
 import http from "../../auth/components/Interceptor";
 
 function TextFeed({ reload }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [expandButton, setExpandButton] = useState(true);
 
   const [entryComponents, setEntryComponents] = useState([]);
   const entries = useSelector((state) => state.feed.entries);
   const reloadFeed = useSelector((state) => state.feed.reload);
-  const isMobile = useSelector((state) => state.theme.mobile);
-  const showEditor = useSelector((state) => state.theme.showEditor);
   const dispatch = useDispatch();
 
   async function getUserPosts() {
     setIsLoaded(false);
     try {
       const res = await http.get("http://localhost:5000/notes/");
-      setData((data) => res.data);
       dispatch(setEntries(res.data));
       setIsLoaded(true);
     } catch (err) {

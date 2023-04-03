@@ -71,7 +71,6 @@ function Home() {
     }
   }, [window.innerWidth]);
 
-  
   useEffect(() => {
     if (editingExisting) {
       dispatch(setEditorState(editorState));
@@ -223,11 +222,7 @@ function Home() {
             <div className="expand-button-container">
               <button
                 className="mobile-view-button expand-button"
-                style={
-                  !isMobile
-                    ? { display: "none" }
-                    : {}
-                }
+                style={!isMobile ? { display: "none" } : {}}
                 onClick={handleSaveCancelClick}
               >
                 {" "}
@@ -265,7 +260,7 @@ function Home() {
               >
                 Cancel
               </button>
-              
+
               <button
                 className="submit-button"
                 onClick={deleteAllPosts}

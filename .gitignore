@@ -23,6 +23,8 @@ server/__pycache__
 __pycache__/
 server/.auth
 server/config.py
+server/migrations
+server/instance
 *.pyc
 .env.local
 .vscode
