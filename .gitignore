@@ -17,7 +17,7 @@ client/node_modules
 /server_env
 notes
 server/migrations/versions
-
+backup-database
 /.pytest_cache
 server/__pycache__
 __pycache__/
