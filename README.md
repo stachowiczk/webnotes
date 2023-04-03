@@ -66,10 +66,14 @@ place the file in the 'server' directory and run:
 
 ```flask db init```
 
-```flask db migrate```
+following this step, delete the migrations/env.py file and replace it with 
+server/_env.py. Rename the file to env.py, then run:  
 
-```flask db upgrade``` # make sure the Alembic script is correct
+```flask db migrate -m "your_message_here"```
 
+and finally:
+
+```flask db upgrade``` 
 
 to create the database schema and initialize the database.
 
