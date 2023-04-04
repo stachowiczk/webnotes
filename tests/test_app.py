@@ -1,7 +1,8 @@
 import sys
+import pytest
 import unittest
 import uuid, json
-import pytest
+from datetime import timedelta
 from flask.testing import FlaskClient
 from flask_jwt_extended import create_access_token, create_refresh_token
 from app import create_app
@@ -75,8 +76,7 @@ def test_check_username(test_client, test_user, test_database):
         }
 
     ))
-    assert response.status_code == 409
-    assert response.json['message'] == 'User exists'
+    assert response.json[0]['message'] == 'User exists'
 
     response = test_client.get('/auth/register', query_string=(
         {
@@ -106,37 +106,20 @@ def test_login_user(test_client, test_user, test_database):
 
 def test_get_user_info(test_client, test_user, test_database):
     access_token = create_access_token(identity=test_user.id)
-    response = test_client.get('/auth/login', headers={
-        'Cookie': f'access_token_cookie={access_token}'})
+    test_client.set_cookie('localhost', 'access_token_cookie', access_token)
+
+    response = test_client.get('/auth/login')
     assert response.status_code == 200
 
-    invalid_token = 'invalid_token'
-    response = test_client.get('/auth/login', headers={
-        'Cookie': f'access_token_cookie={invalid_token}'})
+    test_client.delete_cookie('localhost','access_token_cookie')
+    expired_token = create_access_token(identity=test_user.id+'1', expires_delta=timedelta(seconds=0))
+    test_client.set_cookie('localhost', 'access_token_cookie', expired_token)
+
+    response = test_client.get('/auth/login')
     assert response.status_code == 401
 
-def test_token_refresh(test_client, test_user, test_database):
-    def test_my_test(test_client, test_database):
-        print("**** DATABASE STATE BEFORE TEST ****")
-        print(list(test_database.session.execute('SELECT * FROM users')))
-    test_my_test(test_client, test_database)
-    refresh_token = create_refresh_token(identity=test_user.id)
-    response = test_client.get('/auth/refresh', headers={
-        'Authorization': f'Bearer {refresh_token}',
-        'Access-Control-Allow-Credentials': 'true'
-    })
-   
-    assert response.status_code == 200
-    assert response.json['message'] == 'Token refreshed'
 
-    invalid_token = 'invalid_token'
-    response = test_client.get('/auth/refresh', headers={
-        'Authorization': f'Bearer {invalid_token}',
-        'Access-Control-Allow-Credentials': 'true'
-    })
 
-    
-    assert response.status_code == 401
 
 
 

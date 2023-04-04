@@ -9,6 +9,14 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt_identity,
 )
+from flask_jwt_extended.exceptions import (
+    NoAuthorizationError,
+    WrongTokenError,
+    RevokedTokenError,
+    FreshTokenRequired,
+    CSRFError,
+)
+
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
@@ -40,7 +48,7 @@ class RegisterAPI(MethodView):
         username = request.args.get("username")
         try:
             user = current_app.db.session.query(User).filter_by(username=username).one()
-            return jsonify({"message": "User exists"}), 409
+            return jsonify({"message": "User exists"}, 409)
         except NoResultFound:
             return jsonify({"message": "Username available"}), 200
 
@@ -77,9 +85,6 @@ class LoginAPI(MethodView):
     def get(self):
         try:
             identity = get_jwt_identity()
-        except:
-            return jsonify({"message": "Invalid token"}), 401
-        try:
             user = current_app.db.session.query(User).filter_by(id=identity).one()
             return jsonify(str(user)), 200
         except Exception as e:
@@ -92,7 +97,7 @@ class RefreshAPI(MethodView):
     @jwt_required(refresh=True)
     def get(self):
         identity = get_jwt_identity()
-        access_token = create_access_token(identity=identity)
+        access_token = User.generate_token(self, identity=identity)
         response = make_response(jsonify({"message": "Token refreshed"}), 200)
         set_access_cookies(response, access_token)
         return response
