@@ -2,7 +2,7 @@ from datetime import datetime
 from flask_login import UserMixin
 from flask_jwt_extended import create_access_token, create_refresh_token
 from sqlalchemy.orm import relationship
-from api.db import db
+from server.api.db import db
 import uuid
 from flask import jsonify
 

@@ -2,6 +2,7 @@ from flask import request, jsonify, make_response, current_app, redirect
 from flask_cors import cross_origin
 from flask.views import MethodView
 from flask_jwt_extended import (
+    create_access_token,
     set_access_cookies,
     set_refresh_cookies,
     unset_jwt_cookies,
@@ -11,8 +12,8 @@ from flask_jwt_extended import (
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
-from api.auth.models import User
-from api.auth import auth_bp
+from server.api.auth.models import User
+from server.api.auth import auth_bp
 
 
 @auth_bp.route("/register", methods=["POST", "GET"])
@@ -23,12 +24,15 @@ class RegisterAPI(MethodView):
         hashed_password = generate_password_hash(password)
         user = User(username=username, password=hashed_password)
         try:
+            existing_user = current_app.db.session.query(User).filter_by(username=username).first()
+            if existing_user:
+                return jsonify({"message": "User already exists"}), 409
             current_app.db.session.add(user)
             current_app.db.session.commit()
-            return jsonify({"message": "User created successfully"}, 201)
+            return jsonify({"message": "User created successfully"}), 201
         except (IntegrityError, KeyError) as e:
             current_app.db.session.rollback()
-            return jsonify({"message": "User already exists"}, 409)
+            return jsonify({"message": "User already exists"}), 409
 
     ### CHECK IF USERNAME IS AVAILABLE
     ### this is done as the user types in the username in the register form
@@ -36,9 +40,9 @@ class RegisterAPI(MethodView):
         username = request.args.get("username")
         try:
             user = current_app.db.session.query(User).filter_by(username=username).one()
-            return jsonify({"message": "User exists"}, 409)
+            return jsonify({"message": "User exists"}), 409
         except NoResultFound:
-            return jsonify({"message": "Username available"}, 200)
+            return jsonify({"message": "Username available"}), 200
 
 
 @auth_bp.route("/login", methods=["POST", "GET", "PUT", "DELETE"])
@@ -60,17 +64,24 @@ class LoginAPI(MethodView):
 
             else:
                 return make_response(
-                    jsonify({"message": "Invalid username or password"}, 401)
+                    jsonify({"message": "Invalid username or password"}), 401
                 )
         except (NoResultFound, KeyError) as e:
             print(e)
+            return make_response(
+                jsonify({"message": "Invalid username or password"}), 401
+            )
+
     @cross_origin(supports_credentials=True)
     @jwt_required()
     def get(self):
         try:
             identity = get_jwt_identity()
+        except:
+            return jsonify({"message": "Invalid token"}), 401
+        try:
             user = current_app.db.session.query(User).filter_by(id=identity).one()
-            return jsonify(str(user), 200)
+            return jsonify(str(user)), 200
         except Exception as e:
             print(e)
             return jsonify({"message": "Error getting user info"}), 401
@@ -81,7 +92,7 @@ class RefreshAPI(MethodView):
     @jwt_required(refresh=True)
     def get(self):
         identity = get_jwt_identity()
-        access_token = User.generate_token(self, identity=identity)
+        access_token = create_access_token(identity=identity)
         response = make_response(jsonify({"message": "Token refreshed"}), 200)
         set_access_cookies(response, access_token)
         return response

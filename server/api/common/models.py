@@ -1,7 +1,7 @@
 from datetime import datetime
 import uuid
 from sqlalchemy.orm import relationship
-from api.db import db
+from server.api.db import db
 
 # shared_notes = db.Table(
     # "shared_notes",

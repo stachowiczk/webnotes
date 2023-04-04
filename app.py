@@ -4,22 +4,26 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 
-from api.common.models import Note
-from api.auth.models import User
-from api.db import db
+from server.api.common.models import Note
+from server.api.auth.models import User
+from server.api.db import db
 
 
-def create_app():
+def create_app(config_name=None):
     app = Flask(__name__)
-    app.config.from_object("config")
+    if config_name:
+        app.config.from_object(config_name)
+    else:
+        app.config.from_object("server.config.Config")
     jwt = JWTManager(app)
     CORS(app, origins="http://localhost:3000", supports_credentials=True)
-    db = SQLAlchemy(app)
+    db.init_app(app)
     app.db = db
-    from api.common.views import notes_bp
-    from api.auth.views import auth_bp
-    from api.auth import views as av
-    from api.common import views as cv
+    
+    from server.api.common.views import notes_bp
+    from server.api.auth.views import auth_bp
+    from server.api.auth import views as av
+    from server.api.common import views as cv
 
     app.register_blueprint(notes_bp)
     app.register_blueprint(auth_bp)

@@ -2,9 +2,9 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import request, jsonify, current_app, make_response
 from flask_cors import cross_origin
 from flask.views import MethodView
-from api.common.models import Note
-from api.common import notes_bp
-from api.common.parser import (
+from server.api.common.models import Note
+from server.api.common import notes_bp
+from server.api.common.parser import (
     get_first_sentence as set_title2,
 )  # too lazy to press ctrl+f2
 
