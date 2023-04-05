@@ -146,6 +146,8 @@ def test_logout_user(test_client, test_user):
 
     # Check that the access token cookie has been removed
 
+    assert response.headers["Set-Cookie"] == "access_token_cookie=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Path=/"
+
 
 if __name__ == "__main__":
     unittest.main()
