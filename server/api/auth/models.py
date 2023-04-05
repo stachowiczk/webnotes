@@ -18,7 +18,8 @@ class User(UserMixin, db.Model):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.id = str(uuid.uuid4())
+        self.id = str(uuid.uuid4().hex)
+        self.id = self.id[:12]
 
     def generate_token(self, identity):
         access_token = create_access_token(identity=identity)
