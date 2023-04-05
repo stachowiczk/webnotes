@@ -23,8 +23,9 @@ http.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const res = await axios.get("http://localhost:5000/auth/refresh", null, {
+      const res = await axios.get("http://localhost:5000/auth/refresh", error.config, {
         withCredentials: true,
+        
       });
       if (res.status === 200) {
         return http(originalRequest);

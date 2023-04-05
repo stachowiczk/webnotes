@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_login import UserMixin
 from flask_jwt_extended import create_access_token, create_refresh_token
 from sqlalchemy.orm import relationship
@@ -25,7 +25,7 @@ class User(UserMixin, db.Model):
         return access_token
 
     def generate_refresh_token(self, identity):
-        refresh_token = create_refresh_token(identity=identity)
+        refresh_token = create_refresh_token(identity=identity, expires_delta=timedelta(days=30))
         return refresh_token
 
     def serialize(self):

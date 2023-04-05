@@ -8,14 +8,9 @@ from flask_jwt_extended import (
     unset_jwt_cookies,
     jwt_required,
     get_jwt_identity,
+    verify_jwt_in_request,
 )
-from flask_jwt_extended.exceptions import (
-    NoAuthorizationError,
-    WrongTokenError,
-    RevokedTokenError,
-    FreshTokenRequired,
-    CSRFError,
-)
+
 
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
@@ -96,7 +91,10 @@ class RefreshAPI(MethodView):
     @cross_origin(supports_credentials=True)
     @jwt_required(refresh=True)
     def get(self):
-        identity = get_jwt_identity()
+        try: 
+            identity = get_jwt_identity()
+        except:
+            return jsonify({"message": "Invalid refresh token"}), 401
         access_token = User.generate_token(self, identity=identity)
         response = make_response(jsonify({"message": "Token refreshed"}), 200)
         set_access_cookies(response, access_token)
