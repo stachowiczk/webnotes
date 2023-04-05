@@ -22,8 +22,6 @@ def create_app(config_name=None):
     
     from server.api.common.views import notes_bp
     from server.api.auth.views import auth_bp
-    from server.api.auth import views as av
-    from server.api.common import views as cv
 
     app.register_blueprint(notes_bp)
     app.register_blueprint(auth_bp)
