@@ -23,7 +23,6 @@ server/__pycache__
 __pycache__/
 .pytest_cache/
 server/.auth
-server/config.py
 server/migrations
 server/instance
 *.pyc
