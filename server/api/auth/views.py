@@ -56,7 +56,6 @@ class LoginAPI(MethodView):
             password = request.json["password"]
             session = current_app.db.session
             user = session.query(User).filter_by(username=username).one()
-            print(user)
             if check_password_hash(user.password, password):
                 access_token = user.generate_token(identity=user.id)
                 refresh_token = user.generate_refresh_token(identity=user.id)

@@ -226,7 +226,16 @@ function Home() {
                 onClick={handleSaveCancelClick}
               >
                 {" "}
-                {showEditor ? "New note" : "Close editor"}
+                {showEditor ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                      fill="#06c"
+                      d="M 11 3 C 10.447 3 10 3.447 10 4 L 10 10 L 4 10 C 3.447 10 3 10.447 3 11 C 3 11.553 3.447 12 4 12 L 10 12 L 10 18 C 10 18.553 10.447 19 11 19 C 11.553 19 12 18.553 12 18 L 12 12 L 18 12 C 18.553 12 19 11.553 19 11 C 19 10.447 18.553 10 18 10 L 12 10 L 12 4 C 12 3.447 11.553 3 11 3 Z"
+                    />
+                  </svg>
+                ) : (
+                  "Close editor"
+                )}
               </button>
             </div>
             {isLoaded ? (

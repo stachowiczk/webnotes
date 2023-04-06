@@ -6,7 +6,8 @@ from server.api.common.models import Note
 from server.api.common import notes_bp
 from server.api.common.parser import (
     get_first_sentence as set_title2,
-)  # too lazy to press ctrl+f2
+)  
+from sqlalchemy.exc import IntegrityError
 
 
 @notes_bp.route("/", methods=["GET", "POST", "DELETE"])
@@ -35,24 +36,27 @@ class NotesAPI(MethodView):
     def post(self):
         try:
             req_data = request.get_json()
+            print(req_data)
             content = req_data["content"]
 
             title = set_title2(content)
-            print(title)
             if not title:
                 title = "Untitled"
             elif "<img" in title:
                 title = "Image"
             if not content or content == "":
                 content = "Empty note"
-            identity = get_jwt_identity()
+            try:
+                identity = get_jwt_identity()
+            except:
+                return jsonify({"message": "Invalid token"}), 401
             note = Note(title=title, content=content, user_id=identity)
             current_app.db.session.add(note)
             current_app.db.session.commit()
             return jsonify({"message": "Note created successfully"}), 201
         except KeyError:
             return jsonify({"message": "Invalid request"}), 400
-        except Exception as e:
+        except IntegrityError as e:
             print(e)
             return jsonify({"message": "required title"}), 400
 

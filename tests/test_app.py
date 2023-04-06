@@ -1,21 +1,32 @@
 import sys
 import pytest
+import jwt
+import http.cookies
 import unittest
 import uuid, json
 from datetime import timedelta
 from flask.testing import FlaskClient
-from flask_jwt_extended import create_access_token, create_refresh_token
+from flask_jwt_extended import (
+    create_access_token,
+    create_refresh_token,
+    JWTManager,
+    get_jwt_identity,
+    jwt_required,
+)
 from app import create_app
 from server.api.db import db as _db
 from server.api.auth.models import User
+from server.api.common.models import Note
 from werkzeug.security import generate_password_hash
+from werkzeug.http import parse_cookie
 from server.config import TestingConfig
 
 
 @pytest.fixture(scope="module")
 def test_app():
     app = create_app(TestingConfig)
-    app.config.from_object("server.config.TestingConfig")
+    app.config.from_object(TestingConfig)
+    manager = JWTManager(app)
 
     with app.app_context():
         _db.create_all()
@@ -26,6 +37,7 @@ def test_app():
 @pytest.fixture(scope="module")
 def test_client(test_app):
     with test_app.app_context():
+        print("Creating test client")
         return test_app.test_client()
 
 
@@ -38,7 +50,7 @@ def test_database(test_app):
 
 
 @pytest.fixture(scope="function")
-def test_user(test_app, test_database):
+def test_user(test_app, test_client, test_database):
     username_uuid = str(uuid.uuid4().hex)
     user = User(
         username=username_uuid, password=generate_password_hash("test_password")
@@ -48,8 +60,7 @@ def test_user(test_app, test_database):
         test_database.session.commit()
         print("Creating user")
         yield user
-        test_database.session.delete(user)
-        test_database.session.commit()
+
         print("Deleting user")
 
 
@@ -146,7 +157,46 @@ def test_logout_user(test_client, test_user):
 
     # Check that the access token cookie has been removed
 
-    assert response.headers["Set-Cookie"] == "access_token_cookie=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Path=/"
+    assert (
+        response.headers["Set-Cookie"]
+        == "access_token_cookie=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Path=/"
+    )
+
+
+@pytest.mark.usefixtures("test_app", "test_client", "test_database", "test_user")
+def login(client, test_user):
+    response = client.post(
+        "/auth/login",
+        data=json.dumps(dict(username=test_user.username, password="test_password")),
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    return response
+
+
+@pytest.mark.usefixtures("test_app", "test_client", "test_database", "test_user")
+def test_add_note(test_client, test_user):
+    response = login(test_client, test_user)
+    set_cookie_header = response.headers.get("Set-Cookie")
+    if set_cookie_header:
+        cookies = http.cookies.SimpleCookie()
+        cookies.load(set_cookie_header)
+        jwt_token = cookies.get("access_token_cookie").value
+
+    test_data = {
+        "title": "test_title",
+        "content": "test_content",
+    }
+    response = test_client.post(
+        "/notes/",
+        data=json.dumps(test_data),
+        content_type="application/json",
+        headers={"Cookie": f"access_token_cookie={jwt_token};"},
+    )
+    id = test_user.id
+    
+    print(id)
+    assert response.status_code == 201
 
 
 if __name__ == "__main__":

@@ -21,4 +21,4 @@ def get_first_sentence(html_text):
     if len(html_text) > 100:
         return html_text[:100].rsplit(" ", 1)[0]
 
-    return html_text
+    return html_text 

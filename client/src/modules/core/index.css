@@ -441,6 +441,15 @@ div.user-button {
   transition: background-color 0.4s ease;
 }
 
+button.expand-button.mobile-view-button {
+  max-width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+  
+}
+
 .expand-button:hover {
   background-color: hsl(0, 0%, 80%);
   transition: background-color 0.4s ease;

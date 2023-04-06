@@ -22,6 +22,7 @@ class Note(db.Model):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.id = str(uuid.uuid4().hex)
+        
 
     def __repr__(self):
         return f"Note id: {self.id}, title: {self.title}"
