@@ -31,7 +31,6 @@ def test_app():
 @pytest.fixture(scope="module")
 def test_client(test_app):
     with test_app.app_context():
-        print("Creating test client")
         return test_app.test_client()
 
 
@@ -52,10 +51,7 @@ def test_user(test_app, test_client, test_database):
     with test_app.app_context():
         test_database.session.add(user)
         test_database.session.commit()
-        print("Creating user")
         yield user
-
-        print("Deleting user")
 
 
 def test_register_user(test_client, test_user, test_database):
@@ -174,14 +170,18 @@ def login(client, test_user):
 
 
 @pytest.mark.usefixtures("test_app", "test_client", "test_database", "test_user")
-def test_add_note(test_client, test_user):
+def test_notes_api(test_client, test_user):
+    # Login the user and get the access token for the test client
     response = login(test_client, test_user)
     set_cookie_header = response.headers.get("Set-Cookie")
     if set_cookie_header:
         cookies = http.cookies.SimpleCookie()
         cookies.load(set_cookie_header)
         jwt_token = cookies.get("access_token_cookie").value
+    else:
+        jwt_token = None
 
+    # Add a note
     test_data = {
         "content": "test_content",
     }
@@ -192,9 +192,9 @@ def test_add_note(test_client, test_user):
         headers={"Cookie": f"access_token_cookie={jwt_token};"},
     )
     id = test_user.id
-
-    print(id)
     assert response.status_code == 201
+
+    # Get all notes
     response = test_client.get(
         f"/notes/",
         headers={"Cookie": f"access_token_cookie={jwt_token};"},
@@ -202,6 +202,36 @@ def test_add_note(test_client, test_user):
     assert response.status_code == 200
     assert response.json[0]["title"] == "test_content"
     assert response.json[0]["content"] == "test_content"
+    note_id = response.json[0]["id"]
+    notes = Note.query.filter_by(user_id=id).all()
+    assert len(notes) == 1
+
+    # Edit a note by id
+    test_data_edited = {
+        "content": "test_content_edited",
+    }
+
+    response = test_client.put(
+        f"/notes/{note_id}",
+        data=json.dumps(test_data_edited),
+        content_type="application/json",
+        headers={"Cookie": f"access_token_cookie={jwt_token};"},
+    )
+
+    assert response.status_code == 200
+    assert len(notes) == 1
+    edited_note = Note.query.filter_by(id=note_id).first()
+    assert edited_note.title == "test_content_edited"
+    assert edited_note.content == "test_content_edited"
+
+    # Delete a note by id
+    response = test_client.delete(
+        f"/notes/{note_id}",
+        headers={"Cookie": f"access_token_cookie={jwt_token};"},
+    )
+    notes = Note.query.filter_by(user_id=id).all()
+    assert response.status_code == 200
+    assert len(notes) == 0
 
 
 if __name__ == "__main__":

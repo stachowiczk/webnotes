@@ -26,4 +26,3 @@ auth_bp.add_url_rule(
     view_func=views.RefreshAPI.as_view("refresh"),
     methods=["GET"],
 )
-

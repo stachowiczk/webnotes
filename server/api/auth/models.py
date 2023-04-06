@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     notes = relationship("Note", backref="user", lazy=True)
-    #shared_notes = relationship("SharedNote", secondary="shared_notes", backref="shared_with")
+    # shared_notes = relationship("SharedNote", secondary="shared_notes", backref="shared_with")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -26,7 +26,9 @@ class User(UserMixin, db.Model):
         return access_token
 
     def generate_refresh_token(self, identity):
-        refresh_token = create_refresh_token(identity=identity, expires_delta=timedelta(days=30))
+        refresh_token = create_refresh_token(
+            identity=identity, expires_delta=timedelta(days=30)
+        )
         return refresh_token
 
     def serialize(self):
@@ -43,7 +45,6 @@ class User(UserMixin, db.Model):
             db.session.commit()
             return True
         return False
-
 
     def __repr__(self):
         return "%d%s" % (self.id, self.username)

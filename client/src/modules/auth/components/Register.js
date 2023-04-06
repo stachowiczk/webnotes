@@ -122,6 +122,7 @@ function Register() {
           <form className="form" id="register-form" onSubmit={submit}>
             <div id="register-form-label-main">Create a WebNotes Account</div>
             <label htmlFor="username" style={isAvailable ? labelStyleGreen : labelStyle}>
+              {userData.username === "" && " "}
               {isAvailable && (userData.username !== "") && "This username is available"}
               {!isAvailable && "Username is not available"}
             </label>

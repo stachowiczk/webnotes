@@ -48,7 +48,7 @@ class RegisterAPI(MethodView):
             return jsonify({"message": "Username available"}), 200
 
 
-@auth_bp.route("/login", methods=["POST", "GET", "PUT", "DELETE"])
+@auth_bp.route("/login", methods=["POST", "GET"])
 class LoginAPI(MethodView):
     def post(self):
         try:
