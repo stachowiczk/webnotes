@@ -1,6 +1,5 @@
 import sys
 import pytest
-import jwt
 import http.cookies
 import unittest
 import uuid, json
@@ -9,16 +8,12 @@ from flask.testing import FlaskClient
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
-    JWTManager,
-    get_jwt_identity,
-    jwt_required,
 )
 from app import create_app
 from server.api.db import db as _db
 from server.api.auth.models import User
 from server.api.common.models import Note
 from werkzeug.security import generate_password_hash
-from werkzeug.http import parse_cookie
 from server.config import TestingConfig
 
 
@@ -26,7 +21,6 @@ from server.config import TestingConfig
 def test_app():
     app = create_app(TestingConfig)
     app.config.from_object(TestingConfig)
-    manager = JWTManager(app)
 
     with app.app_context():
         _db.create_all()
@@ -69,17 +63,13 @@ def test_register_user(test_client, test_user, test_database):
     response = test_client.post(
         "/auth/register", json={"username": "new_user", "password": "test_password"}
     )
-
-    # Expect a 201 status code indicating success
     assert response.status_code == 201
     assert response.json["message"] == "User created successfully"
 
-    # Send an invalid registration request with a duplicate username
+    # Try to register the same user again
     response = test_client.post(
         "/auth/register", json={"username": "new_user", "password": "test_password"}
     )
-
-    # Expect a 409 status code indicating that the user already exists
     assert response.status_code == 409
     assert response.json["message"] == "User already exists"
 
@@ -99,11 +89,19 @@ def test_check_username(test_client, test_user, test_database):
 
 @pytest.mark.usefixtures("test_app", "test_database", "test_user")
 def test_login_user(test_client, test_user, test_database):
+    # Send a valid login request
     response = test_client.post(
         "/auth/login", json={"username": "new_user", "password": "test_password"}
     )
     assert response.status_code == 200
+    # Send a login request for a user that doesn't exist
+    response = test_client.post(
+        "/auth/login", json={"username": "wrong_user", "password": "wrong_password"}
+    )
 
+    assert response.status_code == 401
+
+    # Send a login request with the wrong password
     response = test_client.post(
         "/auth/login", json={"username": "new_user", "password": "wrong_password"}
     )
@@ -163,6 +161,7 @@ def test_logout_user(test_client, test_user):
     )
 
 
+# this is used to login the user before testing endpoints that require authentication
 @pytest.mark.usefixtures("test_app", "test_client", "test_database", "test_user")
 def login(client, test_user):
     response = client.post(
@@ -184,7 +183,6 @@ def test_add_note(test_client, test_user):
         jwt_token = cookies.get("access_token_cookie").value
 
     test_data = {
-        "title": "test_title",
         "content": "test_content",
     }
     response = test_client.post(
@@ -194,9 +192,16 @@ def test_add_note(test_client, test_user):
         headers={"Cookie": f"access_token_cookie={jwt_token};"},
     )
     id = test_user.id
-    
+
     print(id)
     assert response.status_code == 201
+    response = test_client.get(
+        f"/notes/",
+        headers={"Cookie": f"access_token_cookie={jwt_token};"},
+    )
+    assert response.status_code == 200
+    assert response.json[0]["title"] == "test_content"
+    assert response.json[0]["content"] == "test_content"
 
 
 if __name__ == "__main__":

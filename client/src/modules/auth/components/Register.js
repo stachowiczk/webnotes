@@ -121,8 +121,8 @@ function Register() {
         <div id="login-container">
           <form className="form" id="register-form" onSubmit={submit}>
             <div id="register-form-label-main">Create a WebNotes Account</div>
-            <label htmlFor="username" style={labelStyle}>
-              {isAvailable && " "}
+            <label htmlFor="username" style={isAvailable ? labelStyleGreen : labelStyle}>
+              {isAvailable && (userData.username !== "") && "This username is available"}
               {!isAvailable && "Username is not available"}
             </label>
             <input
@@ -172,5 +172,14 @@ const labelStyle = {
   marginTop: "0em",
   fontSize: "0.9em",
 };
+
+const labelStyleGreen = {
+  flex: "0",
+  color: "green",
+  minHeight: "1em",
+  marginTop: "0em",
+  fontSize: "0.9em",
+};
+
 
 export default Register;
