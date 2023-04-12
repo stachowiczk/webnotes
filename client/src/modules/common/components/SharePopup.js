@@ -59,6 +59,11 @@ function SharePopup({ show, close, noteId }) {
     };
   }, [targetUser]);
 
+    function handleCheckEdit(e) {
+    e.preventDefault();
+    setCanEdit(e.target.checked);
+    }
+
   if (error !== "") {
     return (
       <>
@@ -89,7 +94,7 @@ function SharePopup({ show, close, noteId }) {
           type="checkbox"
           name="canEdit"
           id="can-edit"
-          onChange={setCanEdit}
+          onChange={handleCheckEdit}
         />
         <div className="submit-button-container">
           <button className="submit-button" onClick={close}>

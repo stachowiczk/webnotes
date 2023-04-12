@@ -21,3 +21,15 @@ notes_bp.add_url_rule(
     view_func=views.ShareAPI.as_view("share"),
     methods=["POST", "GET", "DELETE"],
 )
+
+notes_bp.add_url_rule(
+    "/notes/shared",
+    view_func=views.SharedNotesAPI.as_view("shared_notes"),
+    methods=["GET"],
+)
+
+notes_bp.add_url_rule(
+    "/notes/share/requests",
+    view_func=views.ShareRequestAPI.as_view("share_requests"),
+    methods=["GET"],
+)

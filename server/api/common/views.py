@@ -121,6 +121,25 @@ class NoteAPI(MethodView):
             print(e)
             return jsonify({"message": "Invalid request"}), 400
 
+@notes_bp.route("/shared", methods=["GET"])
+class SharedNotesAPI(MethodView):
+    @cross_origin(supports_credentials=True) # get accepted shared notes
+    @jwt_required()
+    def get(self):
+        try:
+            identity = get_jwt_identity()
+            session = current_app.db.session
+            shared_notes = {}
+            shared_notes_list = session.query(SharedNote).filter_by(target_user_id=identity).all()
+            for shared_note in shared_notes_list:
+                shared_note = session.query(Note).filter_by(id=shared_note.note_id).one() 
+                shared_notes[shared_note.id] = shared_note.serialize()
+
+                
+            return jsonify(list(shared_notes.values())), 200
+        except Exception as e:
+            print(e)
+            return jsonify({"message": "Invalid request"}), 400
 
 @notes_bp.route("/share/<string:note_id>", methods=["POST", "GET", "PUT", "DELETE"])
 class ShareAPI(MethodView):
@@ -144,3 +163,53 @@ class ShareAPI(MethodView):
         except Exception as e:
             print(e)
             return jsonify({"message": "Invalid request"}), 400
+    
+
+    @cross_origin(supports_credentials=True)
+    @jwt_required()
+    def put(self, note_id):
+        try:
+            identity = get_jwt_identity()
+            session = current_app.db.session
+            shared_note = session.query(SharedNote).filter_by(
+                note_id=note_id, target_user_id=identity).one()
+            req_data = request.get_json()
+            shared_note.status = req_data["status"]
+            session.commit()
+            return jsonify({"message": "Note accepted successfully"}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({"message": "Invalid request"}), 400
+    
+    @cross_origin(supports_credentials=True)
+    @jwt_required()
+    def delete(self, note_id):
+        try:
+            identity = get_jwt_identity()
+            session = current_app.db.session
+            shared_notes = session.query(SharedNote).filter_by(
+                note_id=note_id).all()
+            
+            session.delete(shared_notes)
+            session.commit()
+            return jsonify({"message": "Note deleted successfully"}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({"message": "Invalid request"}), 400
+
+
+@notes_bp.route("/share/requests", methods=["GET"]) # get pending requests
+class ShareRequestAPI(MethodView):
+    @cross_origin(supports_credentials=True)
+    @jwt_required()
+    def get(self):
+        try:
+            identity = get_jwt_identity()
+            session = current_app.db.session
+            shared_notes = session.query(SharedNote).filter_by(target_user_id=identity, status="pending").all()
+            shared_notes = [shared_note.note_id for shared_note in shared_notes]
+            return jsonify(shared_notes), 200
+        except Exception as e:
+            print(e)
+            return jsonify({"message": "Invalid request"}), 400
+

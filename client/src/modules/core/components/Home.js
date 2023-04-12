@@ -4,6 +4,7 @@ import Draggable from "react-draggable";
 import EditorComponent from "../../common/components/Editor.js";
 import http from "../../auth/components/Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
+import SharedFeed from "../../common/components/SharedFeed.js";
 import Menu from "../../auth/components/Menu.js";
 import { setReload } from "../../common/slices/feedSlice.js";
 import {
@@ -27,6 +28,7 @@ function Home() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(true);
   const [reloadFeed, setReloadFeed] = useState(false);
+  const [sharedView, setSharedView] = useState(false);
   const innerWidth = useRef(window.innerWidth);
 
   const [dropdown, setDropdown] = useState(false);
@@ -184,6 +186,11 @@ function Home() {
     themeDispatch(toggleTheme());
   }
 
+  function handleSharedViewClick() {
+    setSharedView(!sharedView);
+  }
+
+
   if (error && error.response.status === 401) {
     return (
       <>
@@ -238,10 +245,11 @@ function Home() {
                 )}
               </button>
             </div>
-            {isLoaded ? (
+            <button className="delete-button" onClick={handleSharedViewClick}>Shared</button>
+            {!sharedView ? (
               <TextFeed className="item-list" reload={reloadFeed} />
             ) : (
-              <div>Loading...</div>
+              <SharedFeed className="item-list" reload={reloadFeed} />
             )}
           </div>
           <Draggable
