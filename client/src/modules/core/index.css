@@ -211,7 +211,19 @@ blockquote {
   font-style: italic;
   font: 1.2em Georgia, "Times New Roman", Times, serif;
 }
+.entry-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
+
+
+.entry-footer .shared-by {
+  margin-right: 0;
+  margin-left: auto;
+
+}
 #share-popup {
   position: fixed;
   z-index: 9999;

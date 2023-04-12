@@ -132,8 +132,12 @@ class SharedNotesAPI(MethodView):
             shared_notes = {}
             shared_notes_list = session.query(SharedNote).filter_by(target_user_id=identity).all()
             for shared_note in shared_notes_list:
-                shared_note = session.query(Note).filter_by(id=shared_note.note_id).one() 
-                shared_notes[shared_note.id] = shared_note.serialize()
+                shared_note_get = session.query(Note).filter_by(id=shared_note.note_id).one() 
+                shared_notes[shared_note_get.id] = shared_note_get.serialize()
+                shared_notes[shared_note_get.id]["can_edit"] = shared_note.can_edit
+                owner_username = session.query(User).filter_by(id=shared_note.owner_id).one().username
+                shared_notes[shared_note_get.id]["shared_by"] = owner_username
+                shared_notes[shared_note_get.id]["status"] = shared_note.status
 
                 
             return jsonify(list(shared_notes.values())), 200

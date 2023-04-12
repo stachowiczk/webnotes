@@ -22,18 +22,14 @@ import {
 import styles from "./Entry.module.css";
 
 
-function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
+function SharedEntry({ keyProp, noteId, title, content, created_at, removeMe}) {
   const data = useSelector((state) => state.shared.sharedNotes);
   const theme = useSelector((state) => state.theme.theme);
-  const editorState = useSelector((state) => state.editor.editorState);
-  const showEditor = useSelector((state) => state.theme.showEditor);
-  const editedNoteId = useSelector((state) => state.editor.editedNoteId);
   const [showPopup, setShowPopup] = useState(false);
   const isMobile = useSelector((state) => state.theme.mobile);
   const isEditingExisting = useSelector(
     (state) => state.editor.editingExisting
   );
-  const isEdited = useSelector((state) => state.shared.isEdited);
   const [targetUser, setTargetUser] = useState("");
 
   const dispatch = useDispatch();
@@ -123,30 +119,33 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
           className={contentClassName}
           dangerouslySetInnerHTML={{ __html: content }}
         />
+        <div className="entry-footer">
         <span
           style={{ fontStyle: "italic", fontSize: "small" }}
         >{`${created_at}`}</span>
         <button
           className="expand-button expand-item"
           onClick={toggleExpanded}
-          style={data[keyProp].isExpanded ? {} : { display: "none" }}
+          style={data[keyProp].isExpanded ? {margin: "0"} : { display: "none" }}
         >
           {data[keyProp].isExpanded ? "collapse" : ""}
         </button>
         <button
           className="expand-button expand-item"
           onClick={editNote}
-          style={isEditingExisting ? { display: "none" } : {}}
+          style={isEditingExisting ? { display: "none" } : {margin: "0"}}
         >
           edit
         </button>
         <button
           className="expand-button expand-item"
           onClick={togglePopup}
-          style={isEditingExisting ? { display: "none" } : {}}
+          style={isEditingExisting ? { display: "none" } : { display: "none"}}
         >
           share
         </button>
+        <div className="shared-by" style={{fontSize: "small", fontStyle: "italic"}}>{`Shared by: ${data[keyProp].shared_by}`}</div>
+        </div>
         {showPopup ? (
           <SharePopup show={showPopup} close={togglePopup} noteId={noteId}/>
         ) : null}
@@ -155,4 +154,4 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
   );
 }
 
-export default Entry;
+export default SharedEntry;

@@ -10,13 +10,13 @@ import {
 
 import http from "../../auth/components/Interceptor";
 
-function TextFeed({ reload }) {
+function SharedFeed({ reload }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
   const [expandButton, setExpandButton] = useState(true);
 
   const [entryComponents, setEntryComponents] = useState([]);
-  const entries = useSelector((state) => state.shared.sharedNotes);
+  const sharedNotes = useSelector((state) => state.shared.sharedNotes);
   const reloadFeed = useSelector((state) => state.shared.reload);
   const dispatch = useDispatch();
 
@@ -25,6 +25,9 @@ function TextFeed({ reload }) {
     try {
       const res = await http.get("http://localhost:5000/notes/shared");
       dispatch(setSharedNotes(res.data));
+      console.log(res.data);
+      console.log("sharedNotes");
+      console.log(sharedNotes);
       setIsLoaded(true);
     } catch (err) {
       setError(err);
@@ -39,9 +42,9 @@ function TextFeed({ reload }) {
     );
   }
 
-  const makeRows = () => {
+  const makeRows = useMemo(() => {
     try {
-      return entries.map((row, index) => (
+      return sharedNotes.map((row, index) => (
         <SharedEntry
           key={index}
           keyProp={index}
@@ -57,17 +60,17 @@ function TextFeed({ reload }) {
       console.error(error);
       return <div className="editor">No data</div>;
     }
-  };
+  }, [sharedNotes]);
 
   const toggleExpand = () => {
     if (expandButton) {
-      for (let i = 0; i < entries.length; i++) {
+      for (let i = 0; i < sharedNotes.length; i++) {
         dispatch(expandAll());
       }
       setExpandButton(false);
     } else {
-      for (let i = 0; i < entries.length; i++) {
-        if (entries[i].isExpanded) {
+      for (let i = 0; i < sharedNotes.length; i++) {
+        if (sharedNotes[i].isExpanded) {
           dispatch(collapseAll());
         }
       }
@@ -80,15 +83,15 @@ function TextFeed({ reload }) {
     return () => {
       Promise.resolve();
     };
-  }, [entries.length, reload, reloadFeed]);
+  }, [sharedNotes.length, reload, reloadFeed]);
 
   useEffect(() => {
-    setEntryComponents(makeRows());
+    setEntryComponents(makeRows);
     setEntryComponents((prevState) => prevState.reverse());
     return () => {
       Promise.resolve();
     };
-  }, [entries]);
+  }, [sharedNotes]);
 
   if (!isLoaded) {
     return (
@@ -131,4 +134,4 @@ function TextFeed({ reload }) {
   }
 }
 
-export default TextFeed;
+export default SharedFeed;

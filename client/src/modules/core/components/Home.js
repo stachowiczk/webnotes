@@ -245,7 +245,7 @@ function Home() {
                 )}
               </button>
             </div>
-            <button className="delete-button" onClick={handleSharedViewClick}>Shared</button>
+            <button className="expand-button" onClick={handleSharedViewClick}>{sharedView ? "Personal" : "Shared"}</button>
             {!sharedView ? (
               <TextFeed className="item-list" reload={reloadFeed} />
             ) : (

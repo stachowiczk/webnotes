@@ -10,6 +10,9 @@ const initialState = {
       content: null,
       isExpanded: false,
       isEdited: null,
+      can_edit: null,
+      shared_by: null,
+      status: null,
     },
   ],
   isLoaded: false,
@@ -23,6 +26,8 @@ export const sharedSlice = createSlice({
   reducers: {
     setSharedNotes: (state, action) => {
       state.sharedNotes = action.payload;
+      console.log("setSharedNotes");
+        console.log(state.sharedNotes);
     },
     removeSharedNote: (state, action) => {
       state.sharedNotes = state.sharedNotes.filter(
