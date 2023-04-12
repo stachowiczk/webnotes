@@ -1,6 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
 import http from "../../auth/components/Interceptor";
-import { removeEntry, setExpanded, setReload, setIsEdited} from "../slices/feedSlice";
+import SharePopup from "./SharePopup";
+import {
+  removeEntry,
+  setExpanded,
+  setReload,
+  setIsEdited,
+} from "../slices/feedSlice";
 import { useEffect, useState } from "react";
 import {
   setEditorState,
@@ -21,11 +27,13 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
   const editorState = useSelector((state) => state.editor.editorState);
   const showEditor = useSelector((state) => state.theme.showEditor);
   const editedNoteId = useSelector((state) => state.editor.editedNoteId);
+  const [showPopup, setShowPopup] = useState(false);
   const isMobile = useSelector((state) => state.theme.mobile);
   const isEditingExisting = useSelector(
     (state) => state.editor.editingExisting
   );
   const isEdited = useSelector((state) => state.feed.isEdited);
+  const [targetUser, setTargetUser] = useState("");
 
   const dispatch = useDispatch();
 
@@ -47,8 +55,27 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
     }
   }
 
+  async function shareNoteById() {
+    try {
+      await http.post(
+        `http://localhost:5000/notes/share/${noteId}`,
+        JSON.stringify({
+          target_user: targetUser,
+          can_edit: false,
+        })
+      );
+      dispatch(setReload());
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   function toggleExpanded() {
     dispatch(setExpanded(keyProp));
+  }
+
+  function togglePopup() {
+    setShowPopup(!showPopup);
   }
 
   function editNote() {
@@ -61,7 +88,6 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
       dispatch(setLeftWidth(0));
     }
   }
-
 
   const titleClassName = data[keyProp].isExpanded
     ? `${styles["entry-title"]} ${styles.expanded}`
@@ -79,7 +105,8 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
         onClick={data[keyProp].isExpanded ? null : toggleExpanded}
         style={{
           cursor: data[keyProp].isExpanded ? "default" : "pointer",
-          boxShadow: data[keyProp].isEdited && isEditingExisting ? "0 0 0.5em #06c" : {},
+          boxShadow:
+            data[keyProp].isEdited && isEditingExisting ? "0 0 0.5em #06c" : {},
         }}
       >
         <div>
@@ -105,9 +132,23 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
         >
           {data[keyProp].isExpanded ? "collapse" : ""}
         </button>
-        <button className="expand-button expand-item" onClick={editNote} style={isEditingExisting ? {display: "none"} : {}}>
+        <button
+          className="expand-button expand-item"
+          onClick={editNote}
+          style={isEditingExisting ? { display: "none" } : {}}
+        >
           edit
         </button>
+        <button
+          className="expand-button expand-item"
+          onClick={togglePopup}
+          style={isEditingExisting ? { display: "none" } : {}}
+        >
+          share
+        </button>
+        {showPopup ? (
+          <SharePopup show={showPopup} close={togglePopup} noteId={noteId}/>
+        ) : null}
       </div>
     </>
   );

@@ -4,7 +4,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 
-from server.api.common.models import Note
+from server.api.common.models import Note, SharedNote
 from server.api.auth.models import User
 from server.api.db import db
 
@@ -36,7 +36,7 @@ app = create_app()
 
 if __name__ == "__main__":
     with app.app_context():
-        target = [Note, User]  # Folder is TODO
+        target = [Note, User, SharedNote]  # Folder is TODO
         engine = app.db.engine
         app.db.create_all()
     app.run(debug=True)

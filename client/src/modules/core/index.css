@@ -212,6 +212,20 @@ blockquote {
   font: 1.2em Georgia, "Times New Roman", Times, serif;
 }
 
+#share-popup {
+  position: fixed;
+  z-index: 9999;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  width: max-content;
+  height: max-content;
+  
+}
+
 .x-button {
   cursor: pointer;
   border-radius: 0.5rem;

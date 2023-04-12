@@ -117,7 +117,7 @@ function Login() {
             <button className="submit" id="login" type="submit">
               Login
             </button>
-            Need and account?{" "}
+            Need an account?{" "}
             <Link
               to="/register"
               style={{ textDecoration: "none", color: "black" }}

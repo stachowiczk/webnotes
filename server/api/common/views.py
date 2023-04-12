@@ -2,7 +2,8 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import request, jsonify, current_app, make_response
 from flask_cors import cross_origin
 from flask.views import MethodView
-from server.api.common.models import Note
+from server.api.common.models import Note, SharedNote
+from server.api.auth.models import User
 from server.api.common import notes_bp
 from server.api.common.parser import (
     get_first_sentence as set_title2,
@@ -45,7 +46,7 @@ class NotesAPI(MethodView):
             elif "<img" in title:
                 title = "Image"
             if not content or content == "":
-                content = "Empty note"
+                content = "Untitled note"
             try:
                 identity = get_jwt_identity()
             except:
@@ -121,6 +122,25 @@ class NoteAPI(MethodView):
             return jsonify({"message": "Invalid request"}), 400
 
 
-@notes_bp.route("/share/<string:note_id>", methods=["POST", "GET", "DELETE"])
+@notes_bp.route("/share/<string:note_id>", methods=["POST", "GET", "PUT", "DELETE"])
 class ShareAPI(MethodView):
-    pass
+    @cross_origin(supports_credentials=True)
+    @jwt_required()
+    def post(self, note_id):
+        try:
+            identity = get_jwt_identity()
+            session = current_app.db.session
+            note = session.query(Note).filter_by(id=note_id, user_id=identity).one()
+            req_data = request.get_json()
+            target_user = req_data["target_user"]
+            can_edit = req_data["can_edit"]
+            target_user = session.query(User).filter_by(
+                username=target_user).one()
+            shared_note = SharedNote(
+                note_id=note.id, owner_id=identity, target_user_id=target_user.id, can_edit=can_edit)
+            session.add(shared_note)
+            session.commit()
+            return jsonify({"message": "Note shared successfully"}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({"message": "Invalid request"}), 400

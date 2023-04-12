@@ -40,7 +40,7 @@ class User(UserMixin, db.Model):
         }
 
     def share_note_with(self, note, user):
-        if note.user_is == self.id:
+        if note.user_id == self.id:
             note.shared_with.append(user)
             db.session.commit()
             return True
