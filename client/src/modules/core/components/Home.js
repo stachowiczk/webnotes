@@ -60,6 +60,10 @@ function Home() {
     } catch (err) {
       console.error(err);
     }
+    try {
+      document.title = `${user}'s WebNotes`;
+    }
+    catch {}
   }, []);
 
   useEffect(() => {

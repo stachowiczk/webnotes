@@ -264,7 +264,7 @@ blockquote {
   color: black;
   border-radius: 0.6em;
   border-top-left-radius: 0;
-  box-shadow: 0 0 0.5em hsl(0, 0%, 26%);
+  box-shadow: 0 0 0.5em hsl(0, 0%, 64%);
   padding: 1em;
   padding-top: 0.5em;
   margin-left: 2rem;
@@ -303,7 +303,7 @@ blockquote {
 .entry-main.dark {
   background-color: hsl(0, 0%, 25%);
   color: hsl(60, 1%, 81%);
-  box-shadow: 0 0 0.5em hsl(0, 0%, 26%);
+  box-shadow: 0 0 0.5em hsl(0, 0%, 16%);
 }
 
 .entry-main.dark:hover {

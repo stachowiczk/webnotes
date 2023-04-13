@@ -82,6 +82,10 @@ function Login() {
     };
   }, [dispatch, navigate]);
 
+  React.useEffect(() => {
+    document.title = "WebNotes Login";
+  }, []);
+
   if (!isLoaded) {
     return (
       <div id="login-container">

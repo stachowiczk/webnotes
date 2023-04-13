@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import http from "./Interceptor";
 
-
 function Register() {
   const [userData, setUserData] = useState({
     username: "",
@@ -105,6 +104,7 @@ function Register() {
       setIsLoaded(true);
     }
     checkLoggedIn();
+    document.title = "WebNotes Register";
     setUserData({ username: "", password: "", repeatPassword: "" });
   }, []);
   if (!isLoaded) {
@@ -121,9 +121,14 @@ function Register() {
         <div id="login-container">
           <form className="form" id="register-form" onSubmit={submit}>
             <div id="register-form-label-main">Create a WebNotes Account</div>
-            <label htmlFor="username" style={isAvailable ? labelStyleGreen : labelStyle}>
+            <label
+              htmlFor="username"
+              style={isAvailable ? labelStyleGreen : labelStyle}
+            >
               {userData.username === "" && " "}
-              {isAvailable && (userData.username !== "") && "This username is available"}
+              {isAvailable &&
+                userData.username !== "" &&
+                "This username is available"}
               {!isAvailable && "Username is not available"}
             </label>
             <input
@@ -181,6 +186,5 @@ const labelStyleGreen = {
   marginTop: "0em",
   fontSize: "0.9em",
 };
-
 
 export default Register;
