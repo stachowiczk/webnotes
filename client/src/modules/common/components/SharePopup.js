@@ -81,7 +81,7 @@ function SharePopup({ show, close, noteId }) {
 
   return (
     <>
-        <div className="overlay" onClick={close}></div>
+      <div className="overlay" onClick={close}></div>
       <div id="share-popup">
         <form className="form">
           <label htmlFor="username" style={labelStyle}>

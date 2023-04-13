@@ -23,7 +23,6 @@ import {
   setIsMobile,
 } from "../../common/slices/themeSlice.js";
 
-
 function Home() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(true);
@@ -62,8 +61,7 @@ function Home() {
     }
     try {
       document.title = `${user}'s WebNotes`;
-    }
-    catch {}
+    } catch {}
   }, []);
 
   useEffect(() => {
@@ -132,7 +130,9 @@ function Home() {
   function handleWindowResize() {
     if (leftWidth === window.innerWidth) {
       try {
-        dispatch(setLeftWidth(localStorage.getItem(cfg.LOCAL_STORAGE_WIDTH_KEY)));
+        dispatch(
+          setLeftWidth(localStorage.getItem(cfg.LOCAL_STORAGE_WIDTH_KEY))
+        );
       } catch (err) {
         dispatch(setLeftWidth(window.innerWidth / 4));
       }
@@ -171,8 +171,8 @@ function Home() {
       setError(err);
     }
   }
-// ##############################
-// delete this
+  // ##############################
+  // delete this
   async function deleteAllPosts() {
     if (window.confirm("Are you sure you want to delete all posts?")) {
       try {
@@ -194,7 +194,6 @@ function Home() {
   function handleSharedViewClick() {
     setSharedView(!sharedView);
   }
-
 
   if (error && error.response.status === 401) {
     return (
@@ -251,11 +250,21 @@ function Home() {
                 )}
               </button>
             </div>
-            <button className="expand-button" onClick={handleSharedViewClick}>{sharedView ? "Personal" : "Shared"}</button>
+            <button className="expand-button" onClick={handleSharedViewClick}>
+              {sharedView ? "Personal" : "Shared"}
+            </button>
             {!sharedView ? (
-              <TextFeed className="item-list" reload={reloadFeed} setReloadLocal={handleSaveCancelClick}/>
+              <TextFeed
+                className="item-list"
+                reload={reloadFeed}
+                setReloadLocal={handleSaveCancelClick}
+              />
             ) : (
-              <SharedFeed className="item-list" reload={reloadFeed} setReloadLocal={handleSaveCancelClick}/>
+              <SharedFeed
+                className="item-list"
+                reload={reloadFeed}
+                setReloadLocal={handleSaveCancelClick}
+              />
             )}
           </div>
           <Draggable

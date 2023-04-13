@@ -4,8 +4,6 @@ from sqlalchemy.orm import relationship, backref
 from server.api.db import db
 
 
-
-
 class Note(db.Model):
     __tablename__ = "notes"
     id = db.Column(db.String(36), primary_key=True)
@@ -32,6 +30,7 @@ class Note(db.Model):
             "user_id": self.user_id,
         }
 
+
 class SharedNote(db.Model):
     __tablename__ = "shared_notes"
     id = db.Column(db.String(36), primary_key=True)
@@ -40,9 +39,21 @@ class SharedNote(db.Model):
     target_user_id = db.Column(db.String(36), db.ForeignKey("users.id"), nullable=False)
     can_edit = db.Column(db.Boolean, default=False)
     status = db.Column(db.Enum("pending", "accepted", "rejected"), default="pending")
-    note = relationship("Note", backref=backref("shared_notes", cascade="all, delete-orphan"), foreign_keys=[note_id])
-    owner = relationship("User", backref=backref("owned_shared_notes", cascade="all, delete-orphan"), foreign_keys=[owner_id])
-    target = relationship("User", backref=backref("received_shared_notes", cascade="all, delete-orphan"), foreign_keys=[target_user_id])
+    note = relationship(
+        "Note",
+        backref=backref("shared_notes", cascade="all, delete-orphan"),
+        foreign_keys=[note_id],
+    )
+    owner = relationship(
+        "User",
+        backref=backref("owned_shared_notes", cascade="all, delete-orphan"),
+        foreign_keys=[owner_id],
+    )
+    target = relationship(
+        "User",
+        backref=backref("received_shared_notes", cascade="all, delete-orphan"),
+        foreign_keys=[target_user_id],
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -60,7 +71,6 @@ class SharedNote(db.Model):
             "can_edit": self.can_edit,
             "status": self.status,
         }
-
 
 
 # class Folder(db.Model):

@@ -52,9 +52,9 @@ export const feedSlice = createSlice({
         entry.isExpanded = false;
       });
     },
-    setIsEdited : (state, action) => {
-      state.entries[action.payload].isEdited = !state.entries[action.payload].isEdited;
-      
+    setIsEdited: (state, action) => {
+      state.entries[action.payload].isEdited =
+        !state.entries[action.payload].isEdited;
     },
   },
 });

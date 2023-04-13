@@ -31,14 +31,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
   overflow: scroll;
-  
 }
 
-pre  {
+pre {
   overflow: scroll;
 }
-
-
 
 .editor {
   flex: 1;
@@ -161,7 +158,7 @@ div.ql-toolbar.ql-snow {
   margin-bottom: 2rem;
 }
 
-div.ql-toolbar.ql-snow *{
+div.ql-toolbar.ql-snow * {
   z-index: 9999;
 }
 
@@ -281,8 +278,6 @@ blockquote {
   z-index: 4;
 }
 
-
-
 .notes-overlay {
   position: fixed;
   top: 0;
@@ -291,7 +286,6 @@ blockquote {
   height: 100%;
   background-color: hsla(0, 0%, 5%, 0.4);
   z-index: 3;
-
 }
 
 .root-element.dark .popup-container {

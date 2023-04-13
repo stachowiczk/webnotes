@@ -32,7 +32,6 @@ def test_app():
 def test_client(test_app):
     with test_app.app_context():
         return test_app.test_client()
-        
 
 
 @pytest.fixture(scope="module")
@@ -234,11 +233,10 @@ def test_notes_api(test_client, test_user):
     assert response.status_code == 200
     assert len(notes) == 0
 
+
 def test_share_api(test_client, test_user):
     access_token = create_access_token(identity=test_user.id)
     test_client.set_cookie("localhost", "access_token_cookie", access_token)
-
-
 
 
 if __name__ == "__main__":

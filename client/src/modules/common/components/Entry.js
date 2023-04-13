@@ -23,7 +23,15 @@ import {
 
 import styles from "./Entry.module.css";
 
-function Entry({ keyProp, noteId, title, content, created_at, removeMe, setReloadLocal }) {
+function Entry({
+  keyProp,
+  noteId,
+  title,
+  content,
+  created_at,
+  removeMe,
+  setReloadLocal,
+}) {
   const data = useSelector((state) => state.feed.entries);
   const theme = useSelector((state) => state.theme.theme);
   const editorState = useSelector((state) => state.editor.editorState);

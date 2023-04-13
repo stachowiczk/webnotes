@@ -2,11 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import DOMPurify from "dompurify";
 import SharedEntry from "./SharedEntry";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setSharedNotes,
-  expandAll,
-  collapseAll,
-} from "../slices/sharedSlice";
+import { setSharedNotes, expandAll, collapseAll } from "../slices/sharedSlice";
 
 import http from "../../auth/components/Interceptor";
 
@@ -36,7 +32,8 @@ function SharedFeed({ reload, setReloadLocal }) {
     }
   }
 
-  function removeChild(childId) { // this is server side now
+  function removeChild(childId) {
+    // this is server side now
     setEntryComponents((prevState) =>
       prevState.filter((child) => child.props.noteId !== childId)
     );

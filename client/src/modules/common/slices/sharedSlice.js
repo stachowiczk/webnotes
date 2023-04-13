@@ -28,7 +28,7 @@ export const sharedSlice = createSlice({
     setSharedNotes: (state, action) => {
       state.sharedNotes = action.payload;
       console.log("setSharedNotes");
-        console.log(state.sharedNotes);
+      console.log(state.sharedNotes);
     },
     removeSharedNote: (state, action) => {
       state.sharedNotes = state.sharedNotes.filter(

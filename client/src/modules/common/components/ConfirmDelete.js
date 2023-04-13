@@ -3,7 +3,7 @@ import React from "react";
 function ConfirmDelete({ message, onConfirm, onCancel }) {
   return (
     <>
-      <div className="overlay" onClick={onCancel}/>
+      <div className="overlay" onClick={onCancel} />
       <div className="popup-container">
         <div className="popup">
           <div className="message">{message}</div>

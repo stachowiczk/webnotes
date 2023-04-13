@@ -49,26 +49,25 @@ function SharedEntry({
     created_at = "no data";
   }
 
-    function handleDelete(e) {
+  function handleDelete(e) {
     e.stopPropagation();
     setShowDeletePopup(true);
-    }
+  }
 
-    function handleCancelDelete(e) {
+  function handleCancelDelete(e) {
     e.stopPropagation();
     setShowDeletePopup(false);
-    }
-
+  }
 
   async function deleteNoteById() {
-      try {
-        await http.delete(`http://localhost:5000/notes/share/${noteId}`);
-        dispatch(removeSharedNote(noteId));
-        dispatch(setReload());
-      } catch (err) {
-        console.log(err);
-      }
-      setShowDeletePopup(false);
+    try {
+      await http.delete(`http://localhost:5000/notes/share/${noteId}`);
+      dispatch(removeSharedNote(noteId));
+      dispatch(setReload());
+    } catch (err) {
+      console.log(err);
+    }
+    setShowDeletePopup(false);
   }
 
   async function shareNoteById() {
@@ -127,7 +126,9 @@ function SharedEntry({
   return (
     <>
       <div>
-        {isEditingExisting && <div className="notes-overlay" onClick={cancelEdit} />}
+        {isEditingExisting && (
+          <div className="notes-overlay" onClick={cancelEdit} />
+        )}
         <div
           id={keyProp}
           className={`entry-main ${theme}`}
@@ -142,10 +143,11 @@ function SharedEntry({
               {""}x{""}
             </button>
             {showDeletePopup && (
-                <ConfirmDelete
-                    message={"Are you sure you want to delete this post?"}
-                    onCancel={handleCancelDelete}
-                    onConfirm={deleteNoteById}/>
+              <ConfirmDelete
+                message={"Are you sure you want to delete this post?"}
+                onCancel={handleCancelDelete}
+                onConfirm={deleteNoteById}
+              />
             )}
           </div>
           <div

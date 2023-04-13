@@ -7,7 +7,7 @@ from server.api.auth.models import User
 from server.api.common import notes_bp
 from server.api.common.parser import (
     get_first_sentence as set_title2,
-)  
+)
 from sqlalchemy.exc import IntegrityError
 
 
@@ -121,30 +121,42 @@ class NoteAPI(MethodView):
             print(e)
             return jsonify({"message": "Invalid request"}), 400
 
+
 @notes_bp.route("/shared", methods=["GET"])
 class SharedNotesAPI(MethodView):
-    @cross_origin(supports_credentials=True) # get accepted shared notes
+    @cross_origin(supports_credentials=True)  # get accepted shared notes
     @jwt_required()
     def get(self):
         try:
             identity = get_jwt_identity()
             session = current_app.db.session
-            shared_notes = {} # {note_id: note}
-            shared_notes_list = session.query(SharedNote).filter_by(target_user_id=identity).all()
-            for shared_note in shared_notes_list: # shared_note: SharedNote
-                shared_note_get = session.query(Note).filter_by(id=shared_note.note_id).one() # shared_note_get: Note
+            shared_notes = {}  # {note_id: note}
+            shared_notes_list = (
+                session.query(SharedNote).filter_by(target_user_id=identity).all()
+            )
+            for shared_note in shared_notes_list:  # shared_note: SharedNote
+                shared_note_get = (
+                    session.query(Note).filter_by(id=shared_note.note_id).one()
+                )  # shared_note_get: Note
                 shared_notes[shared_note_get.id] = shared_note_get.serialize()
                 shared_notes[shared_note_get.id]["can_edit"] = shared_note.can_edit
-                owner_username = session.query(User).filter_by(id=shared_note.owner_id).one().username
+                owner_username = (
+                    session.query(User)
+                    .filter_by(id=shared_note.owner_id)
+                    .one()
+                    .username
+                )
                 shared_notes[shared_note_get.id]["shared_by"] = owner_username
                 shared_notes[shared_note_get.id]["status"] = shared_note.status
-                shared_notes[shared_note_get.id]["share_id"] = shared_note.id # share_id is used to delete shared note
+                shared_notes[shared_note_get.id][
+                    "share_id"
+                ] = shared_note.id  # share_id is used to delete shared note
 
-                
             return jsonify(list(shared_notes.values())), 200
         except Exception as e:
             print(e)
             return jsonify({"message": "Invalid request"}), 400
+
 
 @notes_bp.route("/share/<string:note_id>", methods=["POST", "GET", "PUT", "DELETE"])
 class ShareAPI(MethodView):
@@ -158,17 +170,19 @@ class ShareAPI(MethodView):
             req_data = request.get_json()
             target_user = req_data["target_user"]
             can_edit = req_data["can_edit"]
-            target_user = session.query(User).filter_by(
-                username=target_user).one()
+            target_user = session.query(User).filter_by(username=target_user).one()
             shared_note = SharedNote(
-                note_id=note.id, owner_id=identity, target_user_id=target_user.id, can_edit=can_edit)
+                note_id=note.id,
+                owner_id=identity,
+                target_user_id=target_user.id,
+                can_edit=can_edit,
+            )
             session.add(shared_note)
             session.commit()
             return jsonify({"message": "Note shared successfully"}), 200
         except Exception as e:
             print(e)
             return jsonify({"message": "Invalid request"}), 400
-    
 
     @cross_origin(supports_credentials=True)
     @jwt_required()
@@ -176,8 +190,11 @@ class ShareAPI(MethodView):
         try:
             identity = get_jwt_identity()
             session = current_app.db.session
-            shared_note = session.query(SharedNote).filter_by(
-                note_id=note_id, target_user_id=identity).one()
+            shared_note = (
+                session.query(SharedNote)
+                .filter_by(note_id=note_id, target_user_id=identity)
+                .one()
+            )
             req_data = request.get_json()
             shared_note.status = req_data["status"]
             session.commit()
@@ -185,15 +202,18 @@ class ShareAPI(MethodView):
         except Exception as e:
             print(e)
             return jsonify({"message": "Invalid request"}), 400
-    
+
     @cross_origin(supports_credentials=True)
     @jwt_required()
     def delete(self, note_id):
         try:
             identity = get_jwt_identity()
             session = current_app.db.session
-            shared_notes = session.query(SharedNote).filter_by(
-                note_id=note_id, target_user_id=identity).all()
+            shared_notes = (
+                session.query(SharedNote)
+                .filter_by(note_id=note_id, target_user_id=identity)
+                .all()
+            )
             for shared_note in shared_notes:
                 session.delete(shared_note)
             session.commit()
@@ -203,7 +223,7 @@ class ShareAPI(MethodView):
             return jsonify({"message": "Invalid request"}), 400
 
 
-@notes_bp.route("/share/requests", methods=["GET"]) # get pending requests
+@notes_bp.route("/share/requests", methods=["GET"])  # get pending requests
 class ShareRequestAPI(MethodView):
     @cross_origin(supports_credentials=True)
     @jwt_required()
@@ -211,10 +231,13 @@ class ShareRequestAPI(MethodView):
         try:
             identity = get_jwt_identity()
             session = current_app.db.session
-            shared_notes = session.query(SharedNote).filter_by(target_user_id=identity, status="pending").all()
+            shared_notes = (
+                session.query(SharedNote)
+                .filter_by(target_user_id=identity, status="pending")
+                .all()
+            )
             shared_notes = [shared_note.note_id for shared_note in shared_notes]
             return jsonify(shared_notes), 200
         except Exception as e:
             print(e)
             return jsonify({"message": "Invalid request"}), 400
-

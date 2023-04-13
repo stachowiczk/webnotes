@@ -1,13 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 import DOMPurify from "dompurify";
 import Entry from "./Entry";
-import * as cfg from "../../../config.js"
+import * as cfg from "../../../config.js";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setEntries,
-  expandAll,
-  collapseAll,
-} from "../slices/feedSlice";
+import { setEntries, expandAll, collapseAll } from "../slices/feedSlice";
 
 import http from "../../auth/components/Interceptor";
 

@@ -27,7 +27,9 @@ class RegisterAPI(MethodView):
         hashed_password = generate_password_hash(password)
         user = User(username=username, password=hashed_password)
         try:
-            existing_user = current_app.db.session.query(User).filter_by(username=username).first()
+            existing_user = (
+                current_app.db.session.query(User).filter_by(username=username).first()
+            )
             if existing_user:
                 return jsonify({"message": "User already exists"}), 409
             current_app.db.session.add(user)
@@ -85,12 +87,13 @@ class LoginAPI(MethodView):
             print(e)
             return jsonify({"message": "Error getting user info"}), 401
 
+
 @auth_bp.route("/refresh", methods=["GET"])
 class RefreshAPI(MethodView):
     @cross_origin(supports_credentials=True)
     @jwt_required(refresh=True)
     def get(self):
-        try: 
+        try:
             identity = get_jwt_identity()
         except:
             return jsonify({"message": "Invalid refresh token"}), 401
@@ -101,6 +104,7 @@ class RefreshAPI(MethodView):
 
     ### LOGOUT
 
+
 @auth_bp.route("/logout", methods=["GET"])
 class LogoutAPI(MethodView):
     @cross_origin(supports_credentials=True)
@@ -109,5 +113,3 @@ class LogoutAPI(MethodView):
         response = make_response(jsonify({"message": "Logged out"}), 200)
         unset_jwt_cookies(response)
         return response
-
-    
