@@ -36,7 +36,7 @@ function SharedFeed({ reload }) {
     }
   }
 
-  function removeChild(childId) {
+  function removeChild(childId) { // this is server side now
     setEntryComponents((prevState) =>
       prevState.filter((child) => child.props.noteId !== childId)
     );

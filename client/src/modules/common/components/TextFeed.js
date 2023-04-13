@@ -39,7 +39,7 @@ function TextFeed({ reload }) {
     );
   }
 
-  const makeRows = () => {
+  const makeRows = useMemo(() => {
     try {
       return entries.map((row, index) => (
         <Entry
@@ -57,7 +57,7 @@ function TextFeed({ reload }) {
       console.error(error);
       return <div className="editor">No data</div>;
     }
-  };
+  }, [entries]);
 
   const toggleExpand = () => {
     if (expandButton) {
@@ -83,7 +83,7 @@ function TextFeed({ reload }) {
   }, [entries.length, reload, reloadFeed]);
 
   useEffect(() => {
-    setEntryComponents(makeRows());
+    setEntryComponents(makeRows);
     setEntryComponents((prevState) => prevState.reverse());
     return () => {
       Promise.resolve();

@@ -13,6 +13,7 @@ const initialState = {
       can_edit: null,
       shared_by: null,
       status: null,
+      share_id: null,
     },
   ],
   isLoaded: false,

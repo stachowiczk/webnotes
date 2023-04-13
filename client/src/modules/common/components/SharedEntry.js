@@ -52,7 +52,7 @@ function SharedEntry({ keyProp, noteId, title, content, created_at, removeMe}) {
     }
   }
 
-  async function shareNoteById() {
+  async function shareNoteById() { // remove
     try {
       await http.post(
         `http://localhost:5000/notes/share/${noteId}`,

@@ -129,15 +129,16 @@ class SharedNotesAPI(MethodView):
         try:
             identity = get_jwt_identity()
             session = current_app.db.session
-            shared_notes = {}
+            shared_notes = {} # {note_id: note}
             shared_notes_list = session.query(SharedNote).filter_by(target_user_id=identity).all()
-            for shared_note in shared_notes_list:
-                shared_note_get = session.query(Note).filter_by(id=shared_note.note_id).one() 
+            for shared_note in shared_notes_list: # shared_note: SharedNote
+                shared_note_get = session.query(Note).filter_by(id=shared_note.note_id).one() # shared_note_get: Note
                 shared_notes[shared_note_get.id] = shared_note_get.serialize()
                 shared_notes[shared_note_get.id]["can_edit"] = shared_note.can_edit
                 owner_username = session.query(User).filter_by(id=shared_note.owner_id).one().username
                 shared_notes[shared_note_get.id]["shared_by"] = owner_username
                 shared_notes[shared_note_get.id]["status"] = shared_note.status
+                shared_notes[shared_note_get.id]["share_id"] = shared_note.id # share_id is used to delete shared note
 
                 
             return jsonify(list(shared_notes.values())), 200
@@ -192,9 +193,9 @@ class ShareAPI(MethodView):
             identity = get_jwt_identity()
             session = current_app.db.session
             shared_notes = session.query(SharedNote).filter_by(
-                note_id=note_id).all()
-            
-            session.delete(shared_notes)
+                note_id=note_id, target_user_id=identity).all()
+            for shared_note in shared_notes:
+                session.delete(shared_note)
             session.commit()
             return jsonify({"message": "Note deleted successfully"}), 200
         except Exception as e:
