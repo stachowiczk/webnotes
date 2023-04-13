@@ -26,6 +26,7 @@ server/.auth
 /migrations
 /instance
 *.pyc
+env.py
 .env.local
 .vscode
 *.db
