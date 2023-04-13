@@ -164,19 +164,10 @@ function SharedEntry({
             >{`${created_at}`}</span>
             <button
               className="expand-button expand-item"
-              onClick={toggleExpanded}
-              style={
-                data[keyProp].isExpanded ? { margin: "0" } : { display: "none" }
-              }
-            >
-              {data[keyProp].isExpanded ? "collapse" : ""}
-            </button>
-            <button
-              className="expand-button expand-item"
               onClick={editNote}
               style={isEditingExisting ? { display: "none" } : { margin: "0" }}
             >
-              edit
+              copy to editor
             </button>
             <button
               className="expand-button expand-item"
@@ -186,6 +177,15 @@ function SharedEntry({
               }
             >
               share
+            </button>
+            <button
+              className="expand-button expand-item"
+              onClick={toggleExpanded}
+              style={
+                data[keyProp].isExpanded ? { margin: "0" } : { display: "none" }
+              }
+            >
+              {data[keyProp].isExpanded ? "collapse" : ""}
             </button>
             <div
               className="shared-by"

@@ -93,7 +93,6 @@ function Entry({
   }
 
   function togglePopup(e) {
-    e.stopPropagation();
     setShowPopup(!showPopup);
   }
 

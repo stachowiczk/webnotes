@@ -1,34 +1,36 @@
-# WebNotes - A simple note taking app
-### v1.1.0
+# WebNotes - a lightweight, web-based note-sharing app
+
+## v2.0.0  
+##### (2023-04-13)
 
 ## Features
 - Full stack web application: React.js client + Python-Flask server
-- SQLite3 database operated with SQLAlchemy 
+- SQLite3 database operated with SQLAlchemy ORM
 - User registration and login with JWT authentication
-- Create, edit, and delete notes
+- Create, edit and share notes with other users
 - Built-in text editor (react-quill)
-- Basic formatting tools, four available fonts
-- Image upload
+- Basic formatting tools, 4 available fonts
+- Image upload (beta)
 - Mobile friendly
+- Dark/light mode
 - Responsive design
 - Resizable UI on desktop
-- Dark/light mode
 - No email requred as this is a showcase project only
 
 
 ### Planned features
+- Faster image handling
+- Edit shared notes
 - reCAPTCHAv2
 - Accessibility features
 - More fonts
 - User settings (change password, change username)
 - Folder/tags support
-- Note sharing and collaboration
-- Themes
 
 #### Live version 
 ###### coming soon
 
-## Screenshots
+## Screenshots (previous version)
 ![Registration](https://i.imgur.com/EjM55lp.png)
 ![Registration](https://i.imgur.com/8aaIe5x.png)
 ![Login page](https://i.imgur.com/Da5gDiw.png)
@@ -36,28 +38,9 @@
 ![Main page](https://i.imgur.com/Cc59mDu.png)
 ![Main page - expanded](https://i.imgur.com/GARWhTx.png)
 
-### How to run the dev server
+## Alembic
 
-###### Initialize virtual environment:
-```python -m venv venv```
-
-```source venv/bin/activate```
-###### Install the required packages:
-```pip install -r requirements.txt```
-###### Initialize the database:
-
-```flask db init```
-
-following this step, delete the migrations/env.py file and replace it with 
-server/_env.py. Rename the file to env.py, then run:  
-
-```flask db migrate -m "your_message_here"```
-
-and finally:
-
-```flask db upgrade``` 
-
-to create the database schema and initialize the database.
+If you run into migration issues, replace the *%ROOT_DIR%/migrations/env.py* with *_env.py* from this repo, then rename it to env.py.
 
 
 

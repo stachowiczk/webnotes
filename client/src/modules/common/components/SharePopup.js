@@ -6,7 +6,7 @@ function SharePopup({ show, close, noteId }) {
   const [targetUser, setTargetUser] = useState("");
   const [canEdit, setCanEdit] = useState(false);
   const [userExists, setUserExists] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null)
 
   async function submit(e) {
     e.preventDefault();
@@ -22,7 +22,6 @@ function SharePopup({ show, close, noteId }) {
         console.log(response.data);
         close();
       } else {
-        setError("Something went wrong.");
         console.log(response.data);
       }
     } catch (error) {
@@ -63,7 +62,7 @@ function SharePopup({ show, close, noteId }) {
     setCanEdit(e.target.checked);
   }
 
-  if (error !== "") {
+  if (error !== null) {
     return (
       <>
         <div
@@ -78,9 +77,11 @@ function SharePopup({ show, close, noteId }) {
       </>
     );
   }
+  else {
 
-  return (
-    <>
+      
+      return (
+          <>
       <div className="overlay" onClick={close}></div>
       <div id="share-popup">
         <form className="form">
@@ -93,13 +94,13 @@ function SharePopup({ show, close, noteId }) {
             name="username"
             id="target-user"
             onChange={handleChange}
-          />
+            />
           <input
             type="checkbox"
             name="canEdit"
             id="can-edit"
             onChange={handleCheckEdit}
-          />
+            />
           <div className="submit-button-container">
             <button className="submit-button" onClick={close}>
               Close
@@ -113,12 +114,13 @@ function SharePopup({ show, close, noteId }) {
     </>
   );
 }
+}
 const labelStyle = {
-  flex: "0",
-  color: "red",
-  minHeight: "1em",
-  marginTop: "0em",
-  fontSize: "0.9em",
+    flex: "0",
+    color: "red",
+    minHeight: "1em",
+    marginTop: "0em",
+    fontSize: "0.9em",
 };
 
 export default SharePopup;
