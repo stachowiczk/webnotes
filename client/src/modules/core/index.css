@@ -30,7 +30,15 @@ div {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+  overflow: scroll;
+  
 }
+
+pre  {
+  overflow: scroll;
+}
+
+
 
 .editor {
   flex: 1;
@@ -327,6 +335,8 @@ blockquote {
   position: relative;
   flex: 1;
   transition: flex 0.5s ease;
+  overflow-x: scroll;
+  scrollbar-width: 1px;
 }
 
 .entry-main:hover {
