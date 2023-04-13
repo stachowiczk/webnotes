@@ -20,12 +20,21 @@ import {
 } from "../slices/themeSlice";
 
 import styles from "./Entry.module.css";
+import ConfirmDelete from "./ConfirmDelete";
 
-
-function SharedEntry({ keyProp, noteId, title, content, created_at, removeMe}) {
+function SharedEntry({
+  keyProp,
+  noteId,
+  title,
+  content,
+  created_at,
+  removeMe,
+  setReloadLocal,
+}) {
   const data = useSelector((state) => state.shared.sharedNotes);
   const theme = useSelector((state) => state.theme.theme);
   const [showPopup, setShowPopup] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const isMobile = useSelector((state) => state.theme.mobile);
   const isEditingExisting = useSelector(
     (state) => state.editor.editingExisting
@@ -40,8 +49,18 @@ function SharedEntry({ keyProp, noteId, title, content, created_at, removeMe}) {
     created_at = "no data";
   }
 
+    function handleDelete(e) {
+    e.stopPropagation();
+    setShowDeletePopup(true);
+    }
+
+    function handleCancelDelete(e) {
+    e.stopPropagation();
+    setShowDeletePopup(false);
+    }
+
+
   async function deleteNoteById() {
-    if (window.confirm("Are you sure you want to delete this post?")) {
       try {
         await http.delete(`http://localhost:5000/notes/share/${noteId}`);
         dispatch(removeSharedNote(noteId));
@@ -49,10 +68,11 @@ function SharedEntry({ keyProp, noteId, title, content, created_at, removeMe}) {
       } catch (err) {
         console.log(err);
       }
-    }
+      setShowDeletePopup(false);
   }
 
-  async function shareNoteById() { // remove
+  async function shareNoteById() {
+    // remove
     try {
       await http.post(
         `http://localhost:5000/notes/share/${noteId}`,
@@ -75,7 +95,8 @@ function SharedEntry({ keyProp, noteId, title, content, created_at, removeMe}) {
     setShowPopup(!showPopup);
   }
 
-  function editNote() {
+  function editNote(e) {
+    e.stopPropagation();
     dispatch(setEditingExisting(true));
     dispatch(setEditedNoteId(noteId));
     dispatch(setEditorState(content));
@@ -84,6 +105,15 @@ function SharedEntry({ keyProp, noteId, title, content, created_at, removeMe}) {
       dispatch(toggleShowEditor());
       dispatch(setLeftWidth(0));
     }
+  }
+
+  function cancelEdit(e) {
+    e.stopPropagation();
+    setReloadLocal();
+    dispatch(setEditingExisting(false));
+    dispatch(setIsEdited(keyProp));
+    dispatch(setEditorState(""));
+    dispatch(setEditedNoteId(""));
   }
 
   const titleClassName = data[keyProp].isExpanded
@@ -96,59 +126,74 @@ function SharedEntry({ keyProp, noteId, title, content, created_at, removeMe}) {
 
   return (
     <>
-      <div
-        id={keyProp}
-        className={`entry-main ${theme}`}
-        onClick={data[keyProp].isExpanded ? null : toggleExpanded}
-        style={{
-          cursor: data[keyProp].isExpanded ? "default" : "pointer",
-          boxShadow:
-            data[keyProp].isEdited && isEditingExisting ? "0 0 0.5em #06c" : {},
-        }}
-      >
-        <div>
-          <button type="button" className="x-button" onClick={deleteNoteById}>
-            {""}x{""}
-          </button>
-        </div>
+      <div>
+        {isEditingExisting && <div className="notes-overlay" onClick={cancelEdit} />}
         <div
-          className={titleClassName}
-          dangerouslySetInnerHTML={{ __html: title }}
-        />
-        <div
-          className={contentClassName}
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
-        <div className="entry-footer">
-        <span
-          style={{ fontStyle: "italic", fontSize: "small" }}
-        >{`${created_at}`}</span>
-        <button
-          className="expand-button expand-item"
-          onClick={toggleExpanded}
-          style={data[keyProp].isExpanded ? {margin: "0"} : { display: "none" }}
+          id={keyProp}
+          className={`entry-main ${theme}`}
+          onClick={data[keyProp].isExpanded ? null : toggleExpanded}
+          style={{
+            cursor: data[keyProp].isExpanded ? "default" : "pointer",
+            zIndex: data[keyProp].isEdited ? "4" : "",
+          }}
         >
-          {data[keyProp].isExpanded ? "collapse" : ""}
-        </button>
-        <button
-          className="expand-button expand-item"
-          onClick={editNote}
-          style={isEditingExisting ? { display: "none" } : {margin: "0"}}
-        >
-          edit
-        </button>
-        <button
-          className="expand-button expand-item"
-          onClick={togglePopup}
-          style={isEditingExisting ? { display: "none" } : { display: "none"}}
-        >
-          share
-        </button>
-        <div className="shared-by" style={{fontSize: "small", fontStyle: "italic"}}>{`Shared by: ${data[keyProp].shared_by}`}</div>
+          <div>
+            <button type="button" className="x-button" onClick={handleDelete}>
+              {""}x{""}
+            </button>
+            {showDeletePopup && (
+                <ConfirmDelete
+                    message={"Are you sure you want to delete this post?"}
+                    onCancel={handleCancelDelete}
+                    onConfirm={deleteNoteById}/>
+            )}
+          </div>
+          <div
+            className={titleClassName}
+            dangerouslySetInnerHTML={{ __html: title }}
+          />
+          <div
+            className={contentClassName}
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+          <div className="entry-footer">
+            <span
+              style={{ fontStyle: "italic", fontSize: "small" }}
+            >{`${created_at}`}</span>
+            <button
+              className="expand-button expand-item"
+              onClick={toggleExpanded}
+              style={
+                data[keyProp].isExpanded ? { margin: "0" } : { display: "none" }
+              }
+            >
+              {data[keyProp].isExpanded ? "collapse" : ""}
+            </button>
+            <button
+              className="expand-button expand-item"
+              onClick={editNote}
+              style={isEditingExisting ? { display: "none" } : { margin: "0" }}
+            >
+              edit
+            </button>
+            <button
+              className="expand-button expand-item"
+              onClick={togglePopup}
+              style={
+                isEditingExisting ? { display: "none" } : { display: "none" }
+              }
+            >
+              share
+            </button>
+            <div
+              className="shared-by"
+              style={{ fontSize: "small", fontStyle: "italic" }}
+            >{`Shared by: ${data[keyProp].shared_by}`}</div>
+          </div>
+          {showPopup ? (
+            <SharePopup show={showPopup} close={togglePopup} noteId={noteId} />
+          ) : null}
         </div>
-        {showPopup ? (
-          <SharePopup show={showPopup} close={togglePopup} noteId={noteId}/>
-        ) : null}
       </div>
     </>
   );

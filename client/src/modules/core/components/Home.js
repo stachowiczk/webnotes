@@ -255,7 +255,7 @@ function Home() {
             {!sharedView ? (
               <TextFeed className="item-list" reload={reloadFeed} setReloadLocal={handleSaveCancelClick}/>
             ) : (
-              <SharedFeed className="item-list" reload={reloadFeed} />
+              <SharedFeed className="item-list" reload={reloadFeed} setReloadLocal={handleSaveCancelClick}/>
             )}
           </div>
           <Draggable

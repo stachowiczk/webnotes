@@ -130,7 +130,7 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe, setReloa
           onClick={data[keyProp].isExpanded ? null : toggleExpanded}
           style={{
             cursor: data[keyProp].isExpanded ? "default" : "pointer",
-            zIndex: data[keyProp].isEdited ? "9999" : "999",
+            zIndex: data[keyProp].isEdited ? "4" : "",
           }}
         >
           <div>
@@ -142,6 +142,7 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe, setReloa
                 message={"Are you sure you want to delete this note?"}
                 onCancel={handleCancelDelete}
                 onConfirm={deleteNoteById}
+                isOpen={showDeletePopup}
               />
             )}
           </div>

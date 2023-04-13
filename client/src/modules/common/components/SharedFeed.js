@@ -10,7 +10,7 @@ import {
 
 import http from "../../auth/components/Interceptor";
 
-function SharedFeed({ reload }) {
+function SharedFeed({ reload, setReloadLocal }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
   const [expandButton, setExpandButton] = useState(true);
@@ -53,6 +53,7 @@ function SharedFeed({ reload }) {
           title={DOMPurify.sanitize(row.title)}
           content={DOMPurify.sanitize(row.content)}
           removeMe={removeChild}
+          setReloadLocal={setReloadLocal}
         />
       ));
     } catch (error) {
