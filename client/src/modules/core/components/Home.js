@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import Draggable from "react-draggable";
+import * as cfg from "../../../config.js";
 import EditorComponent from "../../common/components/Editor.js";
 import http from "../../auth/components/Interceptor";
 import TextFeed from "../../common/components/TextFeed.js";
@@ -22,7 +23,6 @@ import {
   setIsMobile,
 } from "../../common/slices/themeSlice.js";
 
-const LOCAL_STORAGE_WIDTH_KEY = "WIDTH";
 
 function Home() {
   const [error, setError] = useState(null);
@@ -51,7 +51,7 @@ function Home() {
 
   useEffect(() => {
     try {
-      const storedWidth = localStorage.getItem(LOCAL_STORAGE_WIDTH_KEY);
+      const storedWidth = localStorage.getItem(cfg.LOCAL_STORAGE_WIDTH_KEY);
       if (storedWidth && !isMobile) {
         dispatch(setLeftWidth(parseInt(storedWidth)));
       } else if (isMobile) {
@@ -60,6 +60,10 @@ function Home() {
     } catch (err) {
       console.error(err);
     }
+    try {
+      document.title = `${user}'s WebNotes`;
+    }
+    catch {}
   }, []);
 
   useEffect(() => {
@@ -82,7 +86,7 @@ function Home() {
   function handleResize(e, { deltaX }) {
     const newWidth = leftWidth + deltaX;
     dispatch(setLeftWidth(newWidth));
-    localStorage.setItem(LOCAL_STORAGE_WIDTH_KEY, newWidth);
+    localStorage.setItem(cfg.LOCAL_STORAGE_WIDTH_KEY, newWidth);
   }
   function toggleDropdown(dropdown) {
     setDropdown(dropdown);
@@ -104,7 +108,7 @@ function Home() {
   async function addUserPost() {
     try {
       await http.post(
-        "http://localhost:5000/notes/",
+        `${cfg.API_BASE_URL}${cfg.NOTES_ENDPOINT}`,
         JSON.stringify({
           title: editorState,
           content: editorState,
@@ -128,7 +132,7 @@ function Home() {
   function handleWindowResize() {
     if (leftWidth === window.innerWidth) {
       try {
-        dispatch(setLeftWidth(localStorage.getItem(LOCAL_STORAGE_WIDTH_KEY)));
+        dispatch(setLeftWidth(localStorage.getItem(cfg.LOCAL_STORAGE_WIDTH_KEY)));
       } catch (err) {
         dispatch(setLeftWidth(window.innerWidth / 4));
       }
@@ -149,7 +153,7 @@ function Home() {
   async function editUserPost() {
     try {
       await http.put(
-        `http://localhost:5000/notes/${editedNoteId}`,
+        `${cfg.API_BASE_URL}${cfg.NOTES_ID_ENDPOINT}${editedNoteId}`,
         JSON.stringify({
           title: editorState,
           content: editorState,
@@ -167,12 +171,13 @@ function Home() {
       setError(err);
     }
   }
-
+// ##############################
+// delete this
   async function deleteAllPosts() {
     if (window.confirm("Are you sure you want to delete all posts?")) {
       try {
         setIsLoaded(false);
-        await http.delete("http://localhost:5000/notes/");
+        await http.delete("http://localhost:5000/notes/all");
         setReloadFeed(!reloadFeed);
         setIsLoaded(true);
       } catch (err) {
@@ -220,6 +225,7 @@ function Home() {
             <div ref={dropdownRef}>{dropdown && <Menu />}</div>
           </div>
         </div>
+        <div className="navbar-spacer"></div>
         <div id="main-container">
           <div
             className="item-list"
@@ -247,7 +253,7 @@ function Home() {
             </div>
             <button className="expand-button" onClick={handleSharedViewClick}>{sharedView ? "Personal" : "Shared"}</button>
             {!sharedView ? (
-              <TextFeed className="item-list" reload={reloadFeed} />
+              <TextFeed className="item-list" reload={reloadFeed} setReloadLocal={handleSaveCancelClick}/>
             ) : (
               <SharedFeed className="item-list" reload={reloadFeed} />
             )}

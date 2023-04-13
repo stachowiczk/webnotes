@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import * as cfg from "../../../config.js";
 import { AuthContext } from "../context/UserContext";
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -30,7 +31,7 @@ function Login() {
     try {
       const response = await axios({
         method: "post",
-        url: "http://localhost:5000/auth/login",
+        url: `${cfg.API_BASE_URL}${cfg.AUTH_LOGIN_ENDPOINT}`,
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
@@ -61,7 +62,7 @@ function Login() {
     async function checkLoggedIn() {
       dispatch({ type: "LOADING" });
       try {
-        const res = await http.get("http://localhost:5000/auth/login");
+        const res = await http.get(`${cfg.API_BASE_URL}${cfg.AUTH_LOGIN_ENDPOINT}`);
         if (res.status === 200) {
           dispatch({ type: "USER_LOADED", payload: res.data });
           navigate("/home");

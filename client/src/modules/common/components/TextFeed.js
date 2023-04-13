@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import DOMPurify from "dompurify";
 import Entry from "./Entry";
+import * as cfg from "../../../config.js"
 import { useSelector, useDispatch } from "react-redux";
 import {
   setEntries,
@@ -10,7 +11,7 @@ import {
 
 import http from "../../auth/components/Interceptor";
 
-function TextFeed({ reload }) {
+function TextFeed({ reload, setReloadLocal }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
   const [expandButton, setExpandButton] = useState(true);
@@ -23,7 +24,7 @@ function TextFeed({ reload }) {
   async function getUserPosts() {
     setIsLoaded(false);
     try {
-      const res = await http.get("http://localhost:5000/notes/");
+      const res = await http.get(`${cfg.API_BASE_URL}${cfg.NOTES_ENDPOINT}`);
       dispatch(setEntries(res.data));
       setIsLoaded(true);
     } catch (err) {
@@ -50,6 +51,7 @@ function TextFeed({ reload }) {
           title={DOMPurify.sanitize(row.title)}
           content={DOMPurify.sanitize(row.content)}
           removeMe={removeChild}
+          setReloadLocal={setReloadLocal}
         />
       ));
     } catch (error) {

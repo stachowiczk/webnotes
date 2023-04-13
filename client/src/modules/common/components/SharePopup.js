@@ -13,11 +13,10 @@ function SharePopup({ show, close, noteId }) {
     try {
       const response = await http.post(
         `http://localhost:5000/notes/share/${noteId}`,
-          JSON.stringify({
-            target_user: targetUser,
-            can_edit: canEdit,
-          }),
-        
+        JSON.stringify({
+          target_user: targetUser,
+          can_edit: canEdit,
+        })
       );
       if (response.status === 200) {
         console.log(response.data);
@@ -59,53 +58,59 @@ function SharePopup({ show, close, noteId }) {
     };
   }, [targetUser]);
 
-    function handleCheckEdit(e) {
+  function handleCheckEdit(e) {
     e.preventDefault();
     setCanEdit(e.target.checked);
-    }
+  }
 
   if (error !== "") {
     return (
       <>
-        <div id="share-popup" style={{ display: "flex", flexDirection: "column" }}>
+        <div
+          id="share-popup"
+          style={{ display: "flex", flexDirection: "column" }}
+        >
           Something went wrong. Make sure the user exists and try again
-        <button className="submit-button" onClick={close}>
-          close
-        </button>
+          <button className="submit-button" onClick={close}>
+            close
+          </button>
         </div>
       </>
     );
   }
 
   return (
-    <div id="share-popup">
-      <form className="form">
-        <label htmlFor="username" style={labelStyle}>
-          {userExists && targetUser !== "" ? "User not found" : ""}
-        </label>
-        <label htmlFor="username">Share with:</label>
-        <input
-          type="text"
-          name="username"
-          id="target-user"
-          onChange={handleChange}
-        />
-        <input
-          type="checkbox"
-          name="canEdit"
-          id="can-edit"
-          onChange={handleCheckEdit}
-        />
-        <div className="submit-button-container">
-          <button className="submit-button" onClick={close}>
-            Close
-          </button>
-          <button className="submit-button" onClick={submit}>
-            Share
-          </button>
-        </div>
-      </form>
-    </div>
+    <>
+        <div className="overlay" onClick={close}></div>
+      <div id="share-popup">
+        <form className="form">
+          <label htmlFor="username" style={labelStyle}>
+            {userExists && targetUser !== "" ? "User not found" : ""}
+          </label>
+          <label htmlFor="username">Share with:</label>
+          <input
+            type="text"
+            name="username"
+            id="target-user"
+            onChange={handleChange}
+          />
+          <input
+            type="checkbox"
+            name="canEdit"
+            id="can-edit"
+            onChange={handleCheckEdit}
+          />
+          <div className="submit-button-container">
+            <button className="submit-button" onClick={close}>
+              Close
+            </button>
+            <button className="submit-button" onClick={submit}>
+              Share
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }
 const labelStyle = {

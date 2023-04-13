@@ -1,11 +1,11 @@
 import axios from "axios";
+import * as cfg from "../../../config.js";
 import { useContext, useEffect, useState } from "react";
 import { Navigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import http from "./Interceptor";
-
 
 function Register() {
   const [userData, setUserData] = useState({
@@ -55,7 +55,7 @@ function Register() {
   const checkAvailable = () => {
     axios({
       method: "get",
-      url: "http://localhost:5000/auth/register?username=" + userData.username,
+      url: `${cfg.API_BASE_URL}${cfg.AUTH_REGISTER_ENDPOINT}?username=${userData.username}`,
       headers: { "Content-Type": "application/json" },
     }).then((res) => {
       if (res.data[1] === 409) {
@@ -74,7 +74,7 @@ function Register() {
     }
     axios({
       method: "post",
-      url: "http://localhost:5000/auth/register",
+      url: `${cfg.API_BASE_URL}${cfg.AUTH_REGISTER_ENDPOINT}`,
       headers: { "Content-Type": "application/json" },
       // set the json data to the value of the text state
       data: JSON.stringify({
@@ -90,7 +90,9 @@ function Register() {
     async function checkLoggedIn() {
       dispatch({ type: "LOADING" });
       try {
-        const res = await http.get("http://localhost:5000/auth/login");
+        const res = await http.get(
+          `${cfg.API_BASE_URL}${cfg.AUTH_LOGIN_ENDPOINT}`
+        );
         if (res.status === 200) {
           dispatch({ type: "USER_LOADED", payload: res.data });
           navigate("/home");
@@ -121,9 +123,14 @@ function Register() {
         <div id="login-container">
           <form className="form" id="register-form" onSubmit={submit}>
             <div id="register-form-label-main">Create a WebNotes Account</div>
-            <label htmlFor="username" style={isAvailable ? labelStyleGreen : labelStyle}>
+            <label
+              htmlFor="username"
+              style={isAvailable ? labelStyleGreen : labelStyle}
+            >
               {userData.username === "" && " "}
-              {isAvailable && (userData.username !== "") && "This username is available"}
+              {isAvailable &&
+                userData.username !== "" &&
+                "This username is available"}
               {!isAvailable && "Username is not available"}
             </label>
             <input
@@ -181,6 +188,5 @@ const labelStyleGreen = {
   marginTop: "0em",
   fontSize: "0.9em",
 };
-
 
 export default Register;

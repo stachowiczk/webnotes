@@ -11,7 +11,7 @@ from server.api.common.parser import (
 from sqlalchemy.exc import IntegrityError
 
 
-@notes_bp.route("/", methods=["GET", "POST", "DELETE"])
+@notes_bp.route("/all", methods=["GET", "POST", "DELETE"])
 class NotesAPI(MethodView):
     @cross_origin(supports_credentials=True)
     @jwt_required()

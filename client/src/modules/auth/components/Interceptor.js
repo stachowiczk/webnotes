@@ -1,7 +1,8 @@
 import axios from "axios";
+import * as cfg from "../../../config.js";
 
 const http = axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: `${cfg.API_BASE_URL}/`,
 });
 
 http.interceptors.request.use(
@@ -23,10 +24,13 @@ http.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const res = await axios.get("http://localhost:5000/auth/refresh", error.config, {
-        withCredentials: true,
-        
-      });
+      const res = await axios.get(
+        `${cfg.API_BASE_URL}${cfg.AUTH_REFRESH_ENDPOINT}`,
+        error.config,
+        {
+          withCredentials: true,
+        }
+      );
       if (res.status === 200) {
         return http(originalRequest);
       }

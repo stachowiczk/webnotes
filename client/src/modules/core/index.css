@@ -27,10 +27,6 @@ div {
   background-color: hsl(0, 0%, 29%);
 }
 
-.root-element.dark .navbar {
-  border-bottom: 1px solid hsl(0, 0%, 29%);
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -42,7 +38,12 @@ code {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  z-index: 9999;
   position: relative;
+}
+
+.editor * {
+  z-index: 9999;
 }
 
 #container-homejs.dark .ql-snow.ql-toolbar button.ql-active .ql-stroke {
@@ -72,6 +73,10 @@ code {
   color: #fff;
 }
 
+#container-homejs.dark button.ql-active * {
+  stroke: #06c;
+}
+
 img {
   max-width: 100%;
   max-height: 100%;
@@ -89,6 +94,7 @@ div#quill {
   flex: 1;
   display: flex;
   flex-direction: column;
+  position: relative;
   overflow-y: scroll;
   gap: 2vh;
 }
@@ -147,6 +153,10 @@ div.ql-toolbar.ql-snow {
   margin-bottom: 2rem;
 }
 
+div.ql-toolbar.ql-snow *{
+  z-index: 9999;
+}
+
 .custom-quill {
   position: relative;
 }
@@ -155,7 +165,7 @@ div.ql-toolbar.ql-snow {
   position: absolute;
   display: flex;
   flex: 1;
-  z-index: auto;
+  z-index: 9999;
   background: white;
   padding: 5px;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
@@ -217,12 +227,9 @@ blockquote {
   align-items: center;
 }
 
-
-
 .entry-footer .shared-by {
   margin-right: 0;
   margin-left: auto;
-
 }
 #share-popup {
   position: fixed;
@@ -235,7 +242,51 @@ blockquote {
   font-size: 1.2rem;
   width: max-content;
   height: max-content;
-  
+}
+
+.popup-container {
+  position: fixed;
+  z-index: 9999;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  width: max-content;
+  height: max-content;
+  background-color: hsl(0, 0%, 95%);
+  color: hsl(0, 0%, 0%);
+}
+
+.submit-button-container.delete {
+  padding: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: hsla(0, 0%, 0%, 0.5);
+  z-index: 9998;
+}
+
+.notes-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: hsla(0, 0%, 5%, 0.3);
+  z-index: 9998;
+}
+
+.root-element.dark .popup-container {
+  background-color: hsl(0, 0%, 35%);
+  border: 1px solid hsl(0, 0%, 85%);
+  color: hsl(0, 0%, 85%);
 }
 
 .x-button {
@@ -274,6 +325,7 @@ blockquote {
   position: relative;
   flex: 1;
   transition: flex 0.5s ease;
+  z-index: 9998;
 }
 
 .entry-main:hover {
@@ -515,7 +567,16 @@ button.expand-button.mobile-view-button {
   padding-left: 1rem;
   padding-right: 1rem;
   min-height: 7vh;
-  border-bottom: 2px solid hsl(60, 1%, 81%);
+  position: relative;
+}
+
+.navbar-spacer {
+  width: 80%;
+  border-bottom: 1px solid hsl(0, 0%, 73%);
+  margin: 0 auto;
+}
+.root-element.dark .navbar-spacer {
+  border-bottom: 1px solid hsl(0, 0%, 29%);
 }
 
 .logout {
@@ -540,17 +601,31 @@ button.expand-button.mobile-view-button {
 }
 
 #divider {
-  height: 100dvh;
+  height: 82dvh;
   cursor: col-resize;
   background-color: hsl(0, 0%, 73%);
   width: 0.3em;
   border-radius: 0.1em;
   opacity: 0.8;
   position: relative;
+  align-self: center;
+  margin-top: -5%;
 }
 
 #divider:hover {
-  box-shadow: 0 0 0.2em hsl(0, 0%, 79%);
+  box-shadow: 0 0 0.2em hsl(0, 0%, 60%);
+}
+#divider:active {
+  box-shadow: 0 0 0.2em hsl(0, 0%, 60%);
+}
+
+.root-element.dark #divider:hover {
+  background-color: hsl(0, 0%, 29%);
+  box-shadow: 0 0 0.2em hsl(0, 0%, 45%);
+}
+.root-element.dark #divider:active {
+  background-color: hsl(0, 0%, 29%);
+  box-shadow: 0 0 0.2em hsl(0, 0%, 45%);
 }
 
 #item-list {

@@ -1,0 +1,11 @@
+export const API_BASE_URL = "http://localhost:5000";
+export const NOTES_ENDPOINT = "/notes/all";
+export const NOTES_SHARE_ENDPOINT = "/notes/share";
+export const NOTES_SHARE_ID_ENDPOINT = "/notes/share/";
+export const NOTES_ID_ENDPOINT = "/notes/";
+export const AUTH_ENDPOINT = "/auth";
+export const AUTH_LOGIN_ENDPOINT = "/auth/login";
+export const AUTH_REGISTER_ENDPOINT = "/auth/register";
+export const AUTH_LOGOUT_ENDPOINT = "/auth/logout";
+export const AUTH_REFRESH_ENDPOINT = "/auth/refresh";
+export const LOCAL_STORAGE_WIDTH_KEY = "WIDTH";

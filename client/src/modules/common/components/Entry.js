@@ -1,6 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
+import * as cfg from "../../../config.js";
 import http from "../../auth/components/Interceptor";
 import SharePopup from "./SharePopup";
+import ConfirmDelete from "./ConfirmDelete.js";
 import {
   removeEntry,
   setExpanded,
@@ -21,13 +23,14 @@ import {
 
 import styles from "./Entry.module.css";
 
-function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
+function Entry({ keyProp, noteId, title, content, created_at, removeMe, setReloadLocal }) {
   const data = useSelector((state) => state.feed.entries);
   const theme = useSelector((state) => state.theme.theme);
   const editorState = useSelector((state) => state.editor.editorState);
   const showEditor = useSelector((state) => state.theme.showEditor);
   const editedNoteId = useSelector((state) => state.editor.editedNoteId);
   const [showPopup, setShowPopup] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const isMobile = useSelector((state) => state.theme.mobile);
   const isEditingExisting = useSelector(
     (state) => state.editor.editingExisting
@@ -42,17 +45,24 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
   } catch {
     created_at = "no data";
   }
-
-  async function deleteNoteById() {
-    if (window.confirm("Are you sure you want to delete this post?")) {
-      try {
-        await http.delete(`http://localhost:5000/notes/${noteId}`);
-        dispatch(removeEntry(noteId));
-        dispatch(setReload());
-      } catch (err) {
-        console.log(err);
-      }
+  function handleDelete(e) {
+    e.stopPropagation();
+    setShowDeletePopup(true);
+  }
+  async function deleteNoteById(e) {
+    try {
+      await http.delete(`${cfg.API_BASE_URL}${cfg.NOTES_ID_ENDPOINT}${noteId}`);
+      dispatch(removeEntry(noteId));
+      dispatch(setReload());
+    } catch (err) {
+      console.log(err);
     }
+    setShowDeletePopup(false);
+  }
+
+  function handleCancelDelete(e) {
+    e.stopPropagation();
+    setShowDeletePopup(false);
   }
 
   async function shareNoteById() {
@@ -74,11 +84,13 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
     dispatch(setExpanded(keyProp));
   }
 
-  function togglePopup() {
+  function togglePopup(e) {
+    e.stopPropagation();
     setShowPopup(!showPopup);
   }
 
-  function editNote() {
+  function editNote(e) {
+    e.stopPropagation();
     dispatch(setEditingExisting(true));
     dispatch(setEditedNoteId(noteId));
     dispatch(setEditorState(content));
@@ -87,6 +99,15 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
       dispatch(toggleShowEditor());
       dispatch(setLeftWidth(0));
     }
+  }
+
+  function cancelEdit(e) {
+    e.stopPropagation();
+    setReloadLocal();
+    dispatch(setEditingExisting(false));
+    dispatch(setIsEdited(keyProp));
+    dispatch(setEditorState(""));
+    dispatch(setEditedNoteId(""));
   }
 
   const titleClassName = data[keyProp].isExpanded
@@ -99,56 +120,68 @@ function Entry({ keyProp, noteId, title, content, created_at, removeMe }) {
 
   return (
     <>
-      <div
-        id={keyProp}
-        className={`entry-main ${theme}`}
-        onClick={data[keyProp].isExpanded ? null : toggleExpanded}
-        style={{
-          cursor: data[keyProp].isExpanded ? "default" : "pointer",
-          boxShadow:
-            data[keyProp].isEdited && isEditingExisting ? "0 0 0.5em #06c" : {},
-        }}
-      >
-        <div>
-          <button type="button" className="x-button" onClick={deleteNoteById}>
-            {""}x{""}
+      <div>
+        {isEditingExisting && (
+          <div className="notes-overlay" onClick={cancelEdit} />
+        )}
+        <div
+          id={keyProp}
+          className={`entry-main ${theme}`}
+          onClick={data[keyProp].isExpanded ? null : toggleExpanded}
+          style={{
+            cursor: data[keyProp].isExpanded ? "default" : "pointer",
+            zIndex: data[keyProp].isEdited ? "9999" : "999",
+          }}
+        >
+          <div>
+            <button type="button" className="x-button" onClick={handleDelete}>
+              {""}x{""}
+            </button>
+            {showDeletePopup && (
+              <ConfirmDelete
+                message={"Are you sure you want to delete this note?"}
+                onCancel={handleCancelDelete}
+                onConfirm={deleteNoteById}
+              />
+            )}
+          </div>
+          <div
+            className={titleClassName}
+            dangerouslySetInnerHTML={{ __html: title }}
+          />
+          <div
+            className={contentClassName}
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+          <span
+            style={{ fontStyle: "italic", fontSize: "small" }}
+          >{`${created_at}`}</span>
+
+          <button
+            className="expand-button expand-item"
+            onClick={editNote}
+            style={isEditingExisting ? { display: "none" } : {}}
+          >
+            edit
           </button>
+          <button
+            className="expand-button expand-item"
+            onClick={togglePopup}
+            style={isEditingExisting ? { display: "none" } : {}}
+          >
+            share
+          </button>
+          <button
+            className="expand-button expand-item"
+            onClick={toggleExpanded}
+            style={data[keyProp].isExpanded ? {} : { display: "none" }}
+          >
+            {data[keyProp].isExpanded ? "collapse" : ""}
+          </button>
+          {showPopup ? (
+            <SharePopup show={showPopup} close={togglePopup} noteId={noteId} />
+          ) : null}
         </div>
-        <div
-          className={titleClassName}
-          dangerouslySetInnerHTML={{ __html: title }}
-        />
-        <div
-          className={contentClassName}
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
-        <span
-          style={{ fontStyle: "italic", fontSize: "small" }}
-        >{`${created_at}`}</span>
-        <button
-          className="expand-button expand-item"
-          onClick={toggleExpanded}
-          style={data[keyProp].isExpanded ? {} : { display: "none" }}
-        >
-          {data[keyProp].isExpanded ? "collapse" : ""}
-        </button>
-        <button
-          className="expand-button expand-item"
-          onClick={editNote}
-          style={isEditingExisting ? { display: "none" } : {}}
-        >
-          edit
-        </button>
-        <button
-          className="expand-button expand-item"
-          onClick={togglePopup}
-          style={isEditingExisting ? { display: "none" } : {}}
-        >
-          share
-        </button>
-        {showPopup ? (
-          <SharePopup show={showPopup} close={togglePopup} noteId={noteId}/>
-        ) : null}
       </div>
     </>
   );
