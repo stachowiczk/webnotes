@@ -186,7 +186,7 @@ def test_notes_api(test_client, test_user):
         "content": "test_content",
     }
     response = test_client.post(
-        "/notes/",
+        "/notes/all",
         data=json.dumps(test_data),
         content_type="application/json",
         headers={"Cookie": f"access_token_cookie={jwt_token};"},
@@ -196,7 +196,7 @@ def test_notes_api(test_client, test_user):
 
     # Get all notes
     response = test_client.get(
-        f"/notes/",
+        f"/notes/all",
         headers={"Cookie": f"access_token_cookie={jwt_token};"},
     )
     assert response.status_code == 200

@@ -27,8 +27,6 @@ export const sharedSlice = createSlice({
   reducers: {
     setSharedNotes: (state, action) => {
       state.sharedNotes = action.payload;
-      console.log("setSharedNotes");
-      console.log(state.sharedNotes);
     },
     removeSharedNote: (state, action) => {
       state.sharedNotes = state.sharedNotes.filter(

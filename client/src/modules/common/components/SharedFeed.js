@@ -21,9 +21,6 @@ function SharedFeed({ reload, setReloadLocal }) {
     try {
       const res = await http.get("http://localhost:5000/notes/shared");
       dispatch(setSharedNotes(res.data));
-      console.log(res.data);
-      console.log("sharedNotes");
-      console.log(sharedNotes);
       setIsLoaded(true);
     } catch (err) {
       setError(err);
