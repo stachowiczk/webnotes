@@ -1,3 +1,4 @@
+/* #### CSS TRANSITIONS FOR Entry.js #### */
 
 .entry-content {
   transition: height 0.6s ease, opacity 0.6s ease;
