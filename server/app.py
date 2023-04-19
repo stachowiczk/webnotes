@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -17,9 +18,12 @@ def create_app(config_name=None):
     else:
         app.config.from_object("server.config.Config")
     jwt = JWTManager(app)
-    CORS(app, origins=cfg.CORS_ORIGINS, supports_credentials=True)
+    CORS(app, resources={r"/*": {"origins": app.config["CORS_ORIGINS"]}}, supports_credentials=True)
     db.init_app(app)
     app.db = db
+    if not os.path.exists("../instance/db.db"):
+        with app.app_context():
+            db.create_all()
     
     from server.api.common.views import notes_bp
     from server.api.auth.views import auth_bp

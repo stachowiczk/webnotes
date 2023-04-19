@@ -3,12 +3,12 @@ from datetime import timedelta
 
 
 class Config(object):
-    SQLALCHEMY_DATABASE_URI = "sqlite:///db.db"
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:///../instance/db.db"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
     JWT_TOKEN_LOCATION = ["cookies"]
     JWT_COOKIE_CSRF_PROTECT = False
-    CORS_ORIGINS = "http://localhost:3000"
+    CORS_ORIGINS = "http://localhost"
 
 
 class TestingConfig(Config):

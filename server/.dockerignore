@@ -1,0 +1,9 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.dockerignore
+.git
+.gitignore
+server_env
+instance/db.db
