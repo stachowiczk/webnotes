@@ -10,12 +10,14 @@ client/node_modules
 
 # production
 /build
+env.list
 
 
 # misc
 .DS_Store
 /server_env
 notes
+
 migrations/versions
 backup-database/
 /.pytest_cache
