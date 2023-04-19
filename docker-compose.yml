@@ -18,8 +18,13 @@ services:
     environment:
       - FLASK_APP=./server/app.py
       - FLASK_RUN_HOST=0.0.0.0
+      - SQLALCHEMY_DATABASE_URI=sqlite:////app/instance/db.db
+      - SQLALCHEMY_TRACK_MODIFICATIONS=false
     env_file:
+
+
       - ./server/env.list
 
+    command: /bin/bash -c "python -m flask db upgrade &&  python -m gunicorn --chdir=./server --bind 0.0.0.0:5000 --workers 4 --threads 2 --timeout 0 app:app"
 volumes: 
   db_data:

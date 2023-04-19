@@ -21,9 +21,7 @@ def create_app(config_name=None):
     CORS(app, resources={r"/*": {"origins": app.config["CORS_ORIGINS"]}}, supports_credentials=True)
     db.init_app(app)
     app.db = db
-    if not os.path.exists("../instance/db.db"):
-        with app.app_context():
-            db.create_all()
+    
     
     from server.api.common.views import notes_bp
     from server.api.auth.views import auth_bp

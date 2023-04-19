@@ -3,7 +3,7 @@ from datetime import timedelta
 
 
 class Config(object):
-    SQLALCHEMY_DATABASE_URI = "sqlite:///../instance/db.db"
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
     JWT_TOKEN_LOCATION = ["cookies"]
