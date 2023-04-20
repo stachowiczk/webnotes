@@ -15,7 +15,7 @@ env.list
 
 # misc
 .DS_Store
-/server_env
+server_env/
 notes
 
 migrations/versions
