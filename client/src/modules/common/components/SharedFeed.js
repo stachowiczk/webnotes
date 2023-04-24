@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import DOMPurify from "dompurify";
 import SharedEntry from "./SharedEntry";
+import * as cfg from "../../../config.js"
 import { useSelector, useDispatch } from "react-redux";
 import { setSharedNotes, expandAll, collapseAll } from "../slices/sharedSlice";
 
@@ -19,7 +20,7 @@ function SharedFeed({ reload, setReloadLocal }) {
   async function getUserPosts() {
     setIsLoaded(false);
     try {
-      const res = await http.get("http://localhost:5000/notes/shared");
+      const res = await http.get(`${cfg.API_BASE_URL}${cfg.NOTES_SHARE_ENDPOINT}`);
       dispatch(setSharedNotes(res.data));
       setIsLoaded(true);
     } catch (err) {

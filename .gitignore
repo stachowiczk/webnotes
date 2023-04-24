@@ -19,9 +19,10 @@ server_env/
 server/server_env
 notes
 
-migrations/versions
+server/migrations/versions
 backup-database/
 /.pytest_cache
+certbot/
 server/__pycache__
 __pycache__/
 .pytest_cache/

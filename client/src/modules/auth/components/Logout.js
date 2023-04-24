@@ -3,7 +3,7 @@ import { useEffect, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/UserContext";
 import http from "./Interceptor";
-
+import * as cfg from "../../../config.js"
 function Logout() {
   const { state, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ function Logout() {
     try {
       const response = await http({
         method: "get",
-        url: "http://localhost:5000/auth/logout",
+        url: `${cfg.API_BASE_URL}${cfg.AUTH_LOGOUT_ENDPOINT}`
       });
       const data = await response.data;
       if (response.status === 200 || response.status === 401) {

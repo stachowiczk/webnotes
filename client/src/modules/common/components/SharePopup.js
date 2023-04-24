@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import http from "../../auth/components/Interceptor";
+import * as cfg from "../../../config.js"
 
 function SharePopup({ show, close, noteId }) {
   const [showMe, setShowMe] = useState(show);
@@ -12,7 +13,7 @@ function SharePopup({ show, close, noteId }) {
     e.preventDefault();
     try {
       const response = await http.post(
-        `http://localhost:5000/notes/share/${noteId}`,
+        `${cfg.API_BASE_URL}${cfg.NOTES_SHARE_ID_ENDPOINT}${noteId}`,
         JSON.stringify({
           target_user: targetUser,
           can_edit: canEdit,
@@ -39,7 +40,7 @@ function SharePopup({ show, close, noteId }) {
     const checkAvailable = () => {
       http({
         method: "get",
-        url: "http://localhost:5000/auth/register?username=" + targetUser,
+        url: `${cfg.API_BASE_URL}${cfg.AUTH_REGISTER_GET}${targetUser}`,
         headers: { "Content-Type": "application/json" },
       }).then((res) => {
         if (res.data[1] === 409) {
@@ -88,19 +89,14 @@ function SharePopup({ show, close, noteId }) {
           <label htmlFor="username" style={labelStyle}>
             {userExists && targetUser !== "" ? "User not found" : ""}
           </label>
-          <label htmlFor="username">Share with:</label>
+          <label htmlFor="username" style={{display: "flex", marginLeft: "0", marginRight: "auto"}}>Share with:</label>
           <input
             type="text"
             name="username"
             id="target-user"
             onChange={handleChange}
             />
-          <input
-            type="checkbox"
-            name="canEdit"
-            id="can-edit"
-            onChange={handleCheckEdit}
-            />
+          
           <div className="submit-button-container">
             <button className="submit-button" onClick={close}>
               Close
@@ -121,6 +117,7 @@ const labelStyle = {
     minHeight: "1em",
     marginTop: "0em",
     fontSize: "0.9em",
+    
 };
 
 export default SharePopup;

@@ -10,8 +10,8 @@ COPY . ./
 RUN npm run build
 
 FROM nginx:stable-alpine as prod
-COPY --from=build-stage /app/build /usr/share/nginx/html
-
+WORKDIR /usr/share/nginx/html
+RUN rm -rf ./*
+COPY --from=build-stage /app/build .
 EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 443

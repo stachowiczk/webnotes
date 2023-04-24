@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import http from "../../auth/components/Interceptor";
+import * as cfg from "../../../config.js"
 import SharePopup from "./SharePopup";
 import {
   removeSharedNote,
@@ -61,7 +62,7 @@ function SharedEntry({
 
   async function deleteNoteById() {
     try {
-      await http.delete(`http://localhost:5000/notes/share/${noteId}`);
+      await http.delete(`${cfg.API_BASE_URL}${cfg.NOTES_SHARE_ID_ENDPOINT}${noteId}`);
       dispatch(removeSharedNote(noteId));
       dispatch(setReload());
     } catch (err) {
@@ -74,7 +75,7 @@ function SharedEntry({
     // remove
     try {
       await http.post(
-        `http://localhost:5000/notes/share/${noteId}`,
+        `${cfg.API_BASE_URL}${cfg.NOTES_SHARE_ID_ENDPOINT}${noteId}`,
         JSON.stringify({
           target_user: targetUser,
           can_edit: false,

@@ -76,7 +76,7 @@ function Entry({
   async function shareNoteById() {
     try {
       await http.post(
-        `http://localhost:5000/notes/share/${noteId}`,
+        `${cfg.API_BASE_URL}${cfg.NOTES_SHARE_ID_ENDPOINT}${noteId}`,
         JSON.stringify({
           target_user: targetUser,
           can_edit: false,
