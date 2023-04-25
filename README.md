@@ -1,7 +1,9 @@
 # WebNotes - a lightweight, web-based note-sharing app
 
-## v2.0.0  
-##### (2023-04-13)
+## v2.1.0 
+
+#### Live version 
+###### https://mywebnotes.me
 
 ## Features
 - Full stack web application: React.js client + Python-Flask server
@@ -27,8 +29,6 @@
 - User settings (change password, change username)
 - Folder/tags support
 
-#### Live version 
-###### coming soon
 
 ## Screenshots (previous version)
 ![Main page - formatting](https://i.imgur.com/X5u8fwc.png)
@@ -39,10 +39,6 @@
 ![Mobile - light mode](https://i.imgur.com/WdTfAh3.png)
 ![Registration](https://i.imgur.com/ySbpyox.png)
 ![Login page](https://i.imgur.com/3ddmlIu.png)
-
-## Alembic
-
-If you run into migration issues, replace the *%ROOT_DIR%/migrations/env.py* with *_env.py* from this repo, then rename it to env.py.
 
 
 
