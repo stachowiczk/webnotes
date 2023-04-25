@@ -47,7 +47,9 @@ function Home() {
 
   const dispatch = useDispatch();
   const themeDispatch = useDispatch();
-
+  function capitalizeUsername(username) {
+    return username.charAt(0).toUpperCase() + username.slice(1);
+  }
   useEffect(() => {
     try {
       const storedWidth = localStorage.getItem(cfg.LOCAL_STORAGE_WIDTH_KEY);
@@ -209,7 +211,7 @@ function Home() {
     return (
       <div className={`root-element ${currentTheme}`}>
         <div className="navbar">
-          <h3>{user}'s Notes</h3>
+          <h3>{capitalizeUsername(user)}'s Notes</h3>
           <button className="theme-button" onClick={handleThemeChange}>
             {currentTheme === "dark" ? "Light mode" : "Dark mode"}
           </button>

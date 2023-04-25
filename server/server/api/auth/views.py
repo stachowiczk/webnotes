@@ -22,7 +22,7 @@ from server.api.auth import auth_bp
 @auth_bp.route("/register", methods=["POST", "GET"])
 class RegisterAPI(MethodView):
     def post(self):
-        username = request.json["username"]
+        username = request.json["username"].lower()
         password = request.json["password"]
         hashed_password = generate_password_hash(password)
         user = User(username=username, password=hashed_password)
@@ -42,7 +42,7 @@ class RegisterAPI(MethodView):
     ### CHECK IF USERNAME IS AVAILABLE
     ### this is done as the user types in the username in the register form
     def get(self):
-        username = request.args.get("username")
+        username = request.args.get("username").lower()
         try:
             user = current_app.db.session.query(User).filter_by(username=username).one()
             return jsonify({"message": "User exists"}, 409)
@@ -54,7 +54,7 @@ class RegisterAPI(MethodView):
 class LoginAPI(MethodView):
     def post(self):
         try:
-            username = request.json["username"]
+            username = request.json["username"].lower()
             password = request.json["password"]
             session = current_app.db.session
             user = session.query(User).filter_by(username=username).one()
