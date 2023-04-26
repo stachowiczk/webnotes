@@ -226,7 +226,7 @@ function Home() {
             <div ref={dropdownRef}>{dropdown && <Menu />}</div>
           </div>
         </div>
-        <div className="navbar-spacer"></div>
+        {/*<div className="navbar-spacer"></div>*/}
         <div id="main-container">
           <div
             className="item-list"

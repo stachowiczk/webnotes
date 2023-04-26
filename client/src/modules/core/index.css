@@ -610,7 +610,7 @@ button.expand-button.mobile-view-button {
 }
 
 #divider {
-  height: 82dvh;
+  height: 8dvh;
   cursor: col-resize;
   background-color: hsl(0, 0%, 73%);
   width: 0.3em;
