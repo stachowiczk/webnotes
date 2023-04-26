@@ -98,7 +98,6 @@ class NoteAPI(MethodView):
             note = session.query(Note).filter_by(id=note_id, user_id=identity).one()
             req_data = request.get_json()
             note.content = req_data["content"]
-            note.title = set_title2(note.content)
             if not note.content:
                 note.content = ""
             session.commit()
