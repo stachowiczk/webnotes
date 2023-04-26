@@ -529,7 +529,8 @@ div.user-button {
 }
 
 button.expand-button.mobile-view-button {
-  max-width: 25px;
+  width: 25px;
+  height: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
