@@ -42,12 +42,17 @@ class RegisterAPI(MethodView):
     ### CHECK IF USERNAME IS AVAILABLE
     ### this is done as the user types in the username in the register form
     def get(self):
-        username = request.args.get("username").lower()
         try:
+            username = request.args.get("username").lower()
             user = current_app.db.session.query(User).filter_by(username=username).one()
             return jsonify({"message": "User exists"}, 409)
         except NoResultFound:
-            return jsonify({"message": "Username available"}), 200
+            try:
+                username = request.args.get("username") # includes case-sensitive legacy usernames
+                user = current_app.db.session.query(User).filter_by(username=username).one()
+                return jsonify({"message": "User exists"}, 409)
+            except NoResultFound:
+                return jsonify({"message": "Username available"}), 200
 
 
 @auth_bp.route("/login", methods=["POST", "GET"])

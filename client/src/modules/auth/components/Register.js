@@ -87,6 +87,7 @@ function Register() {
     });
   }
   useEffect(() => {
+    document.title = 'Create a WebNotes Account'
     async function checkLoggedIn() {
       dispatch({ type: "LOADING" });
       try {

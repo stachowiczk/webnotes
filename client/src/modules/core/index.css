@@ -18,7 +18,7 @@ div {
   transition: background-color 0.5s ease;
 }
 .root-element.dark {
-  background-color: hsl(0, 0%, 20%);
+  background-color: hsl(0, 0%, 14%);
   color: hsl(60, 1%, 81%);
   transition: background-color 0.5s ease;
 }
@@ -323,7 +323,7 @@ blockquote {
   color: black;
   border-radius: 0.6em;
   border-top-left-radius: 0;
-  box-shadow: 0 0 0.5em hsl(0, 0%, 26%);
+  box-shadow: 0 0 0.2em hsl(0, 0%, 26%);
   padding: 1em;
   padding-top: 0.5em;
   margin-left: 2rem;
@@ -338,13 +338,17 @@ blockquote {
 }
 
 .entry-main:hover {
-  box-shadow: 0 0 0.3em hsl(0, 0%, 26%);
+  box-shadow: 0 0 0.4em #06c;
   transition: box-shadow 0.2s ease;
 }
 
 @media screen and (max-width: 960px) {
   .entry-main {
     margin: 0;
+    border-radius: 0;
+  }
+  .entry-main:hover, .entry-main.dark:hover {
+    box-shadow: none;
   }
   .textfeed-js {
     gap: 2px;
@@ -368,7 +372,7 @@ blockquote {
 }
 
 .entry-main.dark:hover {
-  box-shadow: 0 0 0.5em hsl(0, 0%, 45%);
+  box-shadow: 0 0 0.5em #06c;
   transition: box-shadow 0.2s ease;
 }
 
@@ -656,7 +660,7 @@ button.expand-button.mobile-view-button {
   margin-left: auto;
   padding: 10px;
   height: max-content;
-  box-shadow: 0 0 0.2em hsl(0, 0%, 79%);
+  border: 1px solid hsl(0, 0%, 23%);
 }
 
 .root-element.dark #login-container {

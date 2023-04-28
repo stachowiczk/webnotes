@@ -56,7 +56,9 @@ function Login() {
       dispatch({ type: "LOGIN_FAIL" });
     }
   }
-
+  React.useEffect(() => {
+    document.title = "Log in to WebNotes";
+  }, [])
   // this prevents the user from seeing the login page if they are already logged in
   React.useEffect(() => {
     async function checkLoggedIn() {

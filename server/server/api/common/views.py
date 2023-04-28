@@ -98,8 +98,15 @@ class NoteAPI(MethodView):
             note = session.query(Note).filter_by(id=note_id, user_id=identity).one()
             req_data = request.get_json()
             note.content = req_data["content"]
+            note.title = set_title2(note.content)
             if not note.content:
                 note.content = ""
+            if not note.title:
+                note.title = "Untitled"
+            elif "<img" in note.title:
+                note.title = "Image"
+            if not note.content or note.content == "":
+                note.content = "Untitled note"
             session.commit()
             return jsonify({"message": "Note updated successfully"}), 200
         except Exception as e:
@@ -170,6 +177,8 @@ class ShareAPI(MethodView):
             target_user = req_data["target_user"]
             can_edit = req_data["can_edit"]
             target_user = session.query(User).filter_by(username=target_user).one()
+            if not target_user:
+                target_user = session.query(User).filter_by(username=target_user.lower()) # refactor later
             shared_note = SharedNote(
                 note_id=note.id,
                 owner_id=identity,

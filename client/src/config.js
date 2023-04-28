@@ -1,4 +1,4 @@
-export const API_BASE_URL = "https://mywebnotes.me:5000";
+export const API_BASE_URL = "https://mywebnotes.me:5000"
 export const NOTES_ENDPOINT = "/notes/all";
 export const NOTES_SHARE_ENDPOINT = "/notes/shared";
 export const NOTES_SHARE_ID_ENDPOINT = "/notes/share/";

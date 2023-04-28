@@ -26,6 +26,8 @@ services:
     depends_on:
       - server
       - webserver
+    environment:
+      - API_URL=https://mywebnotes.me:5000
     networks:
       - app_network
 
