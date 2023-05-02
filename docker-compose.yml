@@ -11,6 +11,8 @@ services:
       - "80:80"
       - "443:443"
     restart: always
+    depends_on:
+      - server
     volumes:
       - ./nginx/conf/:/etc/nginx/conf.d/:ro
       - ./certbot/www:/var/www/certbot/:ro
@@ -24,12 +26,9 @@ services:
     build: ./client
     image: cookiechomper/client:latest
     depends_on:
-      - server
       - webserver
-    environment:
-      - API_URL=https://mywebnotes.me:5000
-    networks:
-      - app_network
+
+    
 
   server:
     build: 
